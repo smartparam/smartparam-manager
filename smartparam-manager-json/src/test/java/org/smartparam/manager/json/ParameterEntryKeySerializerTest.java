@@ -13,10 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.smartparam.manager.json.vendor.jackson;
+package org.smartparam.manager.json;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import org.smartparam.manager.json.integration.SerializerTest;
 import com.jayway.jsonassert.JsonAssert;
 import org.smartparam.editor.model.simple.SimpleParameterEntryKey;
 import org.testng.annotations.Test;
@@ -26,15 +25,13 @@ import static org.hamcrest.Matchers.*;
  *
  * @author Adam Dubiel
  */
-public class ParameterEntryKeySerializerTest extends JacksonTest {
+public class ParameterEntryKeySerializerTest extends SerializerTest {
 
     @Test
-    public void shouldSerializeEntryKeyAsPlainStringWithValue() throws JsonProcessingException {
+    public void shouldSerializeEntryKeyAsPlainStringWithValue() {
         // given
-        ObjectMapper mapper = jackson(new ParameterEntryKeySerializer());
-
         // when
-        String json = mapper.writeValueAsString(new SimpleParameterEntryKey("testKeyValue"));
+        String json = serialize(new SimpleParameterEntryKey("testKeyValue"));
 
         // then
         JsonAssert.with(json).assertThat("$", equalTo("testKeyValue"));

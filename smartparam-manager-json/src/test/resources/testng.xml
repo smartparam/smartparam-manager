@@ -1,0 +1,13 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+
+<suite name="all">
+
+    <test name="jackson">
+        <packages>
+            <package name="org.smartparam.manager.json.*"/>
+        </packages>
+
+        <parameter name="serializer" value="jackson"/>
+    </test>
+
+</suite>

@@ -13,12 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.smartparam.manager.json.vendor.jackson;
+package org.smartparam.manager.json;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import org.smartparam.manager.json.integration.SerializerTest;
 import com.jayway.jsonassert.JsonAssert;
-import org.smartparam.editor.identity.DescribedCollection;
+import org.smartparam.editor.identity.DescribedEntity;
 import org.smartparam.editor.identity.RepositoryName;
 import org.testng.annotations.Test;
 
@@ -26,23 +25,20 @@ import org.testng.annotations.Test;
  *
  * @author Adam Dubiel
  */
-public class DescribedCollectionSerializerTest extends JacksonTest {
+public class DescribedEntitySerializerTest extends SerializerTest {
 
     @Test
-    public void shouldSerializeAsSourceNameAndItemsArray() throws JsonProcessingException {
+    public void shouldSerializeAsSourceNameAndDataValue() {
         // given
-        ObjectMapper mapper = jackson(new RepositoryNameSerializer(), new DescribedCollectionSerializer());
-
-        DescribedCollection<String> collection = new DescribedCollection<String>(new RepositoryName("repository"), "1", "2");
+        DescribedEntity<String> collection = new DescribedEntity<String>(new RepositoryName("repository"), "1");
 
         // when
-        String json = mapper.writeValueAsString(collection);
+        String json = serialize(collection);
 
         // then
         JsonAssert.with(json)
                 .assertEquals("$.source", "repository")
-                .assertEquals("$.items[0]", "1")
-                .assertEquals("$.items[1]", "2");
+                .assertEquals("$.data", "1");
     }
 
 }

@@ -13,10 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.smartparam.manager.json.vendor.jackson;
+package org.smartparam.manager.json;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import org.smartparam.manager.json.integration.SerializerTest;
 import com.jayway.jsonassert.JsonAssert;
 import org.smartparam.editor.identity.RepositoryName;
 import org.testng.annotations.Test;
@@ -26,15 +25,13 @@ import static org.hamcrest.Matchers.*;
  *
  * @author Adam Dubiel
  */
-public class RepositoryNameSerializerTest extends JacksonTest {
+public class RepositoryNameSerializerTest extends SerializerTest {
 
     @Test
-    public void shouldSerializeRepositoryNameAsPlainStringValue() throws JsonProcessingException {
+    public void shouldSerializeRepositoryNameAsPlainStringValue() {
         // given
-        ObjectMapper mapper = jackson(new RepositoryNameSerializer());
-
         // when
-        String json = mapper.writeValueAsString(new RepositoryName("testRepositoryName"));
+        String json = serialize(new RepositoryName("testRepositoryName"));
 
         // then
         JsonAssert.with(json).assertThat("$", equalTo("testRepositoryName"));

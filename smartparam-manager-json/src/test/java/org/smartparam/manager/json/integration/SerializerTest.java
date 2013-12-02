@@ -13,27 +13,27 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.smartparam.manager.json.vendor.jackson;
+package org.smartparam.manager.json.integration;
 
-import com.fasterxml.jackson.databind.JsonSerializer;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.module.SimpleModule;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.Parameters;
 
 /**
  *
  * @author Adam Dubiel
  */
-public class JacksonTest {
+public class SerializerTest {
 
-    protected ObjectMapper jackson(JsonSerializer<?>... serializers) {
-        ObjectMapper jackson = new ObjectMapper();
-        SimpleModule serializationModule = new SimpleModule();
-        for (JsonSerializer<?> serializer : serializers) {
-            serializationModule.addSerializer(serializer);
-        }
-        jackson.registerModule(serializationModule);
+    private Serializer serializer;
 
-        return jackson;
+    @Parameters({"serializer"})
+    @BeforeClass
+    public void setUp(String serializer) {
+        SerializerRegistry registry = new SerializerRegistry();
+        this.serializer = registry.get(serializer);
     }
 
+    protected String serialize(Object object) {
+        return serializer.serialize(object);
+    }
 }

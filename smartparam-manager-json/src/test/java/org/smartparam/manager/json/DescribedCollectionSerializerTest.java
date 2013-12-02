@@ -13,31 +13,33 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.smartparam.manager.json.vendor.jackson;
+package org.smartparam.manager.json;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import org.smartparam.manager.json.integration.SerializerTest;
 import com.jayway.jsonassert.JsonAssert;
-import org.smartparam.editor.model.simple.SimpleLevelKey;
+import org.smartparam.editor.identity.DescribedCollection;
+import org.smartparam.editor.identity.RepositoryName;
 import org.testng.annotations.Test;
-import static org.hamcrest.Matchers.*;
 
 /**
  *
  * @author Adam Dubiel
  */
-public class LevelKeySerializerTest extends JacksonTest {
+public class DescribedCollectionSerializerTest extends SerializerTest {
 
     @Test
-    public void shouldSerializeLevelKeyAsPlainStringWithValue() throws JsonProcessingException {
+    public void shouldSerializeAsSourceNameAndItemsArray() {
         // given
-        ObjectMapper mapper = jackson(new LevelKeySerializer());
+        DescribedCollection<String> collection = new DescribedCollection<String>(new RepositoryName("repository"), "1", "2");
 
         // when
-        String json = mapper.writeValueAsString(new SimpleLevelKey("testKeyValue"));
+        String json = serialize(collection);
 
         // then
-        JsonAssert.with(json).assertThat("$", equalTo("testKeyValue"));
+        JsonAssert.with(json)
+                .assertEquals("$.source", "repository")
+                .assertEquals("$.items[0]", "1")
+                .assertEquals("$.items[1]", "2");
     }
 
 }

@@ -45,6 +45,7 @@
 
     <modules>
         <module>smartparam-manager-spring</module>
+        <module>smartparam-manager-json</module>
     </modules>
 
     <dependencyManagement>

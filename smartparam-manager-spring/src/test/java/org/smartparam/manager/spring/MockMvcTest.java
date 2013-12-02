@@ -17,10 +17,10 @@ package org.smartparam.manager.spring;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
-import org.smartparam.manager.spring.vendor.jackson.DescribedCollectionSerializer;
-import org.smartparam.manager.spring.vendor.jackson.LevelKeySerializer;
-import org.smartparam.manager.spring.vendor.jackson.ParameterEntryKeySerializer;
-import org.smartparam.manager.spring.vendor.jackson.RepositoryNameSerializer;
+import org.smartparam.manager.json.vendor.jackson.DescribedCollectionSerializer;
+import org.smartparam.manager.json.vendor.jackson.LevelKeySerializer;
+import org.smartparam.manager.json.vendor.jackson.ParameterEntryKeySerializer;
+import org.smartparam.manager.json.vendor.jackson.RepositoryNameSerializer;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.test.web.servlet.MockMvc;

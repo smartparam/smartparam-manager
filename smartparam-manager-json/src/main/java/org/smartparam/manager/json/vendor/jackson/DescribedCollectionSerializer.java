@@ -13,27 +13,31 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.smartparam.manager.spring.vendor.jackson;
+package org.smartparam.manager.json.vendor.jackson;
 
+import com.fasterxml.jackson.core.JsonGenerationException;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.ser.std.StdSerializer;
 import java.io.IOException;
-import org.smartparam.editor.model.LevelKey;
+import org.smartparam.editor.identity.DescribedCollection;
 
 /**
  *
  * @author Adam Dubiel
  */
-public class LevelKeySerializer extends StdSerializer<LevelKey> {
+public class DescribedCollectionSerializer extends StdSerializer<DescribedCollection> {
 
-    public LevelKeySerializer() {
-        super(LevelKey.class);
+    public DescribedCollectionSerializer() {
+        super(DescribedCollection.class);
     }
 
     @Override
-    public void serialize(LevelKey key, JsonGenerator jgen, SerializerProvider provider) throws IOException {
-        jgen.writeString(key.value());
+    public void serialize(DescribedCollection value, JsonGenerator jgen, SerializerProvider provider) throws IOException, JsonGenerationException {
+        jgen.writeStartObject();
+        jgen.writeObjectField("source", value.source());
+        jgen.writeObjectField("items", value.items());
+        jgen.writeEndObject();
     }
 
 }

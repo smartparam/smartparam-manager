@@ -8,44 +8,22 @@
         <version>0.1.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>smartparam-manager-spring</artifactId>
+    <artifactId>smartparam-manager-json</artifactId>
 
-    <name>smartparam-manager-spring</name>
-    <description>SmartParam manager spring.</description>
+    <name>smartparam-manager-json</name>
+    <description>SmartParam manager JSON bindings.</description>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <spring.version>3.2.5.RELEASE</spring.version>
     </properties>
 
     <dependencies>
         <dependency>
             <groupId>org.smartparam</groupId>
-            <artifactId>smartparam-engine</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.smartparam</groupId>
             <artifactId>smartparam-editor</artifactId>
         </dependency>
-        <dependency>
-            <groupId>org.smartparam.manager</groupId>
-            <artifactId>smartparam-manager-json</artifactId>
-            <version>${project.version}</version>
-        </dependency>
 
-        <!-- Spring -->
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-context</artifactId>
-            <version>${spring.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-webmvc</artifactId>
-            <version>${spring.version}</version>
-        </dependency>
-
-        <!-- vendor serializers -->
+        <!-- vendor JSON serializers -->
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
@@ -53,21 +31,14 @@
             <scope>provided</scope>
         </dependency>
 
-        <!-- Logging -->
+        <!-- logging -->
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
             <scope>provided</scope>
         </dependency>
 
-        <!-- TEST -->
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-test</artifactId>
-            <version>${spring.version}</version>
-            <scope>test</scope>
-        </dependency>
-
+        <!-- test -->
         <dependency>
             <groupId>org.testng</groupId>
             <artifactId>testng</artifactId>
@@ -101,13 +72,6 @@
         <dependency>
             <groupId>com.jayway.jsonpath</groupId>
             <artifactId>json-path-assert</artifactId>
-            <scope>test</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>javax.servlet</groupId>
-            <artifactId>javax.servlet-api</artifactId>
-            <version>3.1.0</version>
             <scope>test</scope>
         </dependency>
     </dependencies>

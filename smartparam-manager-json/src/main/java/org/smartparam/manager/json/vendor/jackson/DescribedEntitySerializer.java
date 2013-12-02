@@ -13,27 +13,31 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.smartparam.manager.spring.vendor.jackson;
+package org.smartparam.manager.json.vendor.jackson;
 
+import com.fasterxml.jackson.core.JsonGenerationException;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.ser.std.StdSerializer;
 import java.io.IOException;
-import org.smartparam.editor.model.ParameterEntryKey;
+import org.smartparam.editor.identity.DescribedEntity;
 
 /**
  *
  * @author Adam Dubiel
  */
-public class ParameterEntryKeySerializer extends StdSerializer<ParameterEntryKey> {
+public class DescribedEntitySerializer extends StdSerializer<DescribedEntity> {
 
-    public ParameterEntryKeySerializer() {
-        super(ParameterEntryKey.class);
+    public DescribedEntitySerializer() {
+        super(DescribedEntity.class);
     }
 
     @Override
-    public void serialize(ParameterEntryKey key, JsonGenerator jgen, SerializerProvider provider) throws IOException {
-        jgen.writeString(key.value());
+    public void serialize(DescribedEntity value, JsonGenerator jgen, SerializerProvider provider) throws IOException, JsonGenerationException {
+        jgen.writeStartObject();
+        jgen.writeObjectField("source", value.source());
+        jgen.writeObjectField("data", value.data());
+        jgen.writeEndObject();
     }
 
 }

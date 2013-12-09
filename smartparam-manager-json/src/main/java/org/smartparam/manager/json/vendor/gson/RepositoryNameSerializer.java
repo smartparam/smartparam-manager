@@ -13,29 +13,24 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.smartparam.manager.json.integration;
+package org.smartparam.manager.json.vendor.gson;
 
-import java.util.HashMap;
-import java.util.Map;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonPrimitive;
+import com.google.gson.JsonSerializationContext;
+import com.google.gson.JsonSerializer;
+import java.lang.reflect.Type;
+import org.smartparam.editor.identity.RepositoryName;
 
 /**
  *
  * @author Adam Dubiel
  */
-public class SerializerRegistry {
+public class RepositoryNameSerializer implements JsonSerializer<RepositoryName> {
 
-    private final Map<String, Serializer> serializers = new HashMap<String, Serializer>();
-
-    public SerializerRegistry() {
-        register("jackson", JacksonSerializerFactory.serializer());
-        register("gson", GsonSerializerFactory.serializer());
+    @Override
+    public JsonElement serialize(RepositoryName name, Type type, JsonSerializationContext context) {
+        return new JsonPrimitive(name.name());
     }
 
-    public final void register(String name, Serializer serializer) {
-        this.serializers.put(name, serializer);
-    }
-
-    public Serializer get(String name) {
-        return serializers.get(name);
-    }
 }

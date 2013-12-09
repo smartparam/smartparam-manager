@@ -10,4 +10,12 @@
         <parameter name="serializer" value="jackson"/>
     </test>
 
+    <test name="gson">
+        <packages>
+            <package name="org.smartparam.manager.json.*"/>
+        </packages>
+
+        <parameter name="serializer" value="gson"/>
+    </test>
+
 </suite>

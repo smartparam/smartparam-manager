@@ -79,13 +79,13 @@ public class RepositoryEditController {
     @RequestMapping(value = "{in}/parameters/{name}/levels/reorder", method = RequestMethod.POST)
     @ResponseBody
     public void reorderLevels(@PathVariable("in") String in, @PathVariable("name") String parameter, @RequestBody List<LevelKey> levels) {
-        paramEditor.reorderLevels(new RepositoryName(in), levels);
+        paramEditor.reorderLevels(new RepositoryName(in), parameter, levels);
     }
 
     @RequestMapping(value = "{in}/parameters/{name}/levels/{levelKey}", method = RequestMethod.POST)
     @ResponseBody
     public void updateLevel(@PathVariable("in") String in, @PathVariable("name") String parameter, @PathVariable("levelKey") String levelKey, @RequestBody SimpleLevel level) {
-        paramEditor.updateLevel(new RepositoryName(in), new SimpleLevelKey(levelKey), level);
+        paramEditor.updateLevel(new RepositoryName(in), parameter, new SimpleLevelKey(levelKey), level);
     }
 
     @RequestMapping(value = "{in}/parameters/{name}/levels/{levelKey}", method = RequestMethod.DELETE)
@@ -103,13 +103,13 @@ public class RepositoryEditController {
     @RequestMapping(value = "{in}/parameters/{name}/entries/{entryKey}", method = RequestMethod.POST)
     @ResponseBody
     public void updateEntry(@PathVariable("in") String in, @PathVariable("name") String parameter, @PathVariable("entryKey") String entryKey, @RequestBody SimpleParameterEntry entry) {
-        paramEditor.updateEntry(new RepositoryName(in), new SimpleParameterEntryKey(entryKey), entry);
+        paramEditor.updateEntry(new RepositoryName(in), parameter, new SimpleParameterEntryKey(entryKey), entry);
     }
 
     @RequestMapping(value = "{in}/parameters/{name}/entries/{entryKey}", method = RequestMethod.DELETE)
     @ResponseBody
     public void deleteEntry(@PathVariable("in") String in, @PathVariable("name") String parameter, @PathVariable("entryKey") String entryKey) {
-        paramEditor.deleteEntry(new RepositoryName(in), new SimpleParameterEntryKey(entryKey));
+        paramEditor.deleteEntry(new RepositoryName(in), parameter, new SimpleParameterEntryKey(entryKey));
     }
 
     @RequestMapping(value = "{in}/parameters/{name}/entries", method = RequestMethod.DELETE)
@@ -120,6 +120,6 @@ public class RepositoryEditController {
             keys.add(new SimpleParameterEntryKey(entryKey));
         }
 
-        paramEditor.deleteEntries(new RepositoryName(in), keys);
+        paramEditor.deleteEntries(new RepositoryName(in), parameter, keys);
     }
 }

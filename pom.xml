@@ -40,12 +40,13 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <smartparam.version>1.0.0-SNAPSHOT</smartparam.version>
+        <smartparam.version>1.0.1-SNAPSHOT</smartparam.version>
     </properties>
 
     <modules>
         <module>smartparam-manager-spring</module>
         <module>smartparam-manager-json</module>
+        <module>smartparam-manager-backend</module>
     </modules>
 
     <dependencyManagement>

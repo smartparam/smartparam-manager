@@ -15,10 +15,12 @@
  */
 package org.smartparam.manager.audit;
 
+import org.smartparam.editor.identity.RepositoryName;
 import org.smartparam.editor.model.ParameterEntryKey;
 import org.smartparam.editor.model.ParameterKey;
 import org.smartparam.engine.core.parameter.Parameter;
 import org.smartparam.engine.core.parameter.ParameterEntry;
+import org.smartparam.manager.authz.UserProfile;
 
 /**
  *
@@ -28,16 +30,16 @@ public interface EventLogEntryFactory {
 
     Class<? extends EventLogEntry> produces();
 
-    EventLogEntry produceParameterCreationLog(ParameterKey key, Parameter initialState);
+    EventLogEntry produceParameterCreationLog(RepositoryName repository, UserProfile responsible, ParameterKey key, Parameter initialState);
 
-    EventLogEntry produceParameterChangeLog(String action, ParameterKey key, Parameter previousState, Parameter currentState);
+    EventLogEntry produceParameterChangeLog(RepositoryName repository, UserProfile responsible, String action, ParameterKey key, Parameter previousState, Parameter currentState);
 
-    EventLogEntry produceParameterDeletionLog(ParameterKey parameterKey);
+    EventLogEntry produceParameterDeletionLog(RepositoryName repository, UserProfile responsible, ParameterKey parameterKey);
 
-    EventLogEntry produceEntryCreationLog(ParameterEntryKey key, ParameterEntry initialState);
+    EventLogEntry produceEntryCreationLog(RepositoryName repository, UserProfile responsible, ParameterEntryKey key, ParameterEntry initialState);
 
-    EventLogEntry produceEntryChangeLog(ParameterEntryKey key, ParameterEntry previousState, ParameterEntry currentState);
+    EventLogEntry produceEntryChangeLog(RepositoryName repository, UserProfile responsible, ParameterEntryKey key, ParameterEntry previousState, ParameterEntry currentState);
 
-    EventLogEntry produceEntryDeletionLog(ParameterEntryKey key);
+    EventLogEntry produceEntryDeletionLog(RepositoryName repository, UserProfile responsible, ParameterEntryKey key);
 
 }

@@ -15,10 +15,12 @@
  */
 package org.smartparam.manager.audit;
 
+import org.smartparam.editor.identity.RepositoryName;
 import org.smartparam.editor.model.ParameterEntryKey;
 import org.smartparam.editor.model.ParameterKey;
 import org.smartparam.engine.core.parameter.Parameter;
 import org.smartparam.engine.core.parameter.ParameterEntry;
+import org.smartparam.manager.authz.UserProfile;
 
 /**
  *
@@ -43,33 +45,39 @@ public class BasicParamEventsLogger implements ParamEventsLogger {
         }
     }
 
-    public void logParameterCreation(ParameterKey key, Parameter initialState) {
-        EventLogEntry entry = eventLogEntryFactory.produceParameterCreationLog(key, initialState);
+    @Override
+    public void logParameterCreation(RepositoryName repository, UserProfile responsible, ParameterKey key, Parameter initialState) {
+        EventLogEntry entry = eventLogEntryFactory.produceParameterCreationLog(repository, responsible, key, initialState);
         eventLogRepository.save(entry);
     }
 
-    public void logParameterChange(String action, ParameterKey key, Parameter previousState, Parameter currentState) {
-        EventLogEntry entry = eventLogEntryFactory.produceParameterChangeLog(action, key, previousState, currentState);
+    @Override
+    public void logParameterChange(RepositoryName repository, UserProfile responsible, String action, ParameterKey key, Parameter previousState, Parameter currentState) {
+        EventLogEntry entry = eventLogEntryFactory.produceParameterChangeLog(repository, responsible, action, key, previousState, currentState);
         eventLogRepository.save(entry);
     }
 
-    public void logParameterDeletion(ParameterKey parameterKey) {
-        EventLogEntry entry = eventLogEntryFactory.produceParameterDeletionLog(parameterKey);
+    @Override
+    public void logParameterDeletion(RepositoryName repository, UserProfile responsible, ParameterKey parameterKey) {
+        EventLogEntry entry = eventLogEntryFactory.produceParameterDeletionLog(repository, responsible, parameterKey);
         eventLogRepository.save(entry);
     }
 
-    public void logEntryCreation(ParameterEntryKey key, ParameterEntry initialState) {
-        EventLogEntry entry = eventLogEntryFactory.produceEntryCreationLog(key, initialState);
+    @Override
+    public void logEntryCreation(RepositoryName repository, UserProfile responsible, ParameterEntryKey key, ParameterEntry initialState) {
+        EventLogEntry entry = eventLogEntryFactory.produceEntryCreationLog(repository, responsible, key, initialState);
         eventLogRepository.save(entry);
     }
 
-    public void logEntryChange(ParameterEntryKey key, ParameterEntry previousState, ParameterEntry currentState) {
-        EventLogEntry entry = eventLogEntryFactory.produceEntryChangeLog(key, previousState, currentState);
+    @Override
+    public void logEntryChange(RepositoryName repository, UserProfile responsible, ParameterEntryKey key, ParameterEntry previousState, ParameterEntry currentState) {
+        EventLogEntry entry = eventLogEntryFactory.produceEntryChangeLog(repository, responsible, key, previousState, currentState);
         eventLogRepository.save(entry);
     }
 
-    public void logEntryDeletion(ParameterEntryKey key) {
-        EventLogEntry entry = eventLogEntryFactory.produceEntryDeletionLog(key);
+    @Override
+    public void logEntryDeletion(RepositoryName repository, UserProfile responsible, ParameterEntryKey key) {
+        EventLogEntry entry = eventLogEntryFactory.produceEntryDeletionLog(repository, responsible, key);
         eventLogRepository.save(entry);
     }
 }

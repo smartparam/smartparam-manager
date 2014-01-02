@@ -15,10 +15,12 @@
  */
 package org.smartparam.manager.audit;
 
+import org.smartparam.editor.identity.RepositoryName;
 import org.smartparam.editor.model.ParameterEntryKey;
 import org.smartparam.editor.model.ParameterKey;
 import org.smartparam.engine.core.parameter.Parameter;
 import org.smartparam.engine.core.parameter.ParameterEntry;
+import org.smartparam.manager.authz.UserProfile;
 
 /**
  *
@@ -26,16 +28,16 @@ import org.smartparam.engine.core.parameter.ParameterEntry;
  */
 public interface ParamEventsLogger {
 
-    void logParameterCreation(ParameterKey key, Parameter initialState);
+    void logParameterCreation(RepositoryName repository, UserProfile responsible, ParameterKey key, Parameter initialState);
 
-    void logParameterChange(String action, ParameterKey key, Parameter previousState, Parameter currentState);
+    void logParameterChange(RepositoryName repository, UserProfile responsible, String action, ParameterKey key, Parameter previousState, Parameter currentState);
 
-    void logParameterDeletion(ParameterKey parameterKey);
+    void logParameterDeletion(RepositoryName repository, UserProfile responsible, ParameterKey parameterKey);
 
-    void logEntryCreation(ParameterEntryKey key, ParameterEntry initialState);
+    void logEntryCreation(RepositoryName repository, UserProfile responsible, ParameterEntryKey key, ParameterEntry initialState);
 
-    void logEntryChange(ParameterEntryKey key, ParameterEntry previousState, ParameterEntry currentState);
+    void logEntryChange(RepositoryName repository, UserProfile responsible, ParameterEntryKey key, ParameterEntry previousState, ParameterEntry currentState);
 
-    void logEntryDeletion(ParameterEntryKey key);
+    void logEntryDeletion(RepositoryName repository, UserProfile responsible, ParameterEntryKey key);
 
 }

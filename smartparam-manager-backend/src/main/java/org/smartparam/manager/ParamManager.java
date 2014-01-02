@@ -13,23 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.smartparam.manager.audit;
 
-import org.smartparam.editor.model.ParameterKey;
+package org.smartparam.manager;
 
 /**
  *
  * @author Adam Dubiel
  */
-public interface EventLogEntry {
+public interface ParamManager {
 
-    String action();
+    
 
-    String responsible();
-
-    ParameterKey parameter();
-
-    Object eventDetails();
-
-    String serializedEventDetails();
 }

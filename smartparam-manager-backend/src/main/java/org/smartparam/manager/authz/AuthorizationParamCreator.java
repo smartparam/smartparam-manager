@@ -21,7 +21,7 @@ import org.smartparam.editor.model.simple.SimpleParameter;
 import org.smartparam.editor.viewer.ParamViewer;
 import org.smartparam.engine.types.bool.BooleanType;
 import org.smartparam.engine.types.string.StringType;
-import org.smartparam.manager.ManagerConfig;
+import org.smartparam.manager.config.ManagerConfig;
 
 /**
  *

@@ -13,16 +13,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package org.smartparam.manager.audit;
+
+import org.smartparam.editor.model.ParameterEntryKey;
 
 /**
  *
  * @author Adam Dubiel
  */
-public interface EventLogRepository {
+public interface ParameterEntryEventLogEntry extends ParameterEventLogEntry {
 
-    boolean supports(Class<? extends ParameterEventLogEntry> entryClass);
-
-    void save(ParameterEventLogEntry eventLogEntry);
+    ParameterEntryKey entry();
 
 }

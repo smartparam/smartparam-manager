@@ -74,7 +74,7 @@ public class RepositoryViewController {
 
     @RequestMapping(value = "{from}/parameters/{name}/entries", method = RequestMethod.GET)
     @ResponseBody
-    public DescribedCollection<ParameterEntry> parameterMetadata(@PathVariable("from") String from,
+    public DescribedCollection<ParameterEntry> parameterEntries(@PathVariable("from") String from,
             @PathVariable("name") String name,
             @RequestParam(required = false, defaultValue = "0", value = "page") int page,
             @RequestParam(required = false, defaultValue = "100", value = "pageSize") int pageSize,

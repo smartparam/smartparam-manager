@@ -15,12 +15,15 @@
  */
 package org.smartparam.manager.authz;
 
+import org.smartparam.editor.identity.RepositoryName;
+import org.smartparam.manager.Action;
+
 /**
  *
  * @author Adam Dubiel
  */
 public interface AuthorizationCheckpoint {
 
-    boolean authorize(String action, String parameter, UserProfile userProfile);
+    boolean authorize(UserProfile userProfile, Action action, RepositoryName repository, String parameter);
 
 }

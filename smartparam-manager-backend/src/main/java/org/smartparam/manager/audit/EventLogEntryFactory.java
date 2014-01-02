@@ -20,6 +20,7 @@ import org.smartparam.editor.model.ParameterEntryKey;
 import org.smartparam.editor.model.ParameterKey;
 import org.smartparam.engine.core.parameter.Parameter;
 import org.smartparam.engine.core.parameter.ParameterEntry;
+import org.smartparam.manager.Action;
 import org.smartparam.manager.authz.UserProfile;
 
 /**
@@ -28,18 +29,18 @@ import org.smartparam.manager.authz.UserProfile;
  */
 public interface EventLogEntryFactory {
 
-    Class<? extends EventLogEntry> produces();
+    Class<? extends ParameterEventLogEntry> produces();
 
-    EventLogEntry produceParameterCreationLog(RepositoryName repository, UserProfile responsible, ParameterKey key, Parameter initialState);
+    ParameterEventLogEntry produceParameterCreationLog(UserProfile responsible, RepositoryName repository, ParameterKey key, Parameter initialState);
 
-    EventLogEntry produceParameterChangeLog(RepositoryName repository, UserProfile responsible, String action, ParameterKey key, Parameter previousState, Parameter currentState);
+    ParameterEventLogEntry produceParameterChangeLog(UserProfile responsible, Action action, RepositoryName repository, ParameterKey key, Parameter previousState, Parameter currentState);
 
-    EventLogEntry produceParameterDeletionLog(RepositoryName repository, UserProfile responsible, ParameterKey parameterKey);
+    ParameterEventLogEntry produceParameterDeletionLog(UserProfile responsible, RepositoryName repository, ParameterKey key, Parameter lastState);
 
-    EventLogEntry produceEntryCreationLog(RepositoryName repository, UserProfile responsible, ParameterEntryKey key, ParameterEntry initialState);
+    ParameterEntryEventLogEntry produceEntryCreationLog(UserProfile responsible, RepositoryName repository, ParameterKey key, ParameterEntryKey entryKey, ParameterEntry initialState);
 
-    EventLogEntry produceEntryChangeLog(RepositoryName repository, UserProfile responsible, ParameterEntryKey key, ParameterEntry previousState, ParameterEntry currentState);
+    ParameterEntryEventLogEntry produceEntryChangeLog(UserProfile responsible, RepositoryName repository, ParameterKey key, ParameterEntryKey entryKey, ParameterEntry previousState, ParameterEntry currentState);
 
-    EventLogEntry produceEntryDeletionLog(RepositoryName repository, UserProfile responsible, ParameterEntryKey key);
+    ParameterEntryEventLogEntry produceEntryDeletionLog(UserProfile responsible, RepositoryName repository, ParameterKey key, ParameterEntryKey entryKey, ParameterEntry lastState);
 
 }

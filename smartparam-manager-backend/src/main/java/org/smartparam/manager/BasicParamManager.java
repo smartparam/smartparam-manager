@@ -51,27 +51,27 @@ public class BasicParamManager implements ParamManager {
 
     @Override
     public Messages createParameter(UserProfile responsible, RepositoryName in, Parameter newParameter) {
-        boolean authorized = authorizationCheckpoint.authorize("CREATE_PARAMETER", newParameter.getName(), responsible);
+        boolean authorized = authorizationCheckpoint.authorize(responsible, Action.CREATE_PARAMETER, in, newParameter.getName());
         if (!authorized) {
-            return BasicMessages.error("sp.authz.nonAuthorized", "CREATE_PARAMETER", responsible);
+            return BasicMessages.error("sp.authz.nonAuthorized", Action.CREATE_PARAMETER, responsible);
         }
 
         ParameterKey key = paramEditor.createParameter(in, newParameter);
-        eventsLogger.logParameterCreation(in, responsible, key, newParameter);
+        eventsLogger.logParameterCreation(responsible, in, key, newParameter);
 
         return BasicMessages.ok();
     }
 
     @Override
     public Messages updateParameter(UserProfile responsible, RepositoryName in, String parameterName, Parameter newState) {
-        boolean authorized = authorizationCheckpoint.authorize("UPDATE_PARAMETER", parameterName, responsible);
+        boolean authorized = authorizationCheckpoint.authorize(responsible, Action.UPDATE_PARAMETER, in, parameterName);
         if (!authorized) {
-            return BasicMessages.error("sp.authz.nonAuthorized", "UPDATE_PARAMETER", responsible);
+            return BasicMessages.error("sp.authz.nonAuthorized", Action.UPDATE_PARAMETER, responsible);
         }
 
         EditableParameter previousState = (EditableParameter) paramViewer.getParameterMetadata(in, parameterName).data();
         paramEditor.updateParameter(in, parameterName, newState);
-        eventsLogger.logParameterChange(in, responsible, parameterName, previousState.getKey(), previousState, newState);
+        eventsLogger.logParameterChange(responsible, Action.UPDATE_PARAMETER, in, previousState.getKey(), previousState, newState);
 
         return BasicMessages.ok();
     }

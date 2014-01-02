@@ -1,5 +1,5 @@
 /*
- * Copyright 2013 Adam Dubiel, Przemek Hertel.
+ * Copyright 2014 Adam Dubiel, Przemek Hertel.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,23 +13,33 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.smartparam.manager;
+package org.smartparam.manager.audit;
 
 import org.smartparam.editor.identity.RepositoryName;
+import org.smartparam.editor.model.ParameterKey;
+import org.smartparam.manager.Action;
+import org.smartparam.manager.authz.UserProfile;
 
 /**
  *
  * @author Adam Dubiel
  */
-public class ManagerConfig {
+public interface ParameterEventLogEntry {
 
-    private final RepositoryName defaultWriteRepository;
+    /**
+     * Log entry timestamp in UTC milliseconds.
+     */
+    long timestamp();
 
-    public ManagerConfig(RepositoryName defaultWriteRepository) {
-        this.defaultWriteRepository = defaultWriteRepository;
-    }
+    RepositoryName repository();
 
-    public RepositoryName defaultWriteRepository() {
-        return defaultWriteRepository;
-    }
+    Action action();
+
+    UserProfile responsible();
+
+    ParameterKey parameter();
+
+    Object eventDetails();
+
+    String serializedEventDetails();
 }

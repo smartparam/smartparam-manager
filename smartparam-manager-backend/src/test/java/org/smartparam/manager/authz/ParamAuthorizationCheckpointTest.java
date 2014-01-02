@@ -18,6 +18,7 @@ package org.smartparam.manager.authz;
 import java.util.Arrays;
 import org.smartparam.engine.core.ParamEngine;
 import org.smartparam.engine.core.context.ParamContext;
+import org.smartparam.manager.Action;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -47,7 +48,7 @@ public class ParamAuthorizationCheckpointTest {
         when(paramEngine.get(eq("sp.manager.authz.role"), any(ParamContext.class))).thenReturn(paramValue(true));
 
         // when
-        boolean authorized = checkpoint.authorize("someAction", "someParameter", null);
+        boolean authorized = checkpoint.authorize(null, Action.ADD_ENTRY, null, "someParameter");
 
         // then
         assertThat(authorized).isEqualTo(true);
@@ -63,7 +64,7 @@ public class ParamAuthorizationCheckpointTest {
         when(paramEngine.get(anyString(), any(ParamContext.class))).thenReturn(paramValue(false));
 
         // when
-        boolean authorized = checkpoint.authorize("someAction", "someParameter", null);
+        boolean authorized = checkpoint.authorize(null, Action.ADD_ENTRY, null, "someParameter");
 
         // then
         assertThat(authorized).isEqualTo(false);

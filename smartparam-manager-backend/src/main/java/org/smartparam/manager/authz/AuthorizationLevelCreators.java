@@ -51,6 +51,6 @@ class AuthorizationLevelCreators {
 
     @JavaPlugin(ACTION_LEVEL_CREATOR)
     String action(AuthorizationParamContext context) {
-        return context.action();
+        return context.action().name();
     }
 }

@@ -16,6 +16,7 @@
 package org.smartparam.manager.authz;
 
 import org.smartparam.engine.core.context.BaseParamContext;
+import org.smartparam.manager.Action;
 
 /**
  *
@@ -25,11 +26,11 @@ class AuthorizationParamContext extends BaseParamContext {
 
     private final String parameter;
 
-    private final String action;
+    private final Action action;
 
     private final UserProfile userProfile;
 
-    AuthorizationParamContext(String parameter, String action, UserProfile userProfile) {
+    AuthorizationParamContext(String parameter, Action action, UserProfile userProfile) {
         this.parameter = parameter;
         this.action = action;
         this.userProfile = userProfile;
@@ -39,7 +40,7 @@ class AuthorizationParamContext extends BaseParamContext {
         return userProfile;
     }
 
-    String action() {
+    Action action() {
         return action;
     }
 

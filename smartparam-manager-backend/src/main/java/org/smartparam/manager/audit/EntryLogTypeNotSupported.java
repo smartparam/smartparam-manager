@@ -26,7 +26,7 @@ public class EntryLogTypeNotSupported extends SmartParamException {
 
     EntryLogTypeNotSupported(EventLogRepository repository,
             EventLogEntryFactory factory,
-            Class<? extends EventLogEntry> unsuppportedEventLogClass) {
+            Class<? extends ParameterEventLogEntry> unsuppportedEventLogClass) {
         super("ENTRY_LOG_TYPE_NOT_SUPPORTED", String.format("Event log repository %s does not support event logs of "
                 + "type %s produced by %s.", repository.getClass().getSimpleName(), unsuppportedEventLogClass.getSimpleName(), factory.getClass().getSimpleName()));
     }

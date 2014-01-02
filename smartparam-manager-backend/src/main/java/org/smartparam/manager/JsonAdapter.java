@@ -13,16 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.smartparam.manager.audit;
+package org.smartparam.manager;
 
 /**
  *
  * @author Adam Dubiel
  */
-public interface EventLogRepository {
+public interface JsonAdapter {
 
-    boolean supports(Class<? extends ParameterEventLogEntry> entryClass);
+    String serialize(Object object);
 
-    void save(ParameterEventLogEntry eventLogEntry);
+    <T> T deserialize(String json, Class<T> objectClass);
 
 }

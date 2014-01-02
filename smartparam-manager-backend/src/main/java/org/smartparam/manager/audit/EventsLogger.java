@@ -20,6 +20,7 @@ import org.smartparam.editor.model.ParameterEntryKey;
 import org.smartparam.editor.model.ParameterKey;
 import org.smartparam.engine.core.parameter.Parameter;
 import org.smartparam.engine.core.parameter.ParameterEntry;
+import org.smartparam.manager.Action;
 import org.smartparam.manager.authz.UserProfile;
 
 /**
@@ -28,16 +29,16 @@ import org.smartparam.manager.authz.UserProfile;
  */
 public interface EventsLogger {
 
-    void logParameterCreation(RepositoryName repository, UserProfile responsible, ParameterKey key, Parameter initialState);
+    void logParameterCreation(UserProfile responsible, RepositoryName repository, ParameterKey key, Parameter initialState);
 
-    void logParameterChange(RepositoryName repository, UserProfile responsible, String action, ParameterKey key, Parameter previousState, Parameter currentState);
+    void logParameterChange(UserProfile responsible, Action action, RepositoryName repository, ParameterKey key, Parameter previousState, Parameter currentState);
 
-    void logParameterDeletion(RepositoryName repository, UserProfile responsible, ParameterKey parameterKey);
+    void logParameterDeletion(UserProfile responsible, RepositoryName repository, ParameterKey key, Parameter lastState);
 
-    void logEntryCreation(RepositoryName repository, UserProfile responsible, ParameterEntryKey key, ParameterEntry initialState);
+    void logEntryCreation(UserProfile responsible, RepositoryName repository, ParameterKey key, ParameterEntryKey entryKey, ParameterEntry initialState);
 
-    void logEntryChange(RepositoryName repository, UserProfile responsible, ParameterEntryKey key, ParameterEntry previousState, ParameterEntry currentState);
+    void logEntryChange(UserProfile responsible, RepositoryName repository, ParameterKey key, ParameterEntryKey entryKey, ParameterEntry previousState, ParameterEntry currentState);
 
-    void logEntryDeletion(RepositoryName repository, UserProfile responsible, ParameterEntryKey key);
+    void logEntryDeletion(UserProfile responsible, RepositoryName repository, ParameterKey key, ParameterEntryKey entryKey, ParameterEntry lastState);
 
 }

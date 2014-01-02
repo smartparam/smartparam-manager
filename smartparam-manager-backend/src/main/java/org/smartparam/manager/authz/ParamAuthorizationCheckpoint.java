@@ -17,7 +17,9 @@ package org.smartparam.manager.authz;
 
 import java.util.EnumMap;
 import java.util.Map;
+import org.smartparam.editor.identity.RepositoryName;
 import org.smartparam.engine.core.ParamEngine;
+import org.smartparam.manager.Action;
 
 /**
  *
@@ -48,10 +50,11 @@ public class ParamAuthorizationCheckpoint implements AuthorizationCheckpoint {
         this.authorizationConfig = authorizationConfig;
     }
 
-    public boolean authorize(String action, String parameter, UserProfile userProfile) {
+    @Override
+    public boolean authorize(UserProfile userProfile, Action action, RepositoryName repository, String parameter) {
         boolean authorized;
         for (AuthorizationMethod method : authorizationConfig) {
-            authorized = authorizeUsing(method, parameter, action, userProfile);
+            authorized = authorizeUsing(method, userProfile, action, repository, parameter);
             if (authorized) {
                 return true;
             }
@@ -59,7 +62,7 @@ public class ParamAuthorizationCheckpoint implements AuthorizationCheckpoint {
         return false;
     }
 
-    private boolean authorizeUsing(AuthorizationMethod method, String action, String parameter, UserProfile profile) {
+    private boolean authorizeUsing(AuthorizationMethod method, UserProfile profile, Action action, RepositoryName repository, String parameter) {
         String parameterName = METHOD_PARAMETER.get(method);
         return paramEngine.get(parameterName, new AuthorizationParamContext(parameter, action, profile)).getHolder().booleanValue();
     }

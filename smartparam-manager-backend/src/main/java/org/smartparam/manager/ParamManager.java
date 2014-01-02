@@ -13,8 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.smartparam.manager;
+
+import org.smartparam.editor.identity.RepositoryName;
+import org.smartparam.engine.core.parameter.Parameter;
+import org.smartparam.manager.authz.UserProfile;
+import org.smartparam.manager.validation.Messages;
 
 /**
  *
@@ -22,6 +26,8 @@ package org.smartparam.manager;
  */
 public interface ParamManager {
 
-    
+    Messages createParameter(UserProfile responsible, RepositoryName in, Parameter newState);
+
+    Messages updateParameter(UserProfile responsible, RepositoryName in, String parameterName, Parameter newState);
 
 }

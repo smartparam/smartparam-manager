@@ -13,16 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.smartparam.manager.audit;
+
+package org.smartparam.manager;
 
 /**
  *
  * @author Adam Dubiel
  */
-public interface EventLogRepository {
+public enum ParamManagementAction {
 
-    boolean supports(Class<? extends EventLogEntry> entryClass);
-
-    void save(EventLogEntry eventLogEntry);
+    CREATE_PARAMETER;
 
 }

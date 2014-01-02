@@ -23,6 +23,11 @@ import org.smartparam.editor.model.ParameterKey;
  */
 public interface EventLogEntry {
 
+    /**
+     * Log entry timestamp in UTC milliseconds.
+     */
+    long timestamp();
+
     String action();
 
     String responsible();

@@ -26,13 +26,13 @@ import org.smartparam.manager.authz.UserProfile;
  *
  * @author Adam Dubiel
  */
-public class BasicParamEventsLogger implements ParamEventsLogger {
+public class BasicEventsLogger implements EventsLogger {
 
     private final EventLogRepository eventLogRepository;
 
     private final EventLogEntryFactory eventLogEntryFactory;
 
-    public BasicParamEventsLogger(EventLogRepository eventLogRepository, EventLogEntryFactory eventLogEntryFactory) {
+    public BasicEventsLogger(EventLogRepository eventLogRepository, EventLogEntryFactory eventLogEntryFactory) {
         checkCompatibility(eventLogRepository, eventLogEntryFactory);
 
         this.eventLogRepository = eventLogRepository;

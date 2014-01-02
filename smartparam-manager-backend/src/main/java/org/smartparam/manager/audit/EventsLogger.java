@@ -26,7 +26,7 @@ import org.smartparam.manager.authz.UserProfile;
  *
  * @author Adam Dubiel
  */
-public interface ParamEventsLogger {
+public interface EventsLogger {
 
     void logParameterCreation(RepositoryName repository, UserProfile responsible, ParameterKey key, Parameter initialState);
 

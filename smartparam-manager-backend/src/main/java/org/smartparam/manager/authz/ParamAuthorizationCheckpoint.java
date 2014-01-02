@@ -18,7 +18,6 @@ package org.smartparam.manager.authz;
 import java.util.EnumMap;
 import java.util.Map;
 import org.smartparam.engine.core.ParamEngine;
-import org.smartparam.engine.core.context.DefaultContext;
 
 /**
  *
@@ -49,10 +48,10 @@ public class ParamAuthorizationCheckpoint implements AuthorizationCheckpoint {
         this.authorizationConfig = authorizationConfig;
     }
 
-    public boolean authorize(String action, UserProfile userProfile) {
+    public boolean authorize(String action, String parameter, UserProfile userProfile) {
         boolean authorized;
         for (AuthorizationMethod method : authorizationConfig) {
-            authorized = authorizeUsing(method, userProfile);
+            authorized = authorizeUsing(method, parameter, action, userProfile);
             if (authorized) {
                 return true;
             }
@@ -60,8 +59,8 @@ public class ParamAuthorizationCheckpoint implements AuthorizationCheckpoint {
         return false;
     }
 
-    private boolean authorizeUsing(AuthorizationMethod method, UserProfile profile) {
+    private boolean authorizeUsing(AuthorizationMethod method, String action, String parameter, UserProfile profile) {
         String parameterName = METHOD_PARAMETER.get(method);
-        return paramEngine.get(parameterName, new DefaultContext(profile)).getHolder().booleanValue();
+        return paramEngine.get(parameterName, new AuthorizationParamContext(parameter, action, profile)).getHolder().booleanValue();
     }
 }

@@ -19,6 +19,8 @@ import org.smartparam.editor.editor.ParamEditor;
 import org.smartparam.editor.model.simple.SimpleLevel;
 import org.smartparam.editor.model.simple.SimpleParameter;
 import org.smartparam.editor.viewer.ParamViewer;
+import org.smartparam.engine.types.bool.BooleanType;
+import org.smartparam.engine.types.string.StringType;
 import org.smartparam.manager.ManagerConfig;
 
 /**
@@ -48,10 +50,11 @@ public class AuthorizationParamCreator {
         if (!paramViewer.parameterExists(ParamAuthorizationCheckpoint.LOGIN_AUTHZ_PARAMETER)) {
             SimpleParameter parameter = new SimpleParameter()
                     .withName(ParamAuthorizationCheckpoint.LOGIN_AUTHZ_PARAMETER)
-                    .withInputLevels(2)
-                    .withLevel(new SimpleLevel().withName("login").withType("string").withLevelCreator(AuthorizationLevelCreators.LOGIN_LEVEL_CREATOR))
-                    .withLevel(new SimpleLevel().withName("action").withType("string").withLevelCreator(AuthorizationLevelCreators.ACTION_LEVEL_CREATOR))
-                    .withLevel(new SimpleLevel().withName("authorized").withType("boolean"));
+                    .withInputLevels(3)
+                    .withLevel(new SimpleLevel().withName("login").withType(StringType.TYPE_NAME).withLevelCreator(AuthorizationLevelCreators.LOGIN_LEVEL_CREATOR))
+                    .withLevel(new SimpleLevel().withName("action").withType(StringType.TYPE_NAME).withLevelCreator(AuthorizationLevelCreators.ACTION_LEVEL_CREATOR))
+                    .withLevel(new SimpleLevel().withName("parameter").withType(StringType.TYPE_NAME).withLevelCreator(AuthorizationLevelCreators.PARAMETER_LEVEL_CREATOR))
+                    .withLevel(new SimpleLevel().withName("authorized").withType(BooleanType.TYPE_NAME));
 
             paramEditor.createParameter(managerConfig.defaultWriteRepository(), parameter);
         }
@@ -61,10 +64,11 @@ public class AuthorizationParamCreator {
         if (!paramViewer.parameterExists(ParamAuthorizationCheckpoint.ROLE_AUTHZ_PARAMETER)) {
             SimpleParameter parameter = new SimpleParameter()
                     .withName(ParamAuthorizationCheckpoint.ROLE_AUTHZ_PARAMETER)
-                    .withInputLevels(2)
-                    .withLevel(new SimpleLevel().withName("login").withType("string").withLevelCreator(AuthorizationLevelCreators.ROLE_LEVEL_CREATOR))
-                    .withLevel(new SimpleLevel().withName("action").withType("string").withLevelCreator(AuthorizationLevelCreators.ACTION_LEVEL_CREATOR))
-                    .withLevel(new SimpleLevel().withName("authorized").withType("boolean"));
+                    .withInputLevels(3)
+                    .withLevel(new SimpleLevel().withName("role").withType(StringType.TYPE_NAME).withLevelCreator(AuthorizationLevelCreators.ROLE_LEVEL_CREATOR))
+                    .withLevel(new SimpleLevel().withName("action").withType(StringType.TYPE_NAME).withLevelCreator(AuthorizationLevelCreators.ACTION_LEVEL_CREATOR))
+                    .withLevel(new SimpleLevel().withName("parameter").withType(StringType.TYPE_NAME).withLevelCreator(AuthorizationLevelCreators.PARAMETER_LEVEL_CREATOR))
+                    .withLevel(new SimpleLevel().withName("authorized").withType(BooleanType.TYPE_NAME));
 
             paramEditor.createParameter(managerConfig.defaultWriteRepository(), parameter);
         }

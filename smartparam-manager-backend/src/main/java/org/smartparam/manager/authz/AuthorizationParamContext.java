@@ -23,11 +23,14 @@ import org.smartparam.engine.core.context.BaseParamContext;
  */
 class AuthorizationParamContext extends BaseParamContext {
 
+    private final String parameter;
+
     private final String action;
 
     private final UserProfile userProfile;
 
-    AuthorizationParamContext(String action, UserProfile userProfile) {
+    AuthorizationParamContext(String parameter, String action, UserProfile userProfile) {
+        this.parameter = parameter;
         this.action = action;
         this.userProfile = userProfile;
     }
@@ -38,5 +41,9 @@ class AuthorizationParamContext extends BaseParamContext {
 
     String action() {
         return action;
+    }
+
+    String parameter() {
+        return parameter;
     }
 }

@@ -56,5 +56,11 @@
             <scope>test</scope>
         </dependency>
 
+        <dependency>
+            <groupId>org.smartparam</groupId>
+            <artifactId>smartparam-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+
     </dependencies>
 </project>

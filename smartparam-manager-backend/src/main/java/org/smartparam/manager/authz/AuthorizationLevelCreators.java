@@ -29,6 +29,8 @@ class AuthorizationLevelCreators {
 
     static final String ACTION_LEVEL_CREATOR = "sp.manager.authz.action";
 
+    static final String PARAMETER_LEVEL_CREATOR = "sp.manager.authz.parameter";
+
     private AuthorizationLevelCreators() {
     }
 
@@ -40,6 +42,11 @@ class AuthorizationLevelCreators {
     @JavaPlugin(ROLE_LEVEL_CREATOR)
     String role(AuthorizationParamContext context) {
         return context.userProfile().role();
+    }
+
+    @JavaPlugin(PARAMETER_LEVEL_CREATOR)
+    String parameter(AuthorizationParamContext context) {
+        return context.parameter();
     }
 
     @JavaPlugin(ACTION_LEVEL_CREATOR)

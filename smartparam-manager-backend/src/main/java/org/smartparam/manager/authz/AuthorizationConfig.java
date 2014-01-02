@@ -27,6 +27,10 @@ public class AuthorizationConfig implements Iterable<AuthorizationMethod> {
 
     private final List<AuthorizationMethod> authorizationMethods = new ArrayList<AuthorizationMethod>();
 
+    public AuthorizationConfig(List<AuthorizationMethod> authorizationMethods) {
+        this.authorizationMethods.addAll(authorizationMethods);
+    }
+
     public Iterator<AuthorizationMethod> iterator() {
         return authorizationMethods.iterator();
     }

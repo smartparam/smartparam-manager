@@ -21,6 +21,6 @@ package org.smartparam.manager.authz;
  */
 public interface AuthorizationCheckpoint {
 
-    boolean authorize(String action, UserProfile userProfile);
+    boolean authorize(String action, String parameter, UserProfile userProfile);
 
 }

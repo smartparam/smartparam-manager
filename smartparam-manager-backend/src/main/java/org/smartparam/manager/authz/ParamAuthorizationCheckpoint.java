@@ -19,7 +19,6 @@ import java.util.EnumMap;
 import java.util.Map;
 import org.smartparam.editor.identity.RepositoryName;
 import org.smartparam.engine.core.ParamEngine;
-import org.smartparam.manager.Action;
 
 /**
  *

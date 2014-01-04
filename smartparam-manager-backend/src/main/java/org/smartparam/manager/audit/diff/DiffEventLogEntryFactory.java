@@ -18,9 +18,9 @@ package org.smartparam.manager.audit.diff;
 import org.smartparam.editor.model.ParameterEntryKey;
 import org.smartparam.engine.core.parameter.Parameter;
 import org.smartparam.engine.core.parameter.ParameterEntry;
-import org.smartparam.manager.Action;
-import org.smartparam.manager.JsonAdapter;
-import org.smartparam.manager.TimestampProvider;
+import org.smartparam.manager.authz.Action;
+import org.smartparam.manager.adapter.JsonAdapter;
+import org.smartparam.manager.adapter.TimeProvider;
 import org.smartparam.manager.audit.EventDescription;
 import org.smartparam.manager.audit.EventLogEntry;
 import org.smartparam.manager.audit.EventLogEntryFactory;
@@ -33,9 +33,9 @@ public class DiffEventLogEntryFactory implements EventLogEntryFactory {
 
     private final JsonAdapter jsonAdapter;
 
-    private final TimestampProvider timestampProvider;
+    private final TimeProvider timestampProvider;
 
-    public DiffEventLogEntryFactory(JsonAdapter jsonAdapter, TimestampProvider timestampProvider) {
+    public DiffEventLogEntryFactory(JsonAdapter jsonAdapter, TimeProvider timestampProvider) {
         this.jsonAdapter = jsonAdapter;
         this.timestampProvider = timestampProvider;
     }

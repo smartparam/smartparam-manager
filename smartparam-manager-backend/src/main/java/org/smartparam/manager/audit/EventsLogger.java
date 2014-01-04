@@ -19,7 +19,7 @@ import java.util.List;
 import org.smartparam.editor.model.ParameterEntryKey;
 import org.smartparam.engine.core.parameter.Parameter;
 import org.smartparam.engine.core.parameter.ParameterEntry;
-import org.smartparam.manager.Action;
+import org.smartparam.manager.authz.Action;
 
 /**
  *

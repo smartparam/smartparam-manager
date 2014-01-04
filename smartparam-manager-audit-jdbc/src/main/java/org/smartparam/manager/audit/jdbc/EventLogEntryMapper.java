@@ -21,7 +21,7 @@ import org.polyjdbc.core.query.mapper.ObjectMapper;
 import org.smartparam.editor.identity.RepositoryName;
 import org.smartparam.editor.model.simple.SimpleParameterEntryKey;
 import org.smartparam.editor.model.simple.SimpleParameterKey;
-import org.smartparam.manager.Action;
+import org.smartparam.manager.authz.Action;
 import org.smartparam.manager.audit.EventLogEntry;
 import org.smartparam.manager.audit.EventLogEntryType;
 

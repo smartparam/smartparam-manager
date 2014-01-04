@@ -17,7 +17,7 @@ package org.smartparam.manager.audit;
 
 import org.assertj.core.api.AbstractAssert;
 import org.assertj.core.api.Assertions;
-import org.smartparam.manager.Action;
+import org.smartparam.manager.authz.Action;
 
 /**
  *

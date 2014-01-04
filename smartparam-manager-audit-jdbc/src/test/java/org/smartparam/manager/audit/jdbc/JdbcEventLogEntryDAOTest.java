@@ -16,7 +16,7 @@
 package org.smartparam.manager.audit.jdbc;
 
 import org.polyjdbc.core.query.QueryRunner;
-import org.smartparam.manager.Action;
+import org.smartparam.manager.authz.Action;
 import org.smartparam.manager.audit.EventLogEntry;
 import org.testng.annotations.Test;
 import static org.smartparam.manager.audit.EventLogEntryTestBuilder.parameterEventLogEntry;

@@ -18,7 +18,6 @@ package org.smartparam.manager.authz;
 import java.util.Arrays;
 import org.smartparam.engine.core.ParamEngine;
 import org.smartparam.engine.core.context.ParamContext;
-import org.smartparam.manager.Action;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import static org.assertj.core.api.Assertions.assertThat;

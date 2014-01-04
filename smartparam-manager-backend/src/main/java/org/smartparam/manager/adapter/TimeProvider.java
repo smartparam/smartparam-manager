@@ -13,13 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.smartparam.manager;
+package org.smartparam.manager.adapter;
 
 /**
  *
  * @author Adam Dubiel
  */
-public interface TimestampProvider {
+public interface TimeProvider {
 
     /**
      * Returns timestamp to mark operation time, UTC milliseconds.

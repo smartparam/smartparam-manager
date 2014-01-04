@@ -16,7 +16,6 @@
 package org.smartparam.manager.authz;
 
 import org.smartparam.engine.core.context.BaseParamContext;
-import org.smartparam.manager.Action;
 
 /**
  *

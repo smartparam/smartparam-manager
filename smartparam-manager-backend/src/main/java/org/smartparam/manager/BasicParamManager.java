@@ -15,6 +15,7 @@
  */
 package org.smartparam.manager;
 
+import org.smartparam.manager.authz.Action;
 import java.util.Arrays;
 import java.util.List;
 import org.smartparam.editor.editor.ParamEditor;

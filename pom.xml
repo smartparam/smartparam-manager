@@ -133,6 +133,14 @@
                 <scope>test</scope>
             </dependency>
 
+            <dependency>
+                <groupId>org.smartparam</groupId>
+                <artifactId>smartparam-engine</artifactId>
+                <type>test-jar</type>
+                <scope>test</scope>
+                <version>${smartparam.version}</version>
+            </dependency>
+
         </dependencies>
     </dependencyManagement>
 

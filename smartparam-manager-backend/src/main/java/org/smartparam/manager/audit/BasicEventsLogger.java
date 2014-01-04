@@ -42,43 +42,43 @@ public class BasicEventsLogger implements EventsLogger {
 
     private void checkCompatibility(EventLogRepository eventLogRepository, EventLogEntryFactory eventLogEntryFactory) {
         if (!eventLogRepository.supports(eventLogEntryFactory.produces())) {
-            throw new EntryLogTypeNotSupported(eventLogRepository, eventLogEntryFactory, eventLogEntryFactory.produces());
+            throw new EventLogEntryTypeNotSupported(eventLogRepository, eventLogEntryFactory, eventLogEntryFactory.produces());
         }
     }
 
     @Override
     public void logParameterCreation(UserProfile responsible, RepositoryName repository, ParameterKey key, Parameter initialState) {
-        ParameterEventLogEntry entry = eventLogEntryFactory.produceParameterCreationLog(responsible, repository, key, initialState);
+        EventLogEntry entry = eventLogEntryFactory.produceParameterCreationLog(responsible, repository, key, initialState);
         eventLogRepository.save(entry);
     }
 
     @Override
     public void logParameterChange(UserProfile responsible, Action action, RepositoryName repository, ParameterKey key, Parameter previousState, Parameter currentState) {
-        ParameterEventLogEntry entry = eventLogEntryFactory.produceParameterChangeLog(responsible, action, repository, key, previousState, currentState);
+        EventLogEntry entry = eventLogEntryFactory.produceParameterChangeLog(responsible, action, repository, key, previousState, currentState);
         eventLogRepository.save(entry);
     }
 
     @Override
     public void logParameterDeletion(UserProfile responsible, RepositoryName repository, ParameterKey key, Parameter lastState) {
-        ParameterEventLogEntry entry = eventLogEntryFactory.produceParameterDeletionLog(responsible, repository, key, lastState);
+        EventLogEntry entry = eventLogEntryFactory.produceParameterDeletionLog(responsible, repository, key, lastState);
         eventLogRepository.save(entry);
     }
 
     @Override
     public void logEntryCreation(UserProfile responsible, RepositoryName repository, ParameterKey key, ParameterEntryKey entryKey, ParameterEntry initialState) {
-        ParameterEventLogEntry entry = eventLogEntryFactory.produceEntryCreationLog(responsible, repository, key, entryKey, initialState);
+        EventLogEntry entry = eventLogEntryFactory.produceEntryCreationLog(responsible, repository, key, entryKey, initialState);
         eventLogRepository.save(entry);
     }
 
     @Override
     public void logEntryChange(UserProfile responsible, RepositoryName repository, ParameterKey key, ParameterEntryKey entryKey, ParameterEntry previousState, ParameterEntry currentState) {
-        ParameterEventLogEntry entry = eventLogEntryFactory.produceEntryChangeLog(responsible, repository, key, entryKey, previousState, currentState);
+        EventLogEntry entry = eventLogEntryFactory.produceEntryChangeLog(responsible, repository, key, entryKey, previousState, currentState);
         eventLogRepository.save(entry);
     }
 
     @Override
     public void logEntryDeletion(UserProfile responsible, RepositoryName repository, ParameterKey key, ParameterEntryKey entryKey, ParameterEntry lastState) {
-        ParameterEventLogEntry entry = eventLogEntryFactory.produceEntryDeletionLog(responsible, repository, key, entryKey, lastState);
+        EventLogEntry entry = eventLogEntryFactory.produceEntryDeletionLog(responsible, repository, key, entryKey, lastState);
         eventLogRepository.save(entry);
     }
 }

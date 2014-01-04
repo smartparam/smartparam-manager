@@ -16,6 +16,7 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <polyjdbc.version>0.2.2-SNAPSHOT</polyjdbc.version>
     </properties>
 
     <dependencies>
@@ -23,6 +24,12 @@
             <groupId>org.smartparam.manager</groupId>
             <artifactId>smartparam-manager-backend</artifactId>
             <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.polyjdbc</groupId>
+            <artifactId>polyjdbc</artifactId>
+            <version>${polyjdbc.version}</version>
         </dependency>
 
         <!-- logging -->
@@ -60,6 +67,37 @@
         <dependency>
             <groupId>org.smartparam</groupId>
             <artifactId>smartparam-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.smartparam.manager</groupId>
+            <artifactId>smartparam-manager-backend</artifactId>
+            <version>${project.version}</version>
+            <type>test-jar</type>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.polyjdbc</groupId>
+            <artifactId>polyjdbc</artifactId>
+            <type>test-jar</type>
+            <scope>test</scope>
+            <version>${polyjdbc.version}</version>
+        </dependency>
+
+        <!-- test database -->
+        <dependency>
+            <groupId>commons-dbcp</groupId>
+            <artifactId>commons-dbcp</artifactId>
+            <version>1.4</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+            <version>1.3.172</version>
             <scope>test</scope>
         </dependency>
 

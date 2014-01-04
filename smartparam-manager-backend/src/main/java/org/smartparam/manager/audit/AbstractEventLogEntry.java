@@ -25,38 +25,57 @@ import org.smartparam.manager.authz.UserProfile;
  *
  * @author Adam Dubiel
  */
-public abstract class AbstractParameterEventLogEntry implements ParameterEventLogEntry {
+public abstract class AbstractEventLogEntry<T> implements EventLogEntry {
 
     private final long timestamp;
+
+    private final EventLogEntryType type;
 
     private final RepositoryName repository;
 
     private final Action action;
 
-    private final UserProfile responsible;
+    private final String responsibleLogin;
 
     private final ParameterKey parameterKey;
 
-    private final Object eventDetails;
+    private final ParameterEntryKey entryKey;
+
+    private final T eventDetails;
 
     private final String serializedEventDetails;
 
-    protected AbstractParameterEventLogEntry(long timestamp,
-            RepositoryName repository, Action action, UserProfile responsible,
-            ParameterKey parameterKey,
-            Object eventDetails, String serializedEventDetails) {
+    protected AbstractEventLogEntry(long timestamp,
+            RepositoryName repository, Action action, String responsibleLogin,
+            ParameterKey parameterKey, ParameterEntryKey parameterEntryKey,
+            T eventDetails, String serializedEventDetails) {
         this.timestamp = timestamp;
         this.repository = repository;
         this.action = action;
-        this.responsible = responsible;
+        this.responsibleLogin = responsibleLogin;
         this.parameterKey = parameterKey;
+        this.entryKey = parameterEntryKey;
         this.eventDetails = eventDetails;
         this.serializedEventDetails = serializedEventDetails;
+
+        this.type = parameterEntryKey != null ? EventLogEntryType.ENTRY : EventLogEntryType.PARAMETER;
+    }
+
+    protected AbstractEventLogEntry(long timestamp,
+            RepositoryName repository, Action action, String responsibleLogin,
+            ParameterKey parameterKey,
+            T eventDetails, String serializedEventDetails) {
+        this(timestamp, repository, action, responsibleLogin, parameterKey, null, eventDetails, serializedEventDetails);
     }
 
     @Override
     public long timestamp() {
         return timestamp;
+    }
+
+    @Override
+    public EventLogEntryType type() {
+        return type;
     }
 
     @Override
@@ -70,17 +89,22 @@ public abstract class AbstractParameterEventLogEntry implements ParameterEventLo
     }
 
     @Override
-    public UserProfile responsible() {
-        return responsible;
+    public String responsibleLogin() {
+        return responsibleLogin;
     }
 
     @Override
-    public ParameterKey parameter() {
+    public ParameterKey parameterKey() {
         return parameterKey;
     }
 
     @Override
-    public Object eventDetails() {
+    public ParameterEntryKey entryKey() {
+        return entryKey;
+    }
+
+    @Override
+    public T eventDetails() {
         return eventDetails;
     }
 

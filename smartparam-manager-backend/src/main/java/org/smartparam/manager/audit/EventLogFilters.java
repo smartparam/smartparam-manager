@@ -13,25 +13,34 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.smartparam.manager.audit.diff;
+package org.smartparam.manager.audit;
 
-import org.smartparam.editor.identity.RepositoryName;
+import org.smartparam.editor.model.ParameterEntryKey;
 import org.smartparam.editor.model.ParameterKey;
-import org.smartparam.manager.Action;
-import org.smartparam.manager.audit.AbstractParameterEventLogEntry;
-import org.smartparam.manager.authz.UserProfile;
 
 /**
  *
  * @author Adam Dubiel
  */
-public class DiffParameterEventLogEntry extends AbstractParameterEventLogEntry {
+public class EventLogFilters {
 
-    DiffParameterEventLogEntry(long timestamp,
-            RepositoryName repository, Action action, UserProfile responsible,
-            ParameterKey parameterKey,
-            ParameterDiff stateDiff, String serializedDiff) {
-        super(timestamp, repository, action, responsible, parameterKey, stateDiff, serializedDiff);
+    private ParameterKey parameterKey;
+
+    private ParameterEntryKey entryKey;
+
+    public EventLogFilters(ParameterKey parameterKey) {
+        this.parameterKey = parameterKey;
     }
 
+    public EventLogFilters(ParameterEntryKey entryKey) {
+        this.entryKey = entryKey;
+    }
+
+    public ParameterKey parameterKey() {
+        return parameterKey;
+    }
+
+    public ParameterEntryKey entryKey() {
+        return entryKey;
+    }
 }

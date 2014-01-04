@@ -14,16 +14,29 @@
  * limitations under the License.
  */
 
-package org.smartparam.manager.audit;
-
-import org.smartparam.editor.model.ParameterEntryKey;
+package org.smartparam.manager.audit.diff;
 
 /**
  *
  * @author Adam Dubiel
  */
-public interface ParameterEntryEventLogEntry extends ParameterEventLogEntry {
+abstract class Diff<T> {
 
-    ParameterEntryKey entry();
+    private final T previous;
+
+    private final T current;
+
+    protected Diff(T previous, T current) {
+        this.previous = previous;
+        this.current = current;
+    }
+
+    public T previous() {
+        return previous;
+    }
+
+    public T current() {
+        return current;
+    }
 
 }

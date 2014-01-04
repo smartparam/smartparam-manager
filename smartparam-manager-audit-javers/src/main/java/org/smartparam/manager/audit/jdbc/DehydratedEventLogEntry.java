@@ -13,26 +13,24 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.smartparam.manager.audit.diff;
+package org.smartparam.manager.audit.jdbc;
 
 import org.smartparam.editor.identity.RepositoryName;
 import org.smartparam.editor.model.ParameterEntryKey;
 import org.smartparam.editor.model.ParameterKey;
 import org.smartparam.manager.Action;
-import org.smartparam.manager.audit.AbstractParameterEntryEventLogEntry;
-import org.smartparam.manager.authz.UserProfile;
+import org.smartparam.manager.audit.AbstractEventLogEntry;
 
 /**
  *
  * @author Adam Dubiel
  */
-public class DiffParameterEntryEventLogEntry extends AbstractParameterEntryEventLogEntry {
+public class DehydratedEventLogEntry extends AbstractEventLogEntry<Object> {
 
-    DiffParameterEntryEventLogEntry(long timestamp,
-            RepositoryName repository, Action action, UserProfile responsible,
-            ParameterKey parameterKey, ParameterEntryKey parameterEntryKey,
-            ParameterEntryDiff stateDiff, String serializedDiff) {
-        super(timestamp, repository, action, responsible, parameterKey, parameterEntryKey, stateDiff, serializedDiff);
+    DehydratedEventLogEntry(long timestamp,
+            RepositoryName repository, Action action, String responsibleLogin,
+            ParameterKey parameterKey, ParameterEntryKey entryKey,
+            String serializedEventDetails) {
+        super(timestamp, repository, action, responsibleLogin, parameterKey, null, serializedEventDetails);
     }
-
 }

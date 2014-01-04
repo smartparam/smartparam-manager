@@ -16,28 +16,32 @@
 package org.smartparam.manager.audit;
 
 import org.smartparam.editor.identity.RepositoryName;
+import org.smartparam.editor.model.ParameterEntryKey;
 import org.smartparam.editor.model.ParameterKey;
 import org.smartparam.manager.Action;
-import org.smartparam.manager.authz.UserProfile;
 
 /**
  *
  * @author Adam Dubiel
  */
-public interface ParameterEventLogEntry {
+public interface EventLogEntry {
 
     /**
      * Log entry timestamp in UTC milliseconds.
      */
     long timestamp();
 
+    EventLogEntryType type();
+
     RepositoryName repository();
 
     Action action();
 
-    UserProfile responsible();
+    String responsibleLogin();
 
-    ParameterKey parameter();
+    ParameterKey parameterKey();
+
+    ParameterEntryKey entryKey();
 
     Object eventDetails();
 

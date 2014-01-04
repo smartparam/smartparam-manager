@@ -18,6 +18,7 @@ package org.smartparam.manager.authz;
 import org.smartparam.editor.editor.ParamEditor;
 import org.smartparam.editor.model.simple.SimpleLevel;
 import org.smartparam.editor.model.simple.SimpleParameter;
+import org.smartparam.editor.model.simple.SimpleParameterEntry;
 import org.smartparam.editor.viewer.ParamViewer;
 import org.smartparam.engine.types.bool.BooleanType;
 import org.smartparam.engine.types.string.StringType;
@@ -57,6 +58,7 @@ public class AuthorizationParamCreator {
                     .withLevel(new SimpleLevel().withName("authorized").withType(BooleanType.TYPE_NAME));
 
             paramEditor.createParameter(managerConfig.defaultWriteRepository(), parameter);
+            paramEditor.addEntry(managerConfig.defaultWriteRepository(), ParamAuthorizationCheckpoint.LOGIN_AUTHZ_PARAMETER, new SimpleParameterEntry("*", "*", "*", "true"));
         }
     }
 
@@ -71,6 +73,7 @@ public class AuthorizationParamCreator {
                     .withLevel(new SimpleLevel().withName("authorized").withType(BooleanType.TYPE_NAME));
 
             paramEditor.createParameter(managerConfig.defaultWriteRepository(), parameter);
+            paramEditor.addEntry(managerConfig.defaultWriteRepository(), ParamAuthorizationCheckpoint.LOGIN_AUTHZ_PARAMETER, new SimpleParameterEntry("*", "*", "*", "true"));
         }
     }
 }

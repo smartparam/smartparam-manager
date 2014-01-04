@@ -15,17 +15,32 @@
  */
 package org.smartparam.manager.audit;
 
-import java.util.List;
-
 /**
  *
  * @author Adam Dubiel
  */
-public interface EventLogRepository {
+public enum EventLogEntryType {
 
-    boolean supports(Class<? extends EventLogEntry> entryClass);
+    PARAMETER("ParameterEvent"),
+    ENTRY("EntryEvent");
 
-    List<EventLogEntry> list(EventLogFilters filters);
+    private final String typeCode;
 
-    void save(EventLogEntry eventLogEntry);
+    private EventLogEntryType(String typeCode) {
+        this.typeCode = typeCode;
+    }
+
+    public String typeCode() {
+        return typeCode;
+    }
+
+    public static EventLogEntryType fromCode(String code) {
+        for (EventLogEntryType type : values()) {
+            if (type.typeCode().equals(code)) {
+                return type;
+            }
+        }
+        throw new IllegalArgumentException("Unknown EventLogEntryType code: " + code);
+    }
+
 }

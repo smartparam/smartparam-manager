@@ -21,11 +21,7 @@ import org.smartparam.engine.core.parameter.ParameterEntry;
  *
  * @author Adam Dubiel
  */
-public class ParameterEntryDiff {
-
-    private final ParameterEntry previous;
-
-    private final ParameterEntry current;
+public class ParameterEntryDiff extends Diff<ParameterEntry> {
 
     public static ParameterEntryDiff initialState(ParameterEntry initialState) {
         return new ParameterEntryDiff(null, initialState);
@@ -36,15 +32,6 @@ public class ParameterEntryDiff {
     }
 
     public ParameterEntryDiff(ParameterEntry previous, ParameterEntry current) {
-        this.previous = previous;
-        this.current = current;
-    }
-
-    public ParameterEntry previous() {
-        return previous;
-    }
-
-    public ParameterEntry current() {
-        return current;
+        super(previous, current);
     }
 }

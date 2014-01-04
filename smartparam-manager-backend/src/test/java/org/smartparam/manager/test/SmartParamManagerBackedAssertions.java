@@ -13,19 +13,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.smartparam.manager.audit;
+package org.smartparam.manager.test;
 
-import java.util.List;
+import org.assertj.core.api.Assertions;
+import org.smartparam.manager.audit.EventLogEntry;
+import org.smartparam.manager.audit.EventLogEntryAssert;
 
 /**
  *
  * @author Adam Dubiel
  */
-public interface EventLogRepository {
+public class SmartParamManagerBackedAssertions extends Assertions {
 
-    boolean supports(Class<? extends EventLogEntry> entryClass);
+    public static EventLogEntryAssert assertThat(EventLogEntry actual) {
+        return EventLogEntryAssert.assertThat(actual);
+    }
 
-    List<EventLogEntry> list(EventLogFilters filters);
-
-    void save(EventLogEntry eventLogEntry);
 }

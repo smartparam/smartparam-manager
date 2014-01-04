@@ -15,8 +15,13 @@
  */
 package org.smartparam.manager;
 
+import java.util.List;
 import org.smartparam.editor.identity.RepositoryName;
+import org.smartparam.editor.model.LevelKey;
+import org.smartparam.editor.model.ParameterEntryKey;
+import org.smartparam.engine.core.parameter.Level;
 import org.smartparam.engine.core.parameter.Parameter;
+import org.smartparam.engine.core.parameter.ParameterEntry;
 import org.smartparam.manager.authz.UserProfile;
 import org.smartparam.manager.validation.Messages;
 
@@ -30,4 +35,19 @@ public interface ParamManager {
 
     Messages updateParameter(UserProfile responsible, RepositoryName in, String parameterName, Parameter newState);
 
+    Messages deleteParameter(UserProfile responsible, RepositoryName in, String parameterName);
+
+    Messages addLevel(UserProfile responsible, RepositoryName in, String parameterName, Level level);
+
+    Messages reorderLevels(UserProfile responsible, RepositoryName in, String parameterName, List<LevelKey> levels);
+
+    Messages updateLevel(UserProfile responsible, RepositoryName in, String parameterName, LevelKey levelKey, Level level);
+
+    Messages deleteLevel(UserProfile responsible, RepositoryName in, String parameterName, LevelKey levelKey);
+
+    Messages addEntries(UserProfile responsible, RepositoryName in, String parameterName, List<ParameterEntry> entries);
+
+    Messages updateEntry(UserProfile responsible, RepositoryName in, String parameterName, ParameterEntryKey entryKey, ParameterEntry entry);
+
+    Messages deleteEntries(UserProfile responsible, RepositoryName in, String parameterName, List<ParameterEntryKey> entryKeys);
 }

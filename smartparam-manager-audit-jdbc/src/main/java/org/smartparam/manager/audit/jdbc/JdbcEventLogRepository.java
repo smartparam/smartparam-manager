@@ -15,6 +15,7 @@
  */
 package org.smartparam.manager.audit.jdbc;
 
+import java.util.Arrays;
 import java.util.List;
 import org.polyjdbc.core.query.QueryRunner;
 import org.polyjdbc.core.query.TransactionRunner;
@@ -57,11 +58,18 @@ public class JdbcEventLogRepository implements EventLogRepository, Initializable
     }
 
     @Override
-    public void save(final EventLogEntry eventLogEntry) {
+    public void save(EventLogEntry eventLogEntry) {
+        save(Arrays.asList(eventLogEntry));
+    }
+
+    @Override
+    public void save(final List<EventLogEntry> eventLogEntries) {
         transactionRunner.run(new VoidTransactionWrapper() {
             @Override
             public void performVoid(QueryRunner queryRunner) {
-                jdbcEventLogEntryDAO.save(queryRunner, eventLogEntry);
+                for (EventLogEntry entry : eventLogEntries) {
+                    jdbcEventLogEntryDAO.save(queryRunner, entry);
+                }
             }
         });
     }

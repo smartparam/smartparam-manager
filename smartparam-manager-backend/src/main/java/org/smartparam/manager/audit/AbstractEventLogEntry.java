@@ -19,7 +19,6 @@ import org.smartparam.editor.identity.RepositoryName;
 import org.smartparam.editor.model.ParameterEntryKey;
 import org.smartparam.editor.model.ParameterKey;
 import org.smartparam.manager.Action;
-import org.smartparam.manager.authz.UserProfile;
 
 /**
  *
@@ -62,10 +61,16 @@ public abstract class AbstractEventLogEntry<T> implements EventLogEntry {
     }
 
     protected AbstractEventLogEntry(long timestamp,
-            RepositoryName repository, Action action, String responsibleLogin,
-            ParameterKey parameterKey,
+            EventDescription description, Action action, ParameterEntryKey parameterEntryKey,
             T eventDetails, String serializedEventDetails) {
-        this(timestamp, repository, action, responsibleLogin, parameterKey, null, eventDetails, serializedEventDetails);
+        this(timestamp, description.repository(), action, description.responsibleLogin(), description.parameterKey(),
+                parameterEntryKey, eventDetails, serializedEventDetails);
+    }
+
+    protected AbstractEventLogEntry(long timestamp,
+            EventDescription description, Action action,
+            T eventDetails, String serializedEventDetails) {
+        this(timestamp, description, action, null, eventDetails, serializedEventDetails);
     }
 
     @Override

@@ -15,17 +15,15 @@
  */
 package org.smartparam.manager.audit.diff;
 
-import org.smartparam.editor.identity.RepositoryName;
 import org.smartparam.editor.model.ParameterEntryKey;
-import org.smartparam.editor.model.ParameterKey;
 import org.smartparam.engine.core.parameter.Parameter;
 import org.smartparam.engine.core.parameter.ParameterEntry;
 import org.smartparam.manager.Action;
 import org.smartparam.manager.JsonAdapter;
 import org.smartparam.manager.TimestampProvider;
+import org.smartparam.manager.audit.EventDescription;
 import org.smartparam.manager.audit.EventLogEntry;
 import org.smartparam.manager.audit.EventLogEntryFactory;
-import org.smartparam.manager.authz.UserProfile;
 
 /**
  *
@@ -48,49 +46,49 @@ public class DiffEventLogEntryFactory implements EventLogEntryFactory {
     }
 
     @Override
-    public EventLogEntry produceParameterCreationLog(UserProfile responsible, RepositoryName repository, ParameterKey key, Parameter initialState) {
+    public EventLogEntry produceParameterCreationLog(EventDescription description, Parameter initialState) {
         ParameterDiff parameterDiff = ParameterDiff.initialState(initialState);
-        return produceEventLog(responsible, Action.CREATE_PARAMETER, repository, key, parameterDiff);
+        return produceEventLog(description, Action.CREATE_PARAMETER, parameterDiff);
     }
 
     @Override
-    public EventLogEntry produceParameterChangeLog(UserProfile responsible, Action action, RepositoryName repository, ParameterKey key, Parameter previousState, Parameter currentState) {
+    public EventLogEntry produceParameterChangeLog(EventDescription description, Action action, Parameter previousState, Parameter currentState) {
         ParameterDiff parameterDiff = new ParameterDiff(previousState, currentState);
-        return produceEventLog(responsible, action, repository, key, parameterDiff);
+        return produceEventLog(description, action, parameterDiff);
     }
 
     @Override
-    public EventLogEntry produceParameterDeletionLog(UserProfile responsible, RepositoryName repository, ParameterKey key, Parameter lastState) {
+    public EventLogEntry produceParameterDeletionLog(EventDescription description, Parameter lastState) {
         ParameterDiff parameterDiff = ParameterDiff.lastKnownState(lastState);
-        return produceEventLog(responsible, Action.DELETE_PARAMETER, repository, key, parameterDiff);
+        return produceEventLog(description, Action.DELETE_PARAMETER, parameterDiff);
     }
 
     @Override
-    public EventLogEntry produceEntryCreationLog(UserProfile responsible, RepositoryName repository, ParameterKey key, ParameterEntryKey entryKey, ParameterEntry initialState) {
+    public EventLogEntry produceEntryCreationLog(EventDescription description, ParameterEntryKey entryKey, ParameterEntry initialState) {
         ParameterEntryDiff entryDiff = ParameterEntryDiff.initialState(initialState);
-        return produceEventLog(responsible, Action.ADD_LEVEL, repository, key, entryKey, entryDiff);
+        return produceEventLog(description, Action.ADD_LEVEL, entryKey, entryDiff);
     }
 
     @Override
-    public EventLogEntry produceEntryChangeLog(UserProfile responsible, RepositoryName repository, ParameterKey key, ParameterEntryKey entryKey, ParameterEntry previousState, ParameterEntry currentState) {
+    public EventLogEntry produceEntryChangeLog(EventDescription description, ParameterEntryKey entryKey, ParameterEntry previousState, ParameterEntry currentState) {
         ParameterEntryDiff entryDiff = new ParameterEntryDiff(previousState, currentState);
-        return produceEventLog(responsible, Action.UPDATE_ENTRY, repository, key, entryKey, entryDiff);
+        return produceEventLog(description, Action.UPDATE_ENTRY, entryKey, entryDiff);
     }
 
     @Override
-    public EventLogEntry produceEntryDeletionLog(UserProfile responsible, RepositoryName repository, ParameterKey key, ParameterEntryKey entryKey, ParameterEntry lastState) {
+    public EventLogEntry produceEntryDeletionLog(EventDescription description, ParameterEntryKey entryKey, ParameterEntry lastState) {
         ParameterEntryDiff entryDiff = ParameterEntryDiff.lastKnownState(lastState);
-        return produceEventLog(responsible, Action.DELETE_ENTRY, repository, key, entryKey, entryDiff);
+        return produceEventLog(description, Action.DELETE_ENTRY, entryKey, entryDiff);
     }
 
-    private EventLogEntry produceEventLog(UserProfile responsible, Action action, RepositoryName repository, ParameterKey key, ParameterDiff parameterDiff) {
+    private EventLogEntry produceEventLog(EventDescription description, Action action, ParameterDiff parameterDiff) {
         String serializedDiff = jsonAdapter.serialize(parameterDiff);
-        return DiffEventLogEntry.parameterEvent(timestampProvider.operationTimestamp(), repository, action, responsible.login(), key, parameterDiff, serializedDiff);
+        return DiffEventLogEntry.parameterEvent(timestampProvider.operationTimestamp(), description, action, parameterDiff, serializedDiff);
     }
 
-    private EventLogEntry produceEventLog(UserProfile responsible, Action action, RepositoryName repository, ParameterKey key, ParameterEntryKey entryKey, ParameterEntryDiff parameterEntryDiff) {
+    private EventLogEntry produceEventLog(EventDescription description, Action action, ParameterEntryKey entryKey, ParameterEntryDiff parameterEntryDiff) {
         String serializedDiff = jsonAdapter.serialize(parameterEntryDiff);
-        return DiffEventLogEntry.entryEvent(timestampProvider.operationTimestamp(), repository, action, responsible.login(), key, entryKey, parameterEntryDiff, serializedDiff);
+        return DiffEventLogEntry.entryEvent(timestampProvider.operationTimestamp(), description, action, entryKey, parameterEntryDiff, serializedDiff);
     }
 
 }

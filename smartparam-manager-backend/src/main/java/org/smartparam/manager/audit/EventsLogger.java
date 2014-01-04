@@ -15,13 +15,11 @@
  */
 package org.smartparam.manager.audit;
 
-import org.smartparam.editor.identity.RepositoryName;
+import java.util.List;
 import org.smartparam.editor.model.ParameterEntryKey;
-import org.smartparam.editor.model.ParameterKey;
 import org.smartparam.engine.core.parameter.Parameter;
 import org.smartparam.engine.core.parameter.ParameterEntry;
 import org.smartparam.manager.Action;
-import org.smartparam.manager.authz.UserProfile;
 
 /**
  *
@@ -29,16 +27,16 @@ import org.smartparam.manager.authz.UserProfile;
  */
 public interface EventsLogger {
 
-    void logParameterCreation(UserProfile responsible, RepositoryName repository, ParameterKey key, Parameter initialState);
+    void logParameterCreation(EventDescription description, Parameter initialState);
 
-    void logParameterChange(UserProfile responsible, Action action, RepositoryName repository, ParameterKey key, Parameter previousState, Parameter currentState);
+    void logParameterChange(EventDescription description, Action action, Parameter previousState, Parameter currentState);
 
-    void logParameterDeletion(UserProfile responsible, RepositoryName repository, ParameterKey key, Parameter lastState);
+    void logParameterDeletion(EventDescription description, Parameter lastState);
 
-    void logEntryCreation(UserProfile responsible, RepositoryName repository, ParameterKey key, ParameterEntryKey entryKey, ParameterEntry initialState);
+    void logEntryCreation(EventDescription description, List<ParameterEntryKey> entryKey, List<ParameterEntry> initialState);
 
-    void logEntryChange(UserProfile responsible, RepositoryName repository, ParameterKey key, ParameterEntryKey entryKey, ParameterEntry previousState, ParameterEntry currentState);
+    void logEntryChange(EventDescription description, ParameterEntryKey entryKey, ParameterEntry previousState, ParameterEntry currentState);
 
-    void logEntryDeletion(UserProfile responsible, RepositoryName repository, ParameterKey key, ParameterEntryKey entryKey, ParameterEntry lastState);
+    void logEntryDeletion(EventDescription description, List<ParameterEntryKey> entryKey, List<ParameterEntry> lastState);
 
 }

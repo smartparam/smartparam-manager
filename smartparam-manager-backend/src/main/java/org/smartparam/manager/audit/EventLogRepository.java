@@ -28,4 +28,6 @@ public interface EventLogRepository {
     List<EventLogEntry> list(EventLogFilters filters);
 
     void save(EventLogEntry eventLogEntry);
+
+    void save(List<EventLogEntry> eventLogEntries);
 }

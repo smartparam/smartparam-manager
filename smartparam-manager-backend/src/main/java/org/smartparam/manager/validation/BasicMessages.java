@@ -47,12 +47,12 @@ public class BasicMessages implements Messages {
 
     private int messageCounter = 0;
 
-    public static Messages ok() {
+    public static BasicMessages ok() {
         return new BasicMessages();
     }
 
-    public static Messages error(String message, Object... arguments) {
-        Messages messages = new BasicMessages();
+    public static BasicMessages error(String message, Object... arguments) {
+        BasicMessages messages = new BasicMessages();
         messages.message(message, arguments);
         return messages;
     }

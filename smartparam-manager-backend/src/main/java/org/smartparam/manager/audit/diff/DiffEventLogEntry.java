@@ -15,11 +15,10 @@
  */
 package org.smartparam.manager.audit.diff;
 
-import org.smartparam.editor.identity.RepositoryName;
 import org.smartparam.editor.model.ParameterEntryKey;
-import org.smartparam.editor.model.ParameterKey;
 import org.smartparam.manager.Action;
 import org.smartparam.manager.audit.AbstractEventLogEntry;
+import org.smartparam.manager.audit.EventDescription;
 
 /**
  *
@@ -28,31 +27,27 @@ import org.smartparam.manager.audit.AbstractEventLogEntry;
 public class DiffEventLogEntry extends AbstractEventLogEntry<Diff<?>> {
 
     static DiffEventLogEntry parameterEvent(long timestamp,
-            RepositoryName repository, Action action, String responsibleLogin,
-            ParameterKey parameterKey,
+            EventDescription description, Action action,
             ParameterDiff stateDiff, String serializedDiff) {
-        return new DiffEventLogEntry(timestamp, repository, action, responsibleLogin, parameterKey, stateDiff, serializedDiff);
+        return new DiffEventLogEntry(timestamp, description, action, stateDiff, serializedDiff);
     }
 
     static DiffEventLogEntry entryEvent(long timestamp,
-            RepositoryName repository, Action action, String responsibleLogin,
-            ParameterKey parameterKey, ParameterEntryKey parameterEntryKey,
+            EventDescription description, Action action, ParameterEntryKey parameterEntryKey,
             ParameterEntryDiff stateDiff, String serializedDiff) {
-        return new DiffEventLogEntry(timestamp, repository, action, responsibleLogin, parameterKey, parameterEntryKey, stateDiff, serializedDiff);
+        return new DiffEventLogEntry(timestamp, description, action, parameterEntryKey, stateDiff, serializedDiff);
     }
 
     private DiffEventLogEntry(long timestamp,
-            RepositoryName repository, Action action, String responsibleLogin,
-            ParameterKey parameterKey,
+            EventDescription description, Action action,
             ParameterDiff stateDiff, String serializedDiff) {
-        super(timestamp, repository, action, responsibleLogin, parameterKey, stateDiff, serializedDiff);
+        super(timestamp, description, action, stateDiff, serializedDiff);
     }
 
     private DiffEventLogEntry(long timestamp,
-            RepositoryName repository, Action action, String responsibleLogin,
-            ParameterKey parameterKey, ParameterEntryKey entryKey,
+            EventDescription description, Action action, ParameterEntryKey entryKey,
             ParameterEntryDiff stateDiff, String serializedDiff) {
-        super(timestamp, repository, action, responsibleLogin, parameterKey, entryKey, stateDiff, serializedDiff);
+        super(timestamp, description, action, entryKey, stateDiff, serializedDiff);
     }
 
 }

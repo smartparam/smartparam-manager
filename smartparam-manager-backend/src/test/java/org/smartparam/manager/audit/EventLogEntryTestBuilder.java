@@ -21,6 +21,7 @@ import org.smartparam.editor.model.ParameterKey;
 import org.smartparam.editor.model.simple.SimpleParameterEntryKey;
 import org.smartparam.editor.model.simple.SimpleParameterKey;
 import org.smartparam.manager.Action;
+import org.smartparam.manager.authz.UserProfile;
 
 /**
  *
@@ -102,7 +103,8 @@ public class EventLogEntryTestBuilder {
                 RepositoryName repository, Action action, String responsibleLogin,
                 ParameterKey parameterKey, ParameterEntryKey entryKey,
                 Object eventDetails, String serializedEventDetails) {
-            super(timestamp, repository, action, responsibleLogin, parameterKey, entryKey, eventDetails, serializedEventDetails);
+            super(timestamp, new EventDescription(new UserProfile(responsibleLogin, "ROOT"), repository, parameterKey),
+                    action, entryKey, eventDetails, serializedEventDetails);
         }
 
     }

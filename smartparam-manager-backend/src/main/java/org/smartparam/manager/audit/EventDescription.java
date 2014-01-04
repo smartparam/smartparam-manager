@@ -13,24 +13,39 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.smartparam.manager.audit.jdbc;
+package org.smartparam.manager.audit;
 
 import org.smartparam.editor.identity.RepositoryName;
-import org.smartparam.editor.model.ParameterEntryKey;
 import org.smartparam.editor.model.ParameterKey;
-import org.smartparam.manager.Action;
-import org.smartparam.manager.audit.AbstractEventLogEntry;
+import org.smartparam.manager.authz.UserProfile;
 
 /**
  *
  * @author Adam Dubiel
  */
-public class DehydratedEventLogEntry extends AbstractEventLogEntry<Object> {
+public class EventDescription {
 
-    DehydratedEventLogEntry(long timestamp,
-            RepositoryName repository, Action action, String responsibleLogin,
-            ParameterKey parameterKey, ParameterEntryKey entryKey,
-            String serializedEventDetails) {
-        super(timestamp, repository, action, responsibleLogin, parameterKey, entryKey, null, serializedEventDetails);
+    private final String responsibleLogin;
+
+    private final RepositoryName repository;
+
+    private final ParameterKey parameterKey;
+
+    public EventDescription(UserProfile responsible, RepositoryName repository, ParameterKey parameterKey) {
+        this.responsibleLogin = responsible.login();
+        this.repository = repository;
+        this.parameterKey = parameterKey;
+    }
+
+    public String responsibleLogin() {
+        return responsibleLogin;
+    }
+
+    public RepositoryName repository() {
+        return repository;
+    }
+
+    public ParameterKey parameterKey() {
+        return parameterKey;
     }
 }

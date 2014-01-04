@@ -47,8 +47,8 @@
         <module>smartparam-manager-spring</module>
         <module>smartparam-manager-json</module>
         <module>smartparam-manager-backend</module>
-    <module>smartparam-manager-audit-javers</module>
-  </modules>
+        <module>smartparam-manager-audit-jdbc</module>
+    </modules>
 
     <dependencyManagement>
         <dependencies>

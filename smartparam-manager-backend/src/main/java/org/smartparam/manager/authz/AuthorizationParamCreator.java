@@ -22,7 +22,7 @@ import org.smartparam.editor.model.simple.SimpleParameterEntry;
 import org.smartparam.editor.viewer.ParamViewer;
 import org.smartparam.engine.types.bool.BooleanType;
 import org.smartparam.engine.types.string.StringType;
-import org.smartparam.manager.config.ManagerConfig;
+import org.smartparam.manager.config.ParamManagerConfig;
 
 /**
  *
@@ -30,13 +30,13 @@ import org.smartparam.manager.config.ManagerConfig;
  */
 public class AuthorizationParamCreator {
 
-    private final ManagerConfig managerConfig;
+    private final ParamManagerConfig managerConfig;
 
     private final ParamViewer paramViewer;
 
     private final ParamEditor paramEditor;
 
-    public AuthorizationParamCreator(ManagerConfig managerConfig, ParamViewer paramViewer, ParamEditor paramEditor) {
+    public AuthorizationParamCreator(ParamManagerConfig managerConfig, ParamViewer paramViewer, ParamEditor paramEditor) {
         this.managerConfig = managerConfig;
         this.paramViewer = paramViewer;
         this.paramEditor = paramEditor;

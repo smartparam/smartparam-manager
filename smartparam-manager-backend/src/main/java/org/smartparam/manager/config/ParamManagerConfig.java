@@ -21,11 +21,11 @@ import org.smartparam.editor.identity.RepositoryName;
  *
  * @author Adam Dubiel
  */
-public class ManagerConfig {
+public class ParamManagerConfig {
 
     private final RepositoryName defaultWriteRepository;
 
-    public ManagerConfig(RepositoryName defaultWriteRepository) {
+    public ParamManagerConfig(RepositoryName defaultWriteRepository) {
         this.defaultWriteRepository = defaultWriteRepository;
     }
 

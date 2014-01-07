@@ -18,7 +18,6 @@ package org.smartparam.manager.config;
 import java.util.Set;
 import org.smartparam.editor.editor.BasicParamEditor;
 import org.smartparam.editor.editor.ParamEditor;
-import org.smartparam.editor.identity.RepositoryName;
 import org.smartparam.editor.viewer.BasicParamViewer;
 import org.smartparam.editor.viewer.ParamViewer;
 import org.smartparam.engine.config.pico.ComponentConfig;
@@ -26,7 +25,6 @@ import org.smartparam.engine.config.pico.ComponentDefinition;
 import org.smartparam.engine.core.ParamEngine;
 import org.smartparam.manager.audit.DisabledEventsLogger;
 import org.smartparam.manager.audit.EventLogEntryFactory;
-import org.smartparam.manager.audit.EventLogRepository;
 import org.smartparam.manager.audit.diff.DiffEventLogEntryFactory;
 import org.smartparam.manager.authz.AuthorizationCheckpoint;
 import org.smartparam.manager.authz.DisabledAuthorizationCheckpoint;
@@ -38,11 +36,7 @@ import static org.smartparam.engine.config.pico.ComponentDefinition.component;
  */
 public class ParamManagerConfig extends ComponentConfig {
 
-    private RepositoryName defaultWriteRepository;
-
     private final ParamEngine paramEngine;
-
-    private EventLogRepository eventLogRepository;
 
     @Override
     protected void injectDefaults(Set<ComponentDefinition> components) {
@@ -53,21 +47,11 @@ public class ParamManagerConfig extends ComponentConfig {
         components.add(component(DisabledEventsLogger.class, DisabledEventsLogger.class));
     }
 
-    ParamManagerConfig(ParamEngine paramEngine, RepositoryName defaultWriteRepository, EventLogRepository eventLogRepository) {
+    ParamManagerConfig(ParamEngine paramEngine) {
         this.paramEngine = paramEngine;
-        this.defaultWriteRepository = defaultWriteRepository;
-        this.eventLogRepository = eventLogRepository;
-    }
-
-    RepositoryName defaultWriteRepository() {
-        return defaultWriteRepository;
     }
 
     ParamEngine paramEngine() {
         return paramEngine;
-    }
-
-    EventLogRepository eventLogRepository() {
-        return eventLogRepository;
     }
 }

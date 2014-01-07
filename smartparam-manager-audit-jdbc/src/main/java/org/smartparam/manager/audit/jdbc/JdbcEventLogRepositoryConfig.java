@@ -15,13 +15,17 @@
  */
 package org.smartparam.manager.audit.jdbc;
 
-import java.util.List;
+import java.util.Set;
 import javax.sql.DataSource;
 import org.polyjdbc.core.query.QueryRunnerFactory;
 import org.polyjdbc.core.query.TransactionRunner;
 import org.polyjdbc.core.schema.SchemaManagerFactory;
 import org.polyjdbc.core.transaction.DataSourceTransactionManager;
+import org.polyjdbc.core.transaction.TransactionManager;
 import org.smartparam.engine.config.pico.ComponentConfig;
+import org.smartparam.engine.config.pico.ComponentDefinition;
+import org.smartparam.manager.audit.EventLogRepository;
+import static org.smartparam.engine.config.pico.ComponentDefinition.component;
 
 /**
  *
@@ -39,14 +43,14 @@ public class JdbcEventLogRepositoryConfig extends ComponentConfig {
     }
 
     @Override
-    protected void injectDefaults(List<Object> components) {
-        components.add(DataSourceTransactionManager.class);
-        components.add(QueryRunnerFactory.class);
-        components.add(SchemaManagerFactory.class);
-        components.add(TransactionRunner.class);
-        components.add(SchemaCreator.class);
-        components.add(JdbcEventLogEntryDAO.class);
-        components.add(JdbcEventLogRepository.class);
+    protected void injectDefaults(Set<ComponentDefinition> components) {
+        components.add(component(TransactionManager.class, DataSourceTransactionManager.class));
+        components.add(component(QueryRunnerFactory.class, QueryRunnerFactory.class));
+        components.add(component(SchemaManagerFactory.class, SchemaManagerFactory.class));
+        components.add(component(TransactionRunner.class, TransactionRunner.class));
+        components.add(component(SchemaCreator.class, SchemaCreator.class));
+        components.add(component(JdbcEventLogEntryDAO.class, JdbcEventLogEntryDAO.class));
+        components.add(component(EventLogRepository.class, JdbcEventLogRepository.class));
     }
 
     public DataSource getDataSource() {

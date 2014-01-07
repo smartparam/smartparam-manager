@@ -37,11 +37,15 @@ public final class ParamManagerConfigBuilder {
     private final ParamManagerConfig config;
 
     private ParamManagerConfigBuilder(ParamEngine paramEngine) {
-        this.config = new ParamManagerConfig(paramEngine, null, null);
+        this.config = new ParamManagerConfig(paramEngine);
     }
 
     public static ParamManagerConfigBuilder paramManagerConfig(ParamEngine paramEngine) {
         return new ParamManagerConfigBuilder(paramEngine);
+    }
+
+    public ParamManagerConfig build() {
+        return config;
     }
 
     public ParamManagerConfigBuilder withComponent(ComponentDefinition component) {

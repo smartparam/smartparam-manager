@@ -20,7 +20,6 @@ import org.smartparam.engine.config.pico.PicoContainerUtil;
 import org.smartparam.engine.core.ParamEngine;
 import org.smartparam.manager.BasicParamManager;
 import org.smartparam.manager.ParamManager;
-import org.smartparam.manager.audit.EventLogRepository;
 import static org.smartparam.engine.config.pico.ComponentDefinition.component;
 
 /**
@@ -36,7 +35,6 @@ public class ParamManagerFactory {
     public ParamManager createParamManager(ParamManagerConfig config) {
         config.addComponent(component(ParamManager.class, BasicParamManager.class));
         config.addComponent(component(ParamEngine.class, config.paramEngine()));
-        config.addComponent(component(EventLogRepository.class, config.eventLogRepository()));
 
         MutablePicoContainer container = PicoContainerUtil.createContainer(config);
         return container.getComponent(ParamManager.class);

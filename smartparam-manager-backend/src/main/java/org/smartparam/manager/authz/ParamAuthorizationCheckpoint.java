@@ -30,14 +30,11 @@ public class ParamAuthorizationCheckpoint implements AuthorizationCheckpoint {
 
     static final String ROLE_AUTHZ_PARAMETER = "sp.manager.authz.role";
 
-    static final String PERMISSION_AUTHZ_PARAMETER = "sp.manager.authz.permission";
-
     private static final Map<AuthorizationMethod, String> METHOD_PARAMETER = new EnumMap<AuthorizationMethod, String>(AuthorizationMethod.class);
 
     static {
         METHOD_PARAMETER.put(AuthorizationMethod.LOGIN, LOGIN_AUTHZ_PARAMETER);
         METHOD_PARAMETER.put(AuthorizationMethod.ROLE, ROLE_AUTHZ_PARAMETER);
-//        METHOD_PARAMETER.put(AuthorizationMethod.PERMISSION, PERMISSION_AUTHZ_PARAMETER);
     }
 
     private final ParamEngine paramEngine;

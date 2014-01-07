@@ -16,6 +16,7 @@
 package org.smartparam.manager.authz;
 
 import java.util.Arrays;
+import org.smartparam.editor.identity.RepositoryName;
 import org.smartparam.engine.core.ParamEngine;
 import org.smartparam.engine.core.context.ParamContext;
 import org.testng.annotations.BeforeMethod;
@@ -40,7 +41,7 @@ public class ParamAuthorizationCheckpointTest {
     @Test
     public void shouldIterateAllAuthorizationMethodsUntilFirstThatAllowsForAnAction() {
         // given
-        AuthorizationConfig config = new AuthorizationConfig(Arrays.asList(AuthorizationMethod.LOGIN, AuthorizationMethod.ROLE));
+        AuthorizationConfig config = new AuthorizationConfig(new RepositoryName(""), Arrays.asList(AuthorizationMethod.LOGIN, AuthorizationMethod.ROLE));
         ParamAuthorizationCheckpoint checkpoint = new ParamAuthorizationCheckpoint(paramEngine, config);
 
         when(paramEngine.get(anyString(), any(ParamContext.class))).thenReturn(paramValue(false));
@@ -57,7 +58,7 @@ public class ParamAuthorizationCheckpointTest {
     @Test
     public void shouldReturnFalseIfNoneMethodAuthorizesAction() {
         // given
-        AuthorizationConfig config = new AuthorizationConfig(Arrays.asList(AuthorizationMethod.LOGIN, AuthorizationMethod.ROLE));
+        AuthorizationConfig config = new AuthorizationConfig(new RepositoryName(""), Arrays.asList(AuthorizationMethod.LOGIN, AuthorizationMethod.ROLE));
         ParamAuthorizationCheckpoint checkpoint = new ParamAuthorizationCheckpoint(paramEngine, config);
 
         when(paramEngine.get(anyString(), any(ParamContext.class))).thenReturn(paramValue(false));

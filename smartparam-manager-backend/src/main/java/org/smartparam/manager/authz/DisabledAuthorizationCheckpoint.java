@@ -13,22 +13,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.smartparam.manager.config;
+package org.smartparam.manager.authz;
 
-import java.util.List;
-import org.smartparam.editor.editor.BasicParamEditor;
-import org.smartparam.editor.viewer.BasicParamViewer;
-import org.smartparam.engine.config.pico.ComponentConfig;
+import org.smartparam.editor.identity.RepositoryName;
 
 /**
  *
  * @author Adam Dubiel
  */
-public class ParamManagerContainerConfig extends ComponentConfig {
+public class DisabledAuthorizationCheckpoint implements AuthorizationCheckpoint {
 
     @Override
-    protected void injectDefaults(List<Object> components) {
-        components.add(BasicParamViewer.class);
-        components.add(BasicParamEditor.class);
+    public boolean authorize(UserProfile userProfile, Action action, RepositoryName repository, String parameter) {
+        return true;
     }
+
 }

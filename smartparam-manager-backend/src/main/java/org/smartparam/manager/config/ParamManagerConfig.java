@@ -15,21 +15,59 @@
  */
 package org.smartparam.manager.config;
 
+import java.util.Set;
+import org.smartparam.editor.editor.BasicParamEditor;
+import org.smartparam.editor.editor.ParamEditor;
 import org.smartparam.editor.identity.RepositoryName;
+import org.smartparam.editor.viewer.BasicParamViewer;
+import org.smartparam.editor.viewer.ParamViewer;
+import org.smartparam.engine.config.pico.ComponentConfig;
+import org.smartparam.engine.config.pico.ComponentDefinition;
+import org.smartparam.engine.core.ParamEngine;
+import org.smartparam.manager.audit.DisabledEventsLogger;
+import org.smartparam.manager.audit.EventLogEntryFactory;
+import org.smartparam.manager.audit.EventLogRepository;
+import org.smartparam.manager.audit.diff.DiffEventLogEntryFactory;
+import org.smartparam.manager.authz.AuthorizationCheckpoint;
+import org.smartparam.manager.authz.DisabledAuthorizationCheckpoint;
+import static org.smartparam.engine.config.pico.ComponentDefinition.component;
 
 /**
  *
  * @author Adam Dubiel
  */
-public class ParamManagerConfig {
+public class ParamManagerConfig extends ComponentConfig {
 
-    private final RepositoryName defaultWriteRepository;
+    private RepositoryName defaultWriteRepository;
 
-    public ParamManagerConfig(RepositoryName defaultWriteRepository) {
-        this.defaultWriteRepository = defaultWriteRepository;
+    private final ParamEngine paramEngine;
+
+    private EventLogRepository eventLogRepository;
+
+    @Override
+    protected void injectDefaults(Set<ComponentDefinition> components) {
+        components.add(component(ParamViewer.class, BasicParamViewer.class));
+        components.add(component(ParamEditor.class, BasicParamEditor.class));
+        components.add(component(EventLogEntryFactory.class, DiffEventLogEntryFactory.class));
+        components.add(component(AuthorizationCheckpoint.class, DisabledAuthorizationCheckpoint.class));
+        components.add(component(DisabledEventsLogger.class, DisabledEventsLogger.class));
     }
 
-    public RepositoryName defaultWriteRepository() {
+    ParamManagerConfig(ParamEngine paramEngine, RepositoryName defaultWriteRepository, EventLogRepository eventLogRepository) {
+        this.paramEngine = paramEngine;
+        this.defaultWriteRepository = defaultWriteRepository;
+        this.eventLogRepository = eventLogRepository;
+    }
+
+    RepositoryName defaultWriteRepository() {
         return defaultWriteRepository;
+    }
+
+    ParamEngine paramEngine() {
+        return paramEngine;
+    }
+
+    EventLogRepository eventLogRepository() {
+        return eventLogRepository;
     }
 }

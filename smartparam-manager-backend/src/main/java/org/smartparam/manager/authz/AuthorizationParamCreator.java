@@ -20,6 +20,7 @@ import org.smartparam.editor.model.simple.SimpleLevel;
 import org.smartparam.editor.model.simple.SimpleParameter;
 import org.smartparam.editor.model.simple.SimpleParameterEntry;
 import org.smartparam.editor.viewer.ParamViewer;
+import org.smartparam.engine.config.initialization.InitializableComponent;
 import org.smartparam.engine.types.bool.BooleanType;
 import org.smartparam.engine.types.string.StringType;
 
@@ -27,7 +28,7 @@ import org.smartparam.engine.types.string.StringType;
  *
  * @author Adam Dubiel
  */
-public class AuthorizationParamCreator {
+public class AuthorizationParamCreator implements InitializableComponent {
 
     private final AuthorizationConfig authorizationConfig;
 
@@ -39,6 +40,11 @@ public class AuthorizationParamCreator {
         this.authorizationConfig = authorizationConfig;
         this.paramViewer = paramViewer;
         this.paramEditor = paramEditor;
+    }
+
+    @Override
+    public void initialize() {
+        createNonExisting();
     }
 
     public void createNonExisting() {

@@ -188,7 +188,7 @@ public class BasicParamManager implements ParamManager {
             @Override
             public BasicMessages perform() {
                 EditableParameter parameterMetadata = (EditableParameter) paramViewer.getParameterMetadata(in, parameterName).data();
-                ParameterEntry previousState = paramViewer.getParameterEntries(in, Arrays.asList(entryKey)).firstItem();
+                ParameterEntry previousState = paramViewer.getParameterEntries(in, parameterName, Arrays.asList(entryKey)).firstItem();
                 paramEditor.updateEntry(in, parameterName, entryKey, entry);
 
                 eventsLogger.logEntryChange(new EventDescription(responsible, in, parameterMetadata.getKey()), entryKey, previousState, entry);
@@ -204,7 +204,7 @@ public class BasicParamManager implements ParamManager {
             @Override
             public BasicMessages perform() {
                 EditableParameter parameterMetadata = (EditableParameter) paramViewer.getParameterMetadata(in, parameterName).data();
-                DescribedCollection<ParameterEntry> previousState = paramViewer.getParameterEntries(in, entryKeys);
+                DescribedCollection<ParameterEntry> previousState = paramViewer.getParameterEntries(in, parameterName, entryKeys);
                 paramEditor.deleteEntries(in, parameterName, entryKeys);
 
                 eventsLogger.logEntryDeletion(new EventDescription(responsible, in, parameterMetadata.getKey()), entryKeys, previousState.itemsList());

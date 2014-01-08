@@ -69,5 +69,11 @@
             <scope>test</scope>
         </dependency>
 
+        <dependency>
+            <groupId>org.smartparam</groupId>
+            <artifactId>smartparam-repository-memory</artifactId>
+            <scope>test</scope>
+        </dependency>
+
     </dependencies>
 </project>

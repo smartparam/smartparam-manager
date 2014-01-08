@@ -141,6 +141,13 @@
                 <version>${smartparam.version}</version>
             </dependency>
 
+            <dependency>
+                <groupId>org.smartparam</groupId>
+                <artifactId>smartparam-repository-memory</artifactId>
+                <scope>test</scope>
+                <version>${smartparam.version}</version>
+            </dependency>
+
         </dependencies>
     </dependencyManagement>
 

@@ -28,6 +28,8 @@ import org.smartparam.manager.audit.EventLogEntryFactory;
 import org.smartparam.manager.audit.diff.DiffEventLogEntryFactory;
 import org.smartparam.manager.authz.AuthorizationCheckpoint;
 import org.smartparam.manager.authz.DisabledAuthorizationCheckpoint;
+import org.smartparam.manager.time.SimpleTimeProvider;
+import org.smartparam.manager.time.TimeProvider;
 import static org.smartparam.engine.config.pico.ComponentDefinition.component;
 
 /**
@@ -45,6 +47,7 @@ public class ParamManagerConfig extends ComponentConfig {
         components.add(component(EventLogEntryFactory.class, DiffEventLogEntryFactory.class));
         components.add(component(AuthorizationCheckpoint.class, DisabledAuthorizationCheckpoint.class));
         components.add(component(DisabledEventsLogger.class, DisabledEventsLogger.class));
+        components.add(component(TimeProvider.class, SimpleTimeProvider.class));
     }
 
     ParamManagerConfig(ParamEngine paramEngine) {

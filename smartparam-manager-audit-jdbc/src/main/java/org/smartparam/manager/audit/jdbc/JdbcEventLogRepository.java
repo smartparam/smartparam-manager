@@ -52,7 +52,7 @@ public class JdbcEventLogRepository implements EventLogRepository, Initializable
         return transactionRunner.run(new TransactionWrapper<List<EventLogEntry>>() {
             @Override
             public List<EventLogEntry> perform(QueryRunner queryRunner) {
-                return null;
+                return jdbcEventLogEntryDAO.list(queryRunner, filters);
             }
         });
     }

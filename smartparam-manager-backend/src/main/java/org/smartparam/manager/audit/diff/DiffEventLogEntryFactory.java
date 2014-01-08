@@ -20,7 +20,7 @@ import org.smartparam.engine.core.parameter.Parameter;
 import org.smartparam.engine.core.parameter.ParameterEntry;
 import org.smartparam.manager.authz.Action;
 import org.smartparam.manager.adapter.JsonAdapter;
-import org.smartparam.manager.adapter.TimeProvider;
+import org.smartparam.manager.time.TimeProvider;
 import org.smartparam.manager.audit.EventDescription;
 import org.smartparam.manager.audit.EventLogEntry;
 import org.smartparam.manager.audit.EventLogEntryFactory;

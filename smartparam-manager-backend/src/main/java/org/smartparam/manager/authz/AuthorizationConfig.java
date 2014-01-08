@@ -16,6 +16,7 @@
 package org.smartparam.manager.authz;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 import org.smartparam.editor.identity.RepositoryName;
@@ -29,6 +30,11 @@ public class AuthorizationConfig implements Iterable<AuthorizationMethod> {
     private final RepositoryName defaultWriteRepository;
 
     private final List<AuthorizationMethod> authorizationMethods = new ArrayList<AuthorizationMethod>();
+
+    public AuthorizationConfig(RepositoryName defaulWriteRepository) {
+        this.defaultWriteRepository = defaulWriteRepository;
+        this.authorizationMethods.addAll(Arrays.asList(AuthorizationMethod.values()));
+    }
 
     public AuthorizationConfig(RepositoryName defaulWriteRepository, List<AuthorizationMethod> authorizationMethods) {
         this.defaultWriteRepository = defaulWriteRepository;

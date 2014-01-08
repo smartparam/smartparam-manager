@@ -15,7 +15,12 @@
  */
 package org.smartparam.manager.config;
 
+import java.util.Arrays;
 import org.picocontainer.MutablePicoContainer;
+import org.smartparam.engine.config.initialization.BasicComponentInitializerRunner;
+import org.smartparam.engine.config.initialization.ComponentInitializer;
+import org.smartparam.engine.config.initialization.ComponentInitializerRunner;
+import org.smartparam.engine.config.initialization.PostConstructInitializer;
 import org.smartparam.engine.config.pico.PicoContainerUtil;
 import org.smartparam.engine.core.ParamEngine;
 import org.smartparam.manager.BasicParamManager;
@@ -37,6 +42,11 @@ public class ParamManagerFactory {
         config.addComponent(component(ParamEngine.class, config.paramEngine()));
 
         MutablePicoContainer container = PicoContainerUtil.createContainer(config);
+
+        ComponentInitializerRunner runner = new BasicComponentInitializerRunner();
+        runner.registerInitializers(Arrays.asList((ComponentInitializer) new PostConstructInitializer()));
+        runner.runInitializersOnList(container.getComponents());
+
         return container.getComponent(ParamManager.class);
     }
 }

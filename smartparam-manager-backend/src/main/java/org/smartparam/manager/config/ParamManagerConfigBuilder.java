@@ -19,13 +19,16 @@ import org.smartparam.editor.editor.ParamEditor;
 import org.smartparam.editor.viewer.ParamViewer;
 import org.smartparam.engine.config.pico.ComponentDefinition;
 import org.smartparam.engine.core.ParamEngine;
+import org.smartparam.manager.adapter.JsonAdapter;
 import org.smartparam.manager.audit.BasicEventsLogger;
 import org.smartparam.manager.audit.EventLogEntryFactory;
 import org.smartparam.manager.audit.EventLogRepository;
 import org.smartparam.manager.audit.EventsLogger;
 import org.smartparam.manager.authz.AuthorizationCheckpoint;
 import org.smartparam.manager.authz.AuthorizationConfig;
+import org.smartparam.manager.authz.AuthorizationParamCreator;
 import org.smartparam.manager.authz.ParamAuthorizationCheckpoint;
+import org.smartparam.manager.time.TimeProvider;
 import static org.smartparam.engine.config.pico.ComponentDefinition.component;
 
 /**
@@ -55,13 +58,27 @@ public final class ParamManagerConfigBuilder {
 
     public ParamManagerConfigBuilder enableAuthorization(AuthorizationConfig authorizationConfig) {
         config.addComponent(component(AuthorizationConfig.class, authorizationConfig));
+        config.addComponent(component(AuthorizationParamCreator.class, AuthorizationParamCreator.class));
         config.addComponent(component(AuthorizationCheckpoint.class, ParamAuthorizationCheckpoint.class));
         return this;
     }
 
-    public ParamManagerConfigBuilder enableAuditing(EventLogRepository eventLogRepository) {
+    public ParamManagerConfigBuilder enableAuditing(EventLogRepository eventLogRepository, JsonAdapter jsonAdapter) {
         config.addComponent(component(EventsLogger.class, BasicEventsLogger.class));
         config.addComponent(component(EventLogRepository.class, eventLogRepository));
+        withJsonAdapter(jsonAdapter);
+        return this;
+    }
+
+    public ParamManagerConfigBuilder enableAuditing(EventLogRepository eventLogRepository, EventLogEntryFactory eventLogEntryFactory) {
+        config.addComponent(component(EventsLogger.class, BasicEventsLogger.class));
+        config.addComponent(component(EventLogRepository.class, eventLogRepository));
+        config.addComponent(component(EventLogEntryFactory.class, eventLogEntryFactory));
+        return this;
+    }
+
+    public ParamManagerConfigBuilder withTimeProvider(TimeProvider timeProvider) {
+        config.addComponent(component(TimeProvider.class, timeProvider));
         return this;
     }
 
@@ -75,8 +92,8 @@ public final class ParamManagerConfigBuilder {
         return this;
     }
 
-    public ParamManagerConfigBuilder withEvenLogEntryFactory(EventLogEntryFactory eventLogEntryFactory) {
-        config.addComponent(component(EventLogEntryFactory.class, eventLogEntryFactory));
+    public ParamManagerConfigBuilder withJsonAdapter(JsonAdapter jsonAdapter) {
+        config.addComponent(component(JsonAdapter.class, jsonAdapter));
         return this;
     }
 }

@@ -24,12 +24,12 @@ import org.smartparam.manager.audit.BasicEventsLogger;
 import org.smartparam.manager.audit.EventLogEntryFactory;
 import org.smartparam.manager.audit.EventLogRepository;
 import org.smartparam.manager.audit.EventsLogger;
+import org.smartparam.manager.audit.diff.DiffEventLogEntryFactory;
 import org.smartparam.manager.authz.AuthorizationCheckpoint;
 import org.smartparam.manager.authz.AuthorizationConfig;
 import org.smartparam.manager.authz.AuthorizationParamCreator;
 import org.smartparam.manager.authz.ParamAuthorizationCheckpoint;
 import org.smartparam.manager.authz.wrapper.AuthorizationRunner;
-import org.smartparam.manager.authz.wrapper.ThrowingAuthorizationRunner;
 import org.smartparam.manager.time.TimeProvider;
 import static org.smartparam.engine.config.pico.ComponentDefinition.component;
 
@@ -68,6 +68,7 @@ public final class ParamManagerConfigBuilder {
     public ParamManagerConfigBuilder enableAuditing(EventLogRepository eventLogRepository, JsonAdapter jsonAdapter) {
         config.addComponent(component(EventsLogger.class, BasicEventsLogger.class));
         config.addComponent(component(EventLogRepository.class, eventLogRepository));
+        config.addComponent(component(EventLogEntryFactory.class, DiffEventLogEntryFactory.class));
         withJsonAdapter(jsonAdapter);
         return this;
     }

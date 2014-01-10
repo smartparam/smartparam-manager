@@ -97,4 +97,6 @@ public class ParamManagerIntegrationTest {
         // then
         assertThat(inMemoryEventLogRepository.findFirstEvent(Action.UPDATE_PARAMETER)).isNotNull();
     }
+
+
 }

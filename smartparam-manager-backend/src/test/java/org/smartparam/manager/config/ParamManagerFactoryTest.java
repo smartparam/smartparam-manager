@@ -45,7 +45,6 @@ public class ParamManagerFactoryTest {
     @Test
     public void shouldCreateParamManagerWithDefaultSettigns() {
         // given
-
         ParamManagerConfig config = paramManagerConfig(paramEngine).build();
 
         // when

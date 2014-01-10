@@ -69,6 +69,15 @@ public class ParamManagerIntegrationTest {
     }
 
     @Test
+    public void shouldThrowExceptionWhenAuthorizationFails() {
+        // given
+
+        // when
+
+        // then
+    }
+
+    @Test
     public void shouldAuthorizeCreateNewParameterAndSaveEvent() {
         // given
         SimpleParameter parameter = new SimpleParameter().withName("test")
@@ -98,5 +107,19 @@ public class ParamManagerIntegrationTest {
         assertThat(inMemoryEventLogRepository.findFirstEvent(Action.UPDATE_PARAMETER)).isNotNull();
     }
 
+    @Test
+    public void shouldAuthorizeParameterDeletionAndSaveEvent() {
+        // given
+        UserProfile user = new UserProfile("login", "ROLE");
+        SimpleParameter parameter = new SimpleParameter().withName("test")
+                .withInputLevels(1);
+        paramManager.createParameter(user, REPOSITORY_NAME, parameter);
+
+        // when
+        paramManager.deleteParameter(user, REPOSITORY_NAME, "test");
+
+        // then
+        assertThat(inMemoryEventLogRepository.findFirstEvent(Action.DELETE_PARAMETER)).isNotNull();
+    }
 
 }

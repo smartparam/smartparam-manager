@@ -78,7 +78,7 @@ public class AuthorizationParamCreator implements InitializableComponent {
                     .withLevel(new SimpleLevel().withName("authorized").withType(BooleanType.TYPE_NAME));
 
             paramEditor.createParameter(authorizationConfig.defaultWriteRepository(), parameter);
-            paramEditor.addEntry(authorizationConfig.defaultWriteRepository(), ParamAuthorizationCheckpoint.LOGIN_AUTHZ_PARAMETER, new SimpleParameterEntry("*", "*", "*", "true"));
+            paramEditor.addEntry(authorizationConfig.defaultWriteRepository(), ParamAuthorizationCheckpoint.ROLE_AUTHZ_PARAMETER, new SimpleParameterEntry("*", "*", "*", "true"));
         }
     }
 }

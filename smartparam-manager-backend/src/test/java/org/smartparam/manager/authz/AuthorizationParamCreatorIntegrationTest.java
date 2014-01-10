@@ -112,7 +112,7 @@ public class AuthorizationParamCreatorIntegrationTest {
     }
 
     @Test
-    public void shouldCreateValidLoginAuthorizationParameterThatCanBeCalledFromparamEngine() {
+    public void shouldCreateValidLoginAuthorizationParameterThatCanBeCalledFromParamEngine() {
         // given
         paramCreator.createNonExisting();
         paramEditor.addEntry(REPOSITORY_NAME, LOGIN_AUTHZ_PARAMETER, new SimpleParameterEntry("testLogin", "testAction", "*", "false"));
@@ -135,7 +135,7 @@ public class AuthorizationParamCreatorIntegrationTest {
     }
 
     @Test
-    public void shouldCreateValidRoleAuthorizationParameterThatCanBeCalledFromparamEngine() {
+    public void shouldCreateValidRoleAuthorizationParameterThatCanBeCalledFromParamEngine() {
         // given
         paramCreator.createNonExisting();
         paramEditor.addEntry(REPOSITORY_NAME, ROLE_AUTHZ_PARAMETER, new SimpleParameterEntry("testLogin", "testAction", "*", "false"));

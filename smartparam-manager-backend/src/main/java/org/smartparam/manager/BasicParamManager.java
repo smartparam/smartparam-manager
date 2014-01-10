@@ -39,8 +39,6 @@ import org.smartparam.manager.result.ParameterAdditionResult;
 import org.smartparam.manager.result.ParameterEntryAdditionResult;
 import org.smartparam.manager.result.RawResult;
 import org.smartparam.manager.result.Result;
-import org.smartparam.manager.validation.BasicMessages;
-import org.smartparam.manager.validation.Messages;
 
 /**
  *

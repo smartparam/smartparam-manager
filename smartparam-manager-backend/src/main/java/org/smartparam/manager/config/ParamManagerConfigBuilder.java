@@ -28,6 +28,8 @@ import org.smartparam.manager.authz.AuthorizationCheckpoint;
 import org.smartparam.manager.authz.AuthorizationConfig;
 import org.smartparam.manager.authz.AuthorizationParamCreator;
 import org.smartparam.manager.authz.ParamAuthorizationCheckpoint;
+import org.smartparam.manager.authz.wrapper.AuthorizationRunner;
+import org.smartparam.manager.authz.wrapper.ThrowingAuthorizationRunner;
 import org.smartparam.manager.time.TimeProvider;
 import static org.smartparam.engine.config.pico.ComponentDefinition.component;
 
@@ -74,6 +76,11 @@ public final class ParamManagerConfigBuilder {
         config.addComponent(component(EventsLogger.class, BasicEventsLogger.class));
         config.addComponent(component(EventLogRepository.class, eventLogRepository));
         config.addComponent(component(EventLogEntryFactory.class, eventLogEntryFactory));
+        return this;
+    }
+
+    public ParamManagerConfigBuilder withAuthorizationRunner(AuthorizationRunner authorizationRunner) {
+        config.addComponent(component(AuthorizationRunner.class, authorizationRunner));
         return this;
     }
 

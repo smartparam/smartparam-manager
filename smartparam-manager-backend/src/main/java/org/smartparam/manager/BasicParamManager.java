@@ -31,8 +31,14 @@ import org.smartparam.engine.core.parameter.Parameter;
 import org.smartparam.engine.core.parameter.ParameterEntry;
 import org.smartparam.manager.audit.EventDescription;
 import org.smartparam.manager.audit.EventsLogger;
-import org.smartparam.manager.authz.AuthorizationCheckpoint;
 import org.smartparam.manager.authz.UserProfile;
+import org.smartparam.manager.authz.wrapper.AuthorizationRunner;
+import org.smartparam.manager.authz.wrapper.AuthorizedAction;
+import org.smartparam.manager.result.LevelAdditionResult;
+import org.smartparam.manager.result.ParameterAdditionResult;
+import org.smartparam.manager.result.ParameterEntryAdditionResult;
+import org.smartparam.manager.result.RawResult;
+import org.smartparam.manager.result.Result;
 import org.smartparam.manager.validation.BasicMessages;
 import org.smartparam.manager.validation.Messages;
 
@@ -48,182 +54,169 @@ public class BasicParamManager implements ParamManager {
 
     private final EventsLogger eventsLogger;
 
-    private final AuthorizationCheckpoint authorizationCheckpoint;
+    private final AuthorizationRunner authorizationRunner;
 
     public BasicParamManager(ParamEditor paramEditor, ParamViewer paramViewer,
-            EventsLogger eventsLogger, AuthorizationCheckpoint authorizationCheckpoint) {
+            EventsLogger eventsLogger, AuthorizationRunner authorizationRunner) {
         this.paramEditor = paramEditor;
         this.paramViewer = paramViewer;
         this.eventsLogger = eventsLogger;
-        this.authorizationCheckpoint = authorizationCheckpoint;
+        this.authorizationRunner = authorizationRunner;
     }
 
     @Override
-    public Messages createParameter(final UserProfile responsible, final RepositoryName in, final Parameter newParameter) {
-        return authorizedAction(responsible, in, Action.CREATE_PARAMETER, newParameter.getName(), new AuthorizedActionWrapper() {
+    public ParameterAdditionResult createParameter(final UserProfile responsible, final RepositoryName in, final Parameter newParameter) {
+        return authorizationRunner.runAction(responsible, in, Action.CREATE_PARAMETER, newParameter.getName(), new AuthorizedAction<ParameterAdditionResult>() {
             @Override
-            public BasicMessages perform() {
+            public ParameterAdditionResult perform() {
                 ParameterKey key = paramEditor.createParameter(in, newParameter);
                 eventsLogger.logParameterCreation(new EventDescription(responsible, in, key), newParameter);
 
-                return BasicMessages.ok();
+                return ParameterAdditionResult.added(key);
             }
         });
     }
 
     @Override
-    public Messages updateParameter(final UserProfile responsible, final RepositoryName in, final String parameterName, final Parameter newState) {
-        return authorizedAction(responsible, in, Action.UPDATE_PARAMETER, parameterName, new AuthorizedActionWrapper() {
+    public Result updateParameter(final UserProfile responsible, final RepositoryName in, final String parameterName, final Parameter newState) {
+        return authorizationRunner.runAction(responsible, in, Action.UPDATE_PARAMETER, parameterName, new AuthorizedAction<Result>() {
             @Override
-            public BasicMessages perform() {
+            public Result perform() {
                 EditableParameter previousState = (EditableParameter) paramViewer.getParameterMetadata(in, parameterName).data();
                 paramEditor.updateParameter(in, parameterName, newState);
                 eventsLogger.logParameterChange(new EventDescription(responsible, in, previousState.getKey()), Action.UPDATE_PARAMETER, previousState, newState);
 
-                return BasicMessages.ok();
+                return RawResult.ok();
             }
         });
     }
 
     @Override
-    public Messages deleteParameter(final UserProfile responsible, final RepositoryName in, final String parameterName) {
-        return authorizedAction(responsible, in, Action.UPDATE_PARAMETER, parameterName, new AuthorizedActionWrapper() {
+    public Result deleteParameter(final UserProfile responsible, final RepositoryName in, final String parameterName) {
+        return authorizationRunner.runAction(responsible, in, Action.UPDATE_PARAMETER, parameterName, new AuthorizedAction<Result>() {
             @Override
-            public BasicMessages perform() {
+            public Result perform() {
                 EditableParameter previousState = (EditableParameter) paramViewer.getParameterMetadata(in, parameterName).data();
                 paramEditor.deleteParameter(in, parameterName);
                 eventsLogger.logParameterDeletion(new EventDescription(responsible, in, previousState.getKey()), previousState);
 
-                return BasicMessages.ok();
+                return RawResult.ok();
             }
         });
     }
 
     @Override
-    public Messages addLevel(final UserProfile responsible, final RepositoryName in, final String parameterName, final Level level) {
+    public LevelAdditionResult addLevel(final UserProfile responsible, final RepositoryName in, final String parameterName, final Level level) {
         final Action action = Action.ADD_LEVEL;
 
-        return authorizedAction(responsible, in, action, parameterName, new AuthorizedActionWrapper() {
+        return authorizationRunner.runAction(responsible, in, action, parameterName, new AuthorizedAction<LevelAdditionResult>() {
             @Override
-            public BasicMessages perform() {
+            public LevelAdditionResult perform() {
                 EditableParameter previousState = (EditableParameter) paramViewer.getParameterMetadata(in, parameterName).data();
-                paramEditor.addLevel(in, parameterName, level);
+                LevelKey levelKey = paramEditor.addLevel(in, parameterName, level).data();
                 Parameter currentState = paramViewer.getParameterMetadata(in, parameterName).data();
                 eventsLogger.logParameterChange(new EventDescription(responsible, in, previousState.getKey()), action, previousState, currentState);
 
-                return BasicMessages.ok();
+                return LevelAdditionResult.added(levelKey);
             }
         });
     }
 
     @Override
-    public Messages reorderLevels(final UserProfile responsible, final RepositoryName in, final String parameterName, final List<LevelKey> levels) {
+    public Result reorderLevels(final UserProfile responsible, final RepositoryName in, final String parameterName, final List<LevelKey> levels) {
         final Action action = Action.REOREDER_LEVELS;
 
-        return authorizedAction(responsible, in, action, parameterName, new AuthorizedActionWrapper() {
+        return authorizationRunner.runAction(responsible, in, action, parameterName, new AuthorizedAction<Result>() {
             @Override
-            public BasicMessages perform() {
+            public Result perform() {
                 EditableParameter previousState = (EditableParameter) paramViewer.getParameterMetadata(in, parameterName).data();
                 paramEditor.reorderLevels(in, parameterName, levels);
                 Parameter currentState = paramViewer.getParameterMetadata(in, parameterName).data();
                 eventsLogger.logParameterChange(new EventDescription(responsible, in, previousState.getKey()), action, previousState, currentState);
 
-                return BasicMessages.ok();
+                return RawResult.ok();
             }
         });
     }
 
     @Override
-    public Messages updateLevel(final UserProfile responsible, final RepositoryName in, final String parameterName, final LevelKey levelKey, final Level level) {
+    public Result updateLevel(final UserProfile responsible, final RepositoryName in, final String parameterName, final LevelKey levelKey, final Level level) {
         final Action action = Action.UPDATE_LEVEL;
 
-        return authorizedAction(responsible, in, action, parameterName, new AuthorizedActionWrapper() {
+        return authorizationRunner.runAction(responsible, in, action, parameterName, new AuthorizedAction<Result>() {
             @Override
-            public BasicMessages perform() {
+            public Result perform() {
                 EditableParameter previousState = (EditableParameter) paramViewer.getParameterMetadata(in, parameterName).data();
                 paramEditor.updateLevel(in, parameterName, levelKey, level);
                 Parameter currentState = paramViewer.getParameterMetadata(in, parameterName).data();
                 eventsLogger.logParameterChange(new EventDescription(responsible, in, previousState.getKey()), action, previousState, currentState);
 
-                return BasicMessages.ok();
+                return RawResult.ok();
             }
         });
     }
 
     @Override
-    public Messages deleteLevel(final UserProfile responsible, final RepositoryName in, final String parameterName, final LevelKey levelKey) {
+    public Result deleteLevel(final UserProfile responsible, final RepositoryName in, final String parameterName, final LevelKey levelKey) {
         final Action action = Action.DELETE_LEVEL;
 
-        return authorizedAction(responsible, in, action, parameterName, new AuthorizedActionWrapper() {
+        return authorizationRunner.runAction(responsible, in, action, parameterName, new AuthorizedAction<Result>() {
             @Override
-            public BasicMessages perform() {
+            public Result perform() {
                 EditableParameter previousState = (EditableParameter) paramViewer.getParameterMetadata(in, parameterName).data();
                 paramEditor.deleteLevel(in, parameterName, levelKey);
                 Parameter currentState = paramViewer.getParameterMetadata(in, parameterName).data();
                 eventsLogger.logParameterChange(new EventDescription(responsible, in, previousState.getKey()), action, previousState, currentState);
 
-                return BasicMessages.ok();
+                return RawResult.ok();
             }
         });
     }
 
     @Override
-    public Messages addEntries(final UserProfile responsible, final RepositoryName in, final String parameterName, final List<ParameterEntry> entries) {
-        return authorizedAction(responsible, in, Action.ADD_ENTRY, parameterName, new AuthorizedActionWrapper() {
+    public ParameterEntryAdditionResult addEntries(final UserProfile responsible, final RepositoryName in, final String parameterName, final List<ParameterEntry> entries) {
+        return authorizationRunner.runAction(responsible, in, Action.ADD_ENTRY, parameterName, new AuthorizedAction<ParameterEntryAdditionResult>() {
             @Override
-            public BasicMessages perform() {
+            public ParameterEntryAdditionResult perform() {
                 DescribedCollection<ParameterEntryKey> entryKeys = paramEditor.addEntries(in, parameterName, entries);
                 EditableParameter parameterMetadata = (EditableParameter) paramViewer.getParameterMetadata(in, parameterName).data();
 
                 eventsLogger.logEntryCreation(new EventDescription(responsible, in, parameterMetadata.getKey()), entryKeys.itemsList(), entries);
 
-                return BasicMessages.ok();
+                return ParameterEntryAdditionResult.added(entryKeys.itemsList());
             }
         });
     }
 
     @Override
-    public Messages updateEntry(final UserProfile responsible, final RepositoryName in, final String parameterName, final ParameterEntryKey entryKey, final ParameterEntry entry) {
-        return authorizedAction(responsible, in, Action.UPDATE_ENTRY, parameterName, new AuthorizedActionWrapper() {
+    public Result updateEntry(final UserProfile responsible, final RepositoryName in, final String parameterName, final ParameterEntryKey entryKey, final ParameterEntry entry) {
+        return authorizationRunner.runAction(responsible, in, Action.UPDATE_ENTRY, parameterName, new AuthorizedAction<Result>() {
             @Override
-            public BasicMessages perform() {
+            public Result perform() {
                 EditableParameter parameterMetadata = (EditableParameter) paramViewer.getParameterMetadata(in, parameterName).data();
                 ParameterEntry previousState = paramViewer.getParameterEntries(in, parameterName, Arrays.asList(entryKey)).firstItem();
                 paramEditor.updateEntry(in, parameterName, entryKey, entry);
 
                 eventsLogger.logEntryChange(new EventDescription(responsible, in, parameterMetadata.getKey()), entryKey, previousState, entry);
 
-                return BasicMessages.ok();
+                return RawResult.ok();
             }
         });
     }
 
     @Override
-    public Messages deleteEntries(final UserProfile responsible, final RepositoryName in, final String parameterName, final List<ParameterEntryKey> entryKeys) {
-        return authorizedAction(responsible, in, Action.UPDATE_ENTRY, parameterName, new AuthorizedActionWrapper() {
+    public Result deleteEntries(final UserProfile responsible, final RepositoryName in, final String parameterName, final List<ParameterEntryKey> entryKeys) {
+        return authorizationRunner.runAction(responsible, in, Action.UPDATE_ENTRY, parameterName, new AuthorizedAction<Result>() {
             @Override
-            public BasicMessages perform() {
+            public Result perform() {
                 EditableParameter parameterMetadata = (EditableParameter) paramViewer.getParameterMetadata(in, parameterName).data();
                 DescribedCollection<ParameterEntry> previousState = paramViewer.getParameterEntries(in, parameterName, entryKeys);
                 paramEditor.deleteEntries(in, parameterName, entryKeys);
 
                 eventsLogger.logEntryDeletion(new EventDescription(responsible, in, parameterMetadata.getKey()), entryKeys, previousState.itemsList());
 
-                return BasicMessages.ok();
+                return RawResult.ok();
             }
         });
-    }
-
-    private BasicMessages authorizedAction(UserProfile responsible, RepositoryName in, Action action, String parameterName, AuthorizedActionWrapper wrapper) {
-        boolean authorized = authorizationCheckpoint.authorize(responsible, action, in, parameterName);
-        if (!authorized) {
-            return BasicMessages.error("sp.authz.nonAuthorized", action, responsible);
-        }
-        return wrapper.perform();
-    }
-
-    private interface AuthorizedActionWrapper {
-
-        BasicMessages perform();
     }
 }

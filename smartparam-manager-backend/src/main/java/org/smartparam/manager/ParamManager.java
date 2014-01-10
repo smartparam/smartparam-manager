@@ -23,7 +23,10 @@ import org.smartparam.engine.core.parameter.Level;
 import org.smartparam.engine.core.parameter.Parameter;
 import org.smartparam.engine.core.parameter.ParameterEntry;
 import org.smartparam.manager.authz.UserProfile;
-import org.smartparam.manager.validation.Messages;
+import org.smartparam.manager.result.LevelAdditionResult;
+import org.smartparam.manager.result.ParameterAdditionResult;
+import org.smartparam.manager.result.ParameterEntryAdditionResult;
+import org.smartparam.manager.result.Result;
 
 /**
  *
@@ -31,23 +34,23 @@ import org.smartparam.manager.validation.Messages;
  */
 public interface ParamManager {
 
-    Messages createParameter(UserProfile responsible, RepositoryName in, Parameter newState);
+    ParameterAdditionResult createParameter(UserProfile responsible, RepositoryName in, Parameter newState);
 
-    Messages updateParameter(UserProfile responsible, RepositoryName in, String parameterName, Parameter newState);
+    Result updateParameter(UserProfile responsible, RepositoryName in, String parameterName, Parameter newState);
 
-    Messages deleteParameter(UserProfile responsible, RepositoryName in, String parameterName);
+    Result deleteParameter(UserProfile responsible, RepositoryName in, String parameterName);
 
-    Messages addLevel(UserProfile responsible, RepositoryName in, String parameterName, Level level);
+    LevelAdditionResult addLevel(UserProfile responsible, RepositoryName in, String parameterName, Level level);
 
-    Messages reorderLevels(UserProfile responsible, RepositoryName in, String parameterName, List<LevelKey> levels);
+    Result reorderLevels(UserProfile responsible, RepositoryName in, String parameterName, List<LevelKey> levels);
 
-    Messages updateLevel(UserProfile responsible, RepositoryName in, String parameterName, LevelKey levelKey, Level level);
+    Result updateLevel(UserProfile responsible, RepositoryName in, String parameterName, LevelKey levelKey, Level level);
 
-    Messages deleteLevel(UserProfile responsible, RepositoryName in, String parameterName, LevelKey levelKey);
+    Result deleteLevel(UserProfile responsible, RepositoryName in, String parameterName, LevelKey levelKey);
 
-    Messages addEntries(UserProfile responsible, RepositoryName in, String parameterName, List<ParameterEntry> entries);
+    ParameterEntryAdditionResult addEntries(UserProfile responsible, RepositoryName in, String parameterName, List<ParameterEntry> entries);
 
-    Messages updateEntry(UserProfile responsible, RepositoryName in, String parameterName, ParameterEntryKey entryKey, ParameterEntry entry);
+    Result updateEntry(UserProfile responsible, RepositoryName in, String parameterName, ParameterEntryKey entryKey, ParameterEntry entry);
 
-    Messages deleteEntries(UserProfile responsible, RepositoryName in, String parameterName, List<ParameterEntryKey> entryKeys);
+    Result deleteEntries(UserProfile responsible, RepositoryName in, String parameterName, List<ParameterEntryKey> entryKeys);
 }

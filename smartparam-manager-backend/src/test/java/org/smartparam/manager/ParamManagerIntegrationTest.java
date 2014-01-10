@@ -80,4 +80,21 @@ public class ParamManagerIntegrationTest {
         // then
         assertThat(inMemoryEventLogRepository.findFirstEvent(Action.CREATE_PARAMETER)).isNotNull();
     }
+
+    @Test
+    public void shouldAuthorizeParameterUpdateAndSaveEvent() {
+        // given
+        UserProfile user = new UserProfile("login", "ROLE");
+        SimpleParameter parameter = new SimpleParameter().withName("test")
+                .withInputLevels(1);
+        paramManager.createParameter(user, REPOSITORY_NAME, parameter);
+
+        SimpleParameter parameterUpdate = new SimpleParameter().withInputLevels(2);
+
+        // when
+        paramManager.updateParameter(user, REPOSITORY_NAME, "test", parameterUpdate);
+
+        // then
+        assertThat(inMemoryEventLogRepository.findFirstEvent(Action.UPDATE_PARAMETER)).isNotNull();
+    }
 }

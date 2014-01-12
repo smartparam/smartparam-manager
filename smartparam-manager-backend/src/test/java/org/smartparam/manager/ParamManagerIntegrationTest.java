@@ -15,13 +15,19 @@
  */
 package org.smartparam.manager;
 
+import java.util.Arrays;
+import java.util.List;
 import org.smartparam.editor.identity.RepositoryName;
+import org.smartparam.editor.model.LevelKey;
+import org.smartparam.editor.model.ParameterEntryKey;
+import org.smartparam.editor.model.simple.SimpleLevel;
 import org.smartparam.editor.model.simple.SimpleParameter;
 import org.smartparam.editor.model.simple.SimpleParameterEntry;
 import org.smartparam.engine.config.ParamEngineConfig;
 import org.smartparam.engine.config.ParamEngineConfigBuilder;
 import org.smartparam.engine.config.ParamEngineFactory;
 import org.smartparam.engine.core.ParamEngine;
+import org.smartparam.engine.core.parameter.ParameterEntry;
 import org.smartparam.manager.audit.InMemoryEventLogRepository;
 import org.smartparam.manager.authz.Action;
 import org.smartparam.manager.authz.AuthorizationConfig;
@@ -100,6 +106,7 @@ public class ParamManagerIntegrationTest {
 
         // then
         assertThat(inMemoryEventLogRepository.findFirstEvent(Action.CREATE_PARAMETER)).isNotNull();
+        assertThat(inMemoryParamRepository.inspector().hasParameter("test")).isTrue();
     }
 
     @Test
@@ -116,21 +123,130 @@ public class ParamManagerIntegrationTest {
 
         // then
         assertThat(inMemoryEventLogRepository.findFirstEvent(Action.UPDATE_PARAMETER)).isNotNull();
+        assertThat(inMemoryParamRepository.load("test")).hasInputLevels(2);
     }
 
     @Test
     public void shouldAuthorizeParameterDeletionAndSaveEvent() {
         // given
-        UserProfile user = USER;
         SimpleParameter parameter = new SimpleParameter().withName("test")
                 .withInputLevels(1);
-        paramManager.createParameter(user, REPOSITORY_NAME, parameter);
+        paramManager.createParameter(USER, REPOSITORY_NAME, parameter);
 
         // when
-        paramManager.deleteParameter(user, REPOSITORY_NAME, "test");
+        paramManager.deleteParameter(USER, REPOSITORY_NAME, "test");
 
         // then
         assertThat(inMemoryEventLogRepository.findFirstEvent(Action.DELETE_PARAMETER)).isNotNull();
+        assertThat(inMemoryParamRepository.inspector().hasParameter("test")).isFalse();
     }
 
+    @Test
+    public void shouldAuthorizeLevelAdditionAndSaveEvent() {
+        // given
+        SimpleParameter parameter = new SimpleParameter().withName("test").withInputLevels(1);
+        paramManager.createParameter(USER, REPOSITORY_NAME, parameter);
+
+        SimpleLevel level = new SimpleLevel().withName("test-level");
+
+        // when
+        paramManager.addLevel(USER, REPOSITORY_NAME, "test", level);
+
+        // then
+        assertThat(inMemoryEventLogRepository.findFirstEvent(Action.ADD_LEVEL)).isNotNull();
+        assertThat(inMemoryParamRepository.load("test")).firstLevel().hasName("test-level");
+    }
+
+    @Test
+    public void shouldAuthorizeLevelUpdateAndSaveEvent() {
+        // given
+        paramManager.createParameter(USER, REPOSITORY_NAME, new SimpleParameter().withName("test").withInputLevels(1));
+        LevelKey levelKey = paramManager.addLevel(USER, REPOSITORY_NAME, "test", new SimpleLevel().withName("test-level")).levelKey();
+
+        SimpleLevel levelUpdate = new SimpleLevel().withName("test-level").withMatcher("matcher");
+
+        // when
+        paramManager.updateLevel(USER, REPOSITORY_NAME, "test", levelKey, levelUpdate);
+
+        // then
+        assertThat(inMemoryEventLogRepository.findFirstEvent(Action.UPDATE_LEVEL)).isNotNull();
+        assertThat(inMemoryParamRepository.load("test")).firstLevel().hasMatcher("matcher");
+    }
+
+    @Test
+    public void shouldAuthorizeLevelOrderingAndSaveEvent() {
+        // given
+        paramManager.createParameter(USER, REPOSITORY_NAME, new SimpleParameter().withName("test").withInputLevels(1));
+        LevelKey levelKey2 = paramManager.addLevel(USER, REPOSITORY_NAME, "test", new SimpleLevel().withName("test-level2")).levelKey();
+        LevelKey levelKey1 = paramManager.addLevel(USER, REPOSITORY_NAME, "test", new SimpleLevel().withName("test-level1")).levelKey();
+
+        List<LevelKey> newOrder = Arrays.asList(levelKey1, levelKey2);
+
+        // when
+        paramManager.reorderLevels(USER, REPOSITORY_NAME, "test", newOrder);
+
+        // then
+        assertThat(inMemoryEventLogRepository.findFirstEvent(Action.REOREDER_LEVELS)).isNotNull();
+        assertThat(inMemoryParamRepository.load("test")).namedLevelsInOrder("test-level1", "test-level2");
+    }
+
+    @Test
+    public void shouldAuthorizeLevelDeletionAndSaveEvent() {
+        // given
+        paramManager.createParameter(USER, REPOSITORY_NAME, new SimpleParameter().withName("test").withInputLevels(1));
+        LevelKey levelKey = paramManager.addLevel(USER, REPOSITORY_NAME, "test", new SimpleLevel().withName("test-level1")).levelKey();
+
+        // when
+        paramManager.deleteLevel(USER, REPOSITORY_NAME, "test", levelKey);
+
+        // then
+        assertThat(inMemoryEventLogRepository.findFirstEvent(Action.DELETE_LEVEL)).isNotNull();
+        assertThat(inMemoryParamRepository.load("test")).hasNoLevels();
+    }
+
+    @Test
+    public void shouldAuthorizeEntryAdditionAndSaveEvent() {
+        // given
+        paramManager.createParameter(USER, REPOSITORY_NAME, new SimpleParameter().withName("test").withInputLevels(1));
+        ParameterEntry entry = new SimpleParameterEntry("value");
+
+        // when
+        paramManager.addEntries(USER, REPOSITORY_NAME, "test", Arrays.asList(entry));
+
+        // then
+        assertThat(inMemoryEventLogRepository.findFirstEvent(Action.ADD_ENTRY)).isNotNull();
+        assertThat(inMemoryParamRepository.load("test")).hasEntries(1);
+    }
+
+    @Test
+    public void shouldAuthorizeEntryUpdateAndSaveEvent() {
+        // given
+        paramManager.createParameter(USER, REPOSITORY_NAME, new SimpleParameter().withName("test").withInputLevels(1));
+        ParameterEntry entry = new SimpleParameterEntry("value");
+        ParameterEntryKey entryKey = paramManager.addEntries(USER, REPOSITORY_NAME, "test", Arrays.asList(entry)).firstEntryKey();
+
+        ParameterEntry entryUpdate = new SimpleParameterEntry("updated-value");
+
+        // when
+        paramManager.updateEntry(USER, REPOSITORY_NAME, "test", entryKey, entryUpdate);
+
+        // then
+        assertThat(inMemoryEventLogRepository.findFirstEvent(Action.UPDATE_ENTRY)).isNotNull();
+        assertThat(inMemoryParamRepository.load("test")).onlyEntry().hasLevels("updated-value");
+    }
+
+    @Test
+    public void shouldAuthorizeEntryDeletionAndSaveEvent() {
+        // given
+        paramManager.createParameter(USER, REPOSITORY_NAME, new SimpleParameter().withName("test").withInputLevels(1));
+        ParameterEntry entry = new SimpleParameterEntry("value");
+        ParameterEntryKey entryKey = paramManager.addEntries(USER, REPOSITORY_NAME, "test", Arrays.asList(entry)).firstEntryKey();
+
+        // when
+        paramManager.deleteEntries(USER, REPOSITORY_NAME, "test", Arrays.asList(entryKey));
+
+        // then
+        assertThat(inMemoryEventLogRepository.findFirstEvent(Action.DELETE_ENTRY)).isNotNull();
+        assertThat(inMemoryParamRepository.load("test")).hasNoEntries();
+    }
 }

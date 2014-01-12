@@ -39,8 +39,12 @@ public class ParameterEntryAdditionResult extends AbstractResult {
         return new ParameterEntryAdditionResult(newParameterEntryKeys, BasicMessages.ok());
     }
 
-    public List<ParameterEntryKey> parameterEntryKey() {
+    public List<ParameterEntryKey> parameterEntryKeys() {
         return Collections.unmodifiableList(parameterEntryKeys);
+    }
+
+    public ParameterEntryKey firstEntryKey() {
+        return parameterEntryKeys.get(0);
     }
 
 }

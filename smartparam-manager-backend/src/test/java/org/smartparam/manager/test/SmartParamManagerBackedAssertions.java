@@ -15,7 +15,7 @@
  */
 package org.smartparam.manager.test;
 
-import org.assertj.core.api.Assertions;
+import org.smartparam.engine.test.ParamEngineAssertions;
 import org.smartparam.manager.audit.EventLogEntry;
 import org.smartparam.manager.audit.EventLogEntryAssert;
 
@@ -23,7 +23,7 @@ import org.smartparam.manager.audit.EventLogEntryAssert;
  *
  * @author Adam Dubiel
  */
-public class SmartParamManagerBackedAssertions extends Assertions {
+public class SmartParamManagerBackedAssertions extends ParamEngineAssertions {
 
     public static EventLogEntryAssert assertThat(EventLogEntry actual) {
         return EventLogEntryAssert.assertThat(actual);

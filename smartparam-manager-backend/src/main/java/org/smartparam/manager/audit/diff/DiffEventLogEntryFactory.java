@@ -66,7 +66,7 @@ public class DiffEventLogEntryFactory implements EventLogEntryFactory {
     @Override
     public EventLogEntry produceEntryCreationLog(EventDescription description, ParameterEntryKey entryKey, ParameterEntry initialState) {
         ParameterEntryDiff entryDiff = ParameterEntryDiff.initialState(initialState);
-        return produceEventLog(description, Action.ADD_LEVEL, entryKey, entryDiff);
+        return produceEventLog(description, Action.ADD_ENTRY, entryKey, entryDiff);
     }
 
     @Override

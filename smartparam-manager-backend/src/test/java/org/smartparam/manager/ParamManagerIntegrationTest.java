@@ -17,6 +17,7 @@ package org.smartparam.manager;
 
 import org.smartparam.editor.identity.RepositoryName;
 import org.smartparam.editor.model.simple.SimpleParameter;
+import org.smartparam.editor.model.simple.SimpleParameterEntry;
 import org.smartparam.engine.config.ParamEngineConfig;
 import org.smartparam.engine.config.ParamEngineConfigBuilder;
 import org.smartparam.engine.config.ParamEngineFactory;
@@ -25,6 +26,7 @@ import org.smartparam.manager.audit.InMemoryEventLogRepository;
 import org.smartparam.manager.authz.Action;
 import org.smartparam.manager.authz.AuthorizationConfig;
 import org.smartparam.manager.authz.UserProfile;
+import org.smartparam.manager.authz.wrapper.AuthorizationFailedException;
 import org.smartparam.manager.config.ParamManagerConfig;
 import org.smartparam.manager.config.ParamManagerConfigBuilder;
 import org.smartparam.manager.config.ParamManagerFactory;
@@ -32,6 +34,7 @@ import org.smartparam.repository.memory.InMemoryParamRepository;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
+import static com.googlecode.catchexception.CatchException.*;
 import static org.smartparam.manager.test.SmartParamManagerBackedAssertions.assertThat;
 
 /**
@@ -42,9 +45,13 @@ public class ParamManagerIntegrationTest {
 
     private static final RepositoryName REPOSITORY_NAME = RepositoryName.from("InMemoryParamRepository");
 
+    private static final UserProfile USER = new UserProfile("login", "ROLE");
+
     private final InMemoryParamRepository inMemoryParamRepository = new InMemoryParamRepository();
 
     private final InMemoryEventLogRepository inMemoryEventLogRepository = new InMemoryEventLogRepository();
+
+    private ParamEngine paramEngine;
 
     private ParamManager paramManager;
 
@@ -53,7 +60,7 @@ public class ParamManagerIntegrationTest {
         ParamEngineConfig paramEngineConfig = ParamEngineConfigBuilder.paramEngineConfig()
                 .withPackagesToScan("org.smartparam.manager.authz")
                 .withParameterRepositories(inMemoryParamRepository).build();
-        ParamEngine paramEngine = ParamEngineFactory.paramEngine(paramEngineConfig);
+        paramEngine = ParamEngineFactory.paramEngine(paramEngineConfig);
 
         ParamManagerConfig paramManagerConfig = ParamManagerConfigBuilder.paramManagerConfig(paramEngine)
                 .enableAuthorization(new AuthorizationConfig(REPOSITORY_NAME))
@@ -66,15 +73,20 @@ public class ParamManagerIntegrationTest {
     public void setUp() {
         inMemoryParamRepository.clearExcept("sp.manager.authz.login", "sp.manager.authz.role");
         inMemoryEventLogRepository.clear();
+        paramEngine.runtimeConfiguration().getParamCache().invalidate();
     }
 
     @Test
     public void shouldThrowExceptionWhenAuthorizationFails() {
         // given
+        UserProfile user = new UserProfile("unauthorized", "ROOT");
+        inMemoryParamRepository.addEntry("sp.manager.authz.login", new SimpleParameterEntry("unauthorized", "*", "*", "false"));
 
         // when
+        catchException(paramManager).deleteParameter(user, REPOSITORY_NAME, "some parameter");
 
         // then
+        assertThat(caughtException()).isInstanceOf(AuthorizationFailedException.class);
     }
 
     @Test
@@ -84,7 +96,7 @@ public class ParamManagerIntegrationTest {
                 .withInputLevels(1);
 
         // when
-        paramManager.createParameter(new UserProfile("login", "ROLE"), REPOSITORY_NAME, parameter);
+        paramManager.createParameter(USER, REPOSITORY_NAME, parameter);
 
         // then
         assertThat(inMemoryEventLogRepository.findFirstEvent(Action.CREATE_PARAMETER)).isNotNull();
@@ -93,15 +105,14 @@ public class ParamManagerIntegrationTest {
     @Test
     public void shouldAuthorizeParameterUpdateAndSaveEvent() {
         // given
-        UserProfile user = new UserProfile("login", "ROLE");
         SimpleParameter parameter = new SimpleParameter().withName("test")
                 .withInputLevels(1);
-        paramManager.createParameter(user, REPOSITORY_NAME, parameter);
+        paramManager.createParameter(USER, REPOSITORY_NAME, parameter);
 
         SimpleParameter parameterUpdate = new SimpleParameter().withInputLevels(2);
 
         // when
-        paramManager.updateParameter(user, REPOSITORY_NAME, "test", parameterUpdate);
+        paramManager.updateParameter(USER, REPOSITORY_NAME, "test", parameterUpdate);
 
         // then
         assertThat(inMemoryEventLogRepository.findFirstEvent(Action.UPDATE_PARAMETER)).isNotNull();
@@ -110,7 +121,7 @@ public class ParamManagerIntegrationTest {
     @Test
     public void shouldAuthorizeParameterDeletionAndSaveEvent() {
         // given
-        UserProfile user = new UserProfile("login", "ROLE");
+        UserProfile user = USER;
         SimpleParameter parameter = new SimpleParameter().withName("test")
                 .withInputLevels(1);
         paramManager.createParameter(user, REPOSITORY_NAME, parameter);

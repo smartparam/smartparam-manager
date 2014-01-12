@@ -22,6 +22,7 @@ import org.smartparam.editor.model.ParameterEntryKey;
 import org.smartparam.editor.model.simple.SimpleParameterEntryKey;
 import org.smartparam.engine.core.parameter.Parameter;
 import org.smartparam.engine.core.parameter.ParameterEntry;
+import org.smartparam.manager.authz.Action;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import static org.mockito.Mockito.*;
@@ -62,19 +63,36 @@ public class BasicEventsLoggerTest {
             fail();
         } catch (EventLogEntryTypeNotSupported exception) {
             // then passed
-            return;
         }
     }
 
     @Test
     public void shouldAskFactoryToProduceEventEntryAndSaveItWhenLoggingParameterCreation() {
-        // given
-
         // when
         logger.logParameterCreation(null, null);
 
         // then
         verify(factory).produceParameterCreationLog(any(EventDescription.class), any(Parameter.class));
+        verify(repository).save(any(EventLogEntry.class));
+    }
+
+    @Test
+    public void shouldAskFactoryToProduceEventEntryAndSaveItWhenLoggingParameterChange() {
+        // when
+        logger.logParameterChange(null, Action.ADD_LEVEL, null, null);
+
+        // then
+        verify(factory).produceParameterChangeLog(any(EventDescription.class), eq(Action.ADD_LEVEL), any(Parameter.class), any(Parameter.class));
+        verify(repository).save(any(EventLogEntry.class));
+    }
+
+    @Test
+    public void shouldAskFactoryToProduceEventEntryAndSaveItWhenLoggingParameterDeleted() {
+        // when
+        logger.logParameterDeletion(null, null);
+
+        // then
+        verify(factory).produceParameterDeletionLog(any(EventDescription.class), any(Parameter.class));
         verify(repository).save(any(EventLogEntry.class));
     }
 
@@ -91,6 +109,16 @@ public class BasicEventsLoggerTest {
         // then
         verify(factory, times(2)).produceEntryCreationLog(any(EventDescription.class), any(ParameterEntryKey.class), any(ParameterEntry.class));
         verify(repository).save(anyList());
+    }
+
+    @Test
+    public void shouldAskFactoryToProduceEventEntryAndSaveItWhenLoggingEntryChange() {
+        // when
+        logger.logEntryChange(null, null, null, null);
+
+        // then
+        verify(factory).produceEntryChangeLog(any(EventDescription.class), any(ParameterEntryKey.class), any(ParameterEntry.class), any(ParameterEntry.class));
+        verify(repository).save(any(EventLogEntry.class));
     }
 
     @Test

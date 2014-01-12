@@ -24,7 +24,7 @@ import org.smartparam.manager.audit.EventDescription;
  *
  * @author Adam Dubiel
  */
-public class DiffEventLogEntry extends AbstractEventLogEntry<Diff<?>> {
+public final class DiffEventLogEntry extends AbstractEventLogEntry<Diff<?>> {
 
     static DiffEventLogEntry parameterEvent(long timestamp,
             EventDescription description, Action action,

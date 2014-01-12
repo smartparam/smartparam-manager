@@ -21,7 +21,7 @@ import org.smartparam.engine.annotated.annotations.JavaPlugin;
  *
  * @author Adam Dubiel
  */
-class AuthorizationLevelCreators {
+final class AuthorizationLevelCreators {
 
     static final String LOGIN_LEVEL_CREATOR = "sp.manager.authz.login";
 

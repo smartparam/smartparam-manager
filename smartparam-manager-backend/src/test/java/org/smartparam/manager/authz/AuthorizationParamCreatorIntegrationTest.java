@@ -27,6 +27,7 @@ import org.smartparam.engine.config.ParamEngineConfig;
 import org.smartparam.engine.config.ParamEngineConfigBuilder;
 import org.smartparam.engine.config.ParamEngineFactory;
 import org.smartparam.engine.core.ParamEngine;
+import org.smartparam.engine.core.output.ParamValue;
 import org.smartparam.engine.core.parameter.ParameterEntry;
 import org.smartparam.repository.memory.InMemoryParamRepository;
 import org.testng.annotations.BeforeClass;
@@ -76,7 +77,7 @@ public class AuthorizationParamCreatorIntegrationTest {
     }
 
     @Test
-    public void shouldCreateBothAuthzParametersWhenNoenExisting() {
+    public void shouldCreateBothAuthzParametersWhenNonExisting() {
         // when
         paramCreator.createNonExisting();
 
@@ -102,26 +103,23 @@ public class AuthorizationParamCreatorIntegrationTest {
     }
 
     @Test
-    public void shouldCreateLoginAuthorizationParameterThatPermitsAllOperationsByDefault() {
+    public void shouldCreateLoginAuthorizationParameterWithNoEntries() {
         // when
         paramCreator.createNonExisting();
 
         // then
-        ParameterEntry initialEntry = paramViewer.listParameterEntries(REPOSITORY_NAME, LOGIN_AUTHZ_PARAMETER, ParameterEntriesFilter.empty()).firstItem();
-        assertThat(initialEntry.getLevels()).containsExactly("*", "*", "*", "true");
+        boolean empty = paramViewer.listParameterEntries(REPOSITORY_NAME, LOGIN_AUTHZ_PARAMETER, ParameterEntriesFilter.empty()).isEmpty();
+        assertThat(empty).isTrue();
     }
 
     @Test
-    public void shouldCreateValidLoginAuthorizationParameterThatCanBeCalledFromParamEngine() {
-        // given
-        paramCreator.createNonExisting();
-        paramEditor.addEntry(REPOSITORY_NAME, LOGIN_AUTHZ_PARAMETER, new SimpleParameterEntry("testLogin", "testAction", "*", "false"));
-
+    public void shouldCreateValidNullableLoginAuthorizationParameterThatCanBeCalledFromParamEngine() {
         // when
-        boolean authorized = paramEngine.get(LOGIN_AUTHZ_PARAMETER, "testLogin", "testAction", "someParameter").get();
+        paramCreator.createNonExisting();
 
         // then
-        assertThat(authorized).isFalse();
+        ParamValue value = paramEngine.get(LOGIN_AUTHZ_PARAMETER, "testLogin", "testAction", "someParameter");
+        assertThat(value).isNull();
     }
 
     @Test

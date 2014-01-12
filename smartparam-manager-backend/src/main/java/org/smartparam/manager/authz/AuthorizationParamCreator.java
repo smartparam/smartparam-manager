@@ -57,13 +57,13 @@ public class AuthorizationParamCreator implements InitializableComponent {
             SimpleParameter parameter = new SimpleParameter()
                     .withName(ParamAuthorizationCheckpoint.LOGIN_AUTHZ_PARAMETER)
                     .withInputLevels(3)
+                    .nullable()
                     .withLevel(new SimpleLevel().withName("login").withType(StringType.TYPE_NAME).withLevelCreator(AuthorizationLevelCreators.LOGIN_LEVEL_CREATOR))
                     .withLevel(new SimpleLevel().withName("action").withType(StringType.TYPE_NAME).withLevelCreator(AuthorizationLevelCreators.ACTION_LEVEL_CREATOR))
                     .withLevel(new SimpleLevel().withName("parameter").withType(StringType.TYPE_NAME).withLevelCreator(AuthorizationLevelCreators.PARAMETER_LEVEL_CREATOR))
                     .withLevel(new SimpleLevel().withName("authorized").withType(BooleanType.TYPE_NAME));
 
             paramEditor.createParameter(authorizationConfig.defaultWriteRepository(), parameter);
-            paramEditor.addEntry(authorizationConfig.defaultWriteRepository(), ParamAuthorizationCheckpoint.LOGIN_AUTHZ_PARAMETER, new SimpleParameterEntry("*", "*", "*", "true"));
         }
     }
 

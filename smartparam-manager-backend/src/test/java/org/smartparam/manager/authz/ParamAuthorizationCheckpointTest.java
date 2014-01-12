@@ -39,26 +39,26 @@ public class ParamAuthorizationCheckpointTest {
     }
 
     @Test
-    public void shouldIterateAllAuthorizationMethodsUntilFirstThatAllowsForAnAction() {
+    public void shouldListenOnlyToMethodsThatReturnNonNullResult() {
         // given
-        AuthorizationConfig config = new AuthorizationConfig(new RepositoryName(""), Arrays.asList(AuthorizationMethod.LOGIN, AuthorizationMethod.ROLE));
+        AuthorizationConfig config = new AuthorizationConfig(new RepositoryName(""), Arrays.asList(AuthorizationMethod.ROLE, AuthorizationMethod.LOGIN));
         ParamAuthorizationCheckpoint checkpoint = new ParamAuthorizationCheckpoint(paramEngine, config);
 
-        when(paramEngine.get(anyString(), any(ParamContext.class))).thenReturn(paramValue(false));
-        when(paramEngine.get(eq("sp.manager.authz.role"), any(ParamContext.class))).thenReturn(paramValue(true));
-
         // when
+        when(paramEngine.get(anyString(), any(ParamContext.class))).thenReturn(null);
+        when(paramEngine.get(eq(ParamAuthorizationCheckpoint.ROLE_AUTHZ_PARAMETER), any(ParamContext.class))).thenReturn(paramValue(true));
+
+        // then
         boolean authorized = checkpoint.authorize(null, Action.ADD_ENTRY, null, "someParameter");
 
         // then
         assertThat(authorized).isEqualTo(true);
-        verify(paramEngine, times(2)).get(anyString(), any(ParamContext.class));
     }
 
     @Test
     public void shouldReturnFalseIfNoneMethodAuthorizesAction() {
         // given
-        AuthorizationConfig config = new AuthorizationConfig(new RepositoryName(""), Arrays.asList(AuthorizationMethod.LOGIN, AuthorizationMethod.ROLE));
+        AuthorizationConfig config = new AuthorizationConfig(new RepositoryName(""), Arrays.asList(AuthorizationMethod.ROLE, AuthorizationMethod.LOGIN));
         ParamAuthorizationCheckpoint checkpoint = new ParamAuthorizationCheckpoint(paramEngine, config);
 
         when(paramEngine.get(anyString(), any(ParamContext.class))).thenReturn(paramValue(false));
@@ -68,5 +68,22 @@ public class ParamAuthorizationCheckpointTest {
 
         // then
         assertThat(authorized).isEqualTo(false);
+    }
+
+    @Test
+    public void shouldAlwaysIterateInOrderFromLeastSpecificToMostSpecific() {
+        // given
+        AuthorizationConfig config = new AuthorizationConfig(new RepositoryName(""), Arrays.asList(AuthorizationMethod.LOGIN, AuthorizationMethod.ROLE));
+        ParamAuthorizationCheckpoint checkpoint = new ParamAuthorizationCheckpoint(paramEngine, config);
+
+        when(paramEngine.get(anyString(), any(ParamContext.class))).thenReturn(paramValue(false));
+        when(paramEngine.get(eq("sp.manager.authz.login"), any(ParamContext.class))).thenReturn(paramValue(true));
+
+        // when
+        boolean authorized = checkpoint.authorize(null, Action.ADD_ENTRY, null, "someParameter");
+
+        // then
+        assertThat(authorized).isEqualTo(true);
+        verify(paramEngine, times(2)).get(anyString(), any(ParamContext.class));
     }
 }

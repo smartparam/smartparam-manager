@@ -21,7 +21,7 @@ package org.smartparam.manager.authz;
  */
 public enum AuthorizationMethod {
 
-    LOGIN,
-    ROLE;
+    ROLE,
+    LOGIN;
 
 }

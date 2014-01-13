@@ -53,5 +53,4 @@ public class ParamManagerFactoryTest {
         // then
         assertThat(manager).isNotNull();
     }
-
 }

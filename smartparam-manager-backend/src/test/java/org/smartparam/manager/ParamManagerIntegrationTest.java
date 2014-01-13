@@ -36,6 +36,7 @@ import org.smartparam.manager.authz.wrapper.AuthorizationFailedException;
 import org.smartparam.manager.config.ParamManagerConfig;
 import org.smartparam.manager.config.ParamManagerConfigBuilder;
 import org.smartparam.manager.config.ParamManagerFactory;
+import org.smartparam.manager.config.ParamManagerModule;
 import org.smartparam.repository.memory.InMemoryParamRepository;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
@@ -64,8 +65,8 @@ public class ParamManagerIntegrationTest {
     @BeforeClass
     public void setUpClass() {
         ParamEngineConfig paramEngineConfig = ParamEngineConfigBuilder.paramEngineConfig()
-                .withPackagesToScan("org.smartparam.manager.authz")
-                .withParameterRepositories(inMemoryParamRepository).build();
+                .withParameterRepositories(inMemoryParamRepository)
+                .registerModule(new ParamManagerModule()).build();
         paramEngine = ParamEngineFactory.paramEngine(paramEngineConfig);
 
         ParamManagerConfig paramManagerConfig = ParamManagerConfigBuilder.paramManagerConfig(paramEngine)

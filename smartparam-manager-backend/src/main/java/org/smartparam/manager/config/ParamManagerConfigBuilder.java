@@ -16,9 +16,12 @@
 package org.smartparam.manager.config;
 
 import org.smartparam.editor.editor.ParamEditor;
+import org.smartparam.editor.store.ParamRepositoryNaming;
+import org.smartparam.editor.store.ParamRepositoryNamingBuilder;
 import org.smartparam.editor.viewer.ParamViewer;
 import org.smartparam.engine.config.pico.ComponentDefinition;
 import org.smartparam.engine.core.ParamEngine;
+import org.smartparam.engine.core.parameter.ParamRepository;
 import org.smartparam.manager.adapter.JsonAdapter;
 import org.smartparam.manager.audit.BasicEventsLogger;
 import org.smartparam.manager.audit.EventLogEntryFactory;
@@ -41,6 +44,8 @@ public final class ParamManagerConfigBuilder {
 
     private final ParamManagerConfig config;
 
+    private final ParamRepositoryNamingBuilder repositoryNamingBuilder = ParamRepositoryNamingBuilder.repositoryNaming();
+
     private ParamManagerConfigBuilder(ParamEngine paramEngine) {
         this.config = new ParamManagerConfig(paramEngine);
     }
@@ -50,6 +55,7 @@ public final class ParamManagerConfigBuilder {
     }
 
     public ParamManagerConfig build() {
+        config.addComponent(component(ParamRepositoryNaming.class, repositoryNamingBuilder.build()));
         return config;
     }
 
@@ -77,6 +83,11 @@ public final class ParamManagerConfigBuilder {
         config.addComponent(component(EventsLogger.class, BasicEventsLogger.class));
         config.addComponent(component(EventLogRepository.class, eventLogRepository));
         config.addComponent(component(EventLogEntryFactory.class, eventLogEntryFactory));
+        return this;
+    }
+
+    public ParamManagerConfigBuilder withRepositoryKnownAs(Class<? extends ParamRepository> reposioryClass, String... consequentNames) {
+        repositoryNamingBuilder.registerAs(reposioryClass, consequentNames);
         return this;
     }
 

@@ -49,7 +49,7 @@ import static org.smartparam.manager.test.SmartParamManagerBackedAssertions.asse
  */
 public class ParamManagerIntegrationTest {
 
-    private static final RepositoryName REPOSITORY_NAME = RepositoryName.from("InMemoryParamRepository");
+    private static final RepositoryName REPOSITORY_NAME = RepositoryName.from("memoryRepository");
 
     private static final UserProfile USER = new UserProfile("login", "ROLE");
 
@@ -71,6 +71,7 @@ public class ParamManagerIntegrationTest {
         ParamManagerConfig paramManagerConfig = ParamManagerConfigBuilder.paramManagerConfig(paramEngine)
                 .enableAuthorization(new AuthorizationConfig(REPOSITORY_NAME))
                 .enableAuditing(inMemoryEventLogRepository, new FakeJsonAdapter())
+                .withRepositoryKnownAs(InMemoryParamRepository.class, "memoryRepository")
                 .build();
         paramManager = ParamManagerFactory.paramManager(paramManagerConfig);
     }

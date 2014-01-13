@@ -16,6 +16,7 @@
 package org.smartparam.manager.json.integration;
 
 import org.testng.annotations.BeforeClass;
+import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 
 /**
@@ -28,7 +29,7 @@ public class SerializerTest {
 
     @Parameters({"serializer"})
     @BeforeClass
-    public void setUp(String serializer) {
+    public void setUp(@Optional(value = "gson") String serializer) {
         SerializerRegistry registry = new SerializerRegistry();
         this.serializer = registry.get(serializer);
     }

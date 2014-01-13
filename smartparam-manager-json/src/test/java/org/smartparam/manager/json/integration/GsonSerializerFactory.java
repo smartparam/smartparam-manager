@@ -16,15 +16,7 @@
 package org.smartparam.manager.json.integration;
 
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import org.smartparam.editor.identity.DescribedCollection;
-import org.smartparam.editor.identity.DescribedEntity;
-import org.smartparam.editor.identity.RepositoryName;
-import org.smartparam.manager.json.vendor.gson.DescribedCollectionSerializer;
-import org.smartparam.manager.json.vendor.gson.DescribedEntitySerializer;
-import org.smartparam.manager.json.vendor.gson.LevelKeySerializer;
-import org.smartparam.manager.json.vendor.gson.ParameterEntryKeySerializer;
-import org.smartparam.manager.json.vendor.gson.RepositoryNameSerializer;
+import org.smartparam.manager.json.vendor.gson.ParamEngineGsonEnhancer;
 
 /**
  *
@@ -37,13 +29,7 @@ public class GsonSerializerFactory {
     }
 
     private Serializer gson() {
-        final Gson gson = new GsonBuilder()
-                .registerTypeAdapter(DescribedCollection.class, new DescribedCollectionSerializer())
-                .registerTypeAdapter(DescribedEntity.class, new DescribedEntitySerializer())
-                .registerTypeAdapterFactory(new LevelKeySerializer())
-                .registerTypeAdapterFactory(new ParameterEntryKeySerializer())
-                .registerTypeAdapter(RepositoryName.class, new RepositoryNameSerializer())
-                .create();
+        final Gson gson = ParamEngineGsonEnhancer.createEnhanced();
 
         return new Serializer() {
             @Override

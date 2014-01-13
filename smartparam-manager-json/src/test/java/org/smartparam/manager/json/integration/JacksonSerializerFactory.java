@@ -17,12 +17,7 @@ package org.smartparam.manager.json.integration;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.module.SimpleModule;
-import org.smartparam.manager.json.vendor.jackson.DescribedCollectionSerializer;
-import org.smartparam.manager.json.vendor.jackson.DescribedEntitySerializer;
-import org.smartparam.manager.json.vendor.jackson.LevelKeySerializer;
-import org.smartparam.manager.json.vendor.jackson.ParameterEntryKeySerializer;
-import org.smartparam.manager.json.vendor.jackson.RepositoryNameSerializer;
+import org.smartparam.manager.json.vendor.jackson.ParamEngineJacksonEnhancer;
 
 /**
  *
@@ -35,16 +30,7 @@ public class JacksonSerializerFactory {
     }
 
     private Serializer jackson() {
-        final ObjectMapper jackson = new ObjectMapper();
-
-        SimpleModule serializationModule = new SimpleModule();
-        serializationModule.addSerializer(new RepositoryNameSerializer());
-        serializationModule.addSerializer(new LevelKeySerializer());
-        serializationModule.addSerializer(new ParameterEntryKeySerializer());
-        serializationModule.addSerializer(new DescribedCollectionSerializer());
-        serializationModule.addSerializer(new DescribedEntitySerializer());
-
-        jackson.registerModule(serializationModule);
+        final ObjectMapper jackson = ParamEngineJacksonEnhancer.createEnhanced();
 
         return new Serializer() {
             @Override

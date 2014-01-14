@@ -18,8 +18,8 @@ package org.smartparam.manager.audit;
 import java.util.LinkedList;
 import java.util.List;
 import org.smartparam.editor.model.ParameterEntryKey;
+import org.smartparam.editor.model.map.ParameterEntryMap;
 import org.smartparam.engine.core.parameter.Parameter;
-import org.smartparam.engine.core.parameter.ParameterEntry;
 import org.smartparam.manager.authz.Action;
 
 /**
@@ -64,7 +64,7 @@ public class BasicEventsLogger implements EventsLogger {
     }
 
     @Override
-    public void logEntryCreation(EventDescription description, List<ParameterEntryKey> entryKeys, List<ParameterEntry> initialStates) {
+    public void logEntryCreation(EventDescription description, List<ParameterEntryKey> entryKeys, List<ParameterEntryMap> initialStates) {
         List<EventLogEntry> entries = new LinkedList<EventLogEntry>();
 
         int index = 0;
@@ -77,13 +77,13 @@ public class BasicEventsLogger implements EventsLogger {
     }
 
     @Override
-    public void logEntryChange(EventDescription description, ParameterEntryKey entryKey, ParameterEntry previousState, ParameterEntry currentState) {
+    public void logEntryChange(EventDescription description, ParameterEntryKey entryKey, ParameterEntryMap previousState, ParameterEntryMap currentState) {
         EventLogEntry entry = eventLogEntryFactory.produceEntryChangeLog(description, entryKey, previousState, currentState);
         eventLogRepository.save(entry);
     }
 
     @Override
-    public void logEntryDeletion(EventDescription description, List<ParameterEntryKey> entryKeys, List<ParameterEntry> lastStates) {
+    public void logEntryDeletion(EventDescription description, List<ParameterEntryKey> entryKeys, List<ParameterEntryMap> lastStates) {
         List<EventLogEntry> entries = new LinkedList<EventLogEntry>();
 
         int index = 0;

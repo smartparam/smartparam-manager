@@ -17,8 +17,8 @@ package org.smartparam.manager.audit;
 
 import java.util.List;
 import org.smartparam.editor.model.ParameterEntryKey;
+import org.smartparam.editor.model.map.ParameterEntryMap;
 import org.smartparam.engine.core.parameter.Parameter;
-import org.smartparam.engine.core.parameter.ParameterEntry;
 import org.smartparam.manager.authz.Action;
 
 /**
@@ -27,22 +27,28 @@ import org.smartparam.manager.authz.Action;
  */
 public class DisabledEventsLogger implements EventsLogger {
 
+    @Override
     public void logParameterCreation(EventDescription description, Parameter initialState) {
     }
 
+    @Override
     public void logParameterChange(EventDescription description, Action action, Parameter previousState, Parameter currentState) {
     }
 
+    @Override
     public void logParameterDeletion(EventDescription description, Parameter lastState) {
     }
 
-    public void logEntryCreation(EventDescription description, List<ParameterEntryKey> entryKey, List<ParameterEntry> initialState) {
+    @Override
+    public void logEntryCreation(EventDescription description, List<ParameterEntryKey> entryKey, List<ParameterEntryMap> initialState) {
     }
 
-    public void logEntryChange(EventDescription description, ParameterEntryKey entryKey, ParameterEntry previousState, ParameterEntry currentState) {
+    @Override
+    public void logEntryChange(EventDescription description, ParameterEntryKey entryKey, ParameterEntryMap previousState, ParameterEntryMap currentState) {
     }
 
-    public void logEntryDeletion(EventDescription description, List<ParameterEntryKey> entryKey, List<ParameterEntry> lastState) {
+    @Override
+    public void logEntryDeletion(EventDescription description, List<ParameterEntryKey> entryKey, List<ParameterEntryMap> lastState) {
     }
 
 }

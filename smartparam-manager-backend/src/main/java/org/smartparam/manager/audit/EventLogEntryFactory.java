@@ -16,8 +16,8 @@
 package org.smartparam.manager.audit;
 
 import org.smartparam.editor.model.ParameterEntryKey;
+import org.smartparam.editor.model.map.ParameterEntryMap;
 import org.smartparam.engine.core.parameter.Parameter;
-import org.smartparam.engine.core.parameter.ParameterEntry;
 import org.smartparam.manager.authz.Action;
 
 /**
@@ -34,10 +34,10 @@ public interface EventLogEntryFactory {
 
     EventLogEntry produceParameterDeletionLog(EventDescription description, Parameter lastState);
 
-    EventLogEntry produceEntryCreationLog(EventDescription description, ParameterEntryKey entryKey, ParameterEntry initialState);
+    EventLogEntry produceEntryCreationLog(EventDescription description, ParameterEntryKey entryKey, ParameterEntryMap initialState);
 
-    EventLogEntry produceEntryChangeLog(EventDescription description, ParameterEntryKey entryKey, ParameterEntry previousState, ParameterEntry currentState);
+    EventLogEntry produceEntryChangeLog(EventDescription description, ParameterEntryKey entryKey, ParameterEntryMap previousState, ParameterEntryMap currentState);
 
-    EventLogEntry produceEntryDeletionLog(EventDescription description, ParameterEntryKey entryKey, ParameterEntry lastState);
+    EventLogEntry produceEntryDeletionLog(EventDescription description, ParameterEntryKey entryKey, ParameterEntryMap lastState);
 
 }

@@ -16,9 +16,10 @@
 package org.smartparam.manager.authz;
 
 import org.smartparam.editor.editor.ParamEditor;
+import org.smartparam.editor.model.map.ParameterEntryMap;
+import org.smartparam.editor.model.map.Star;
 import org.smartparam.editor.model.simple.SimpleLevel;
 import org.smartparam.editor.model.simple.SimpleParameter;
-import org.smartparam.editor.model.simple.SimpleParameterEntry;
 import org.smartparam.editor.viewer.ParamViewer;
 import org.smartparam.engine.config.initialization.InitializableComponent;
 import org.smartparam.engine.types.bool.BooleanType;
@@ -78,7 +79,13 @@ public class AuthorizationParamCreator implements InitializableComponent {
                     .withLevel(new SimpleLevel().withName("authorized").withType(BooleanType.TYPE_NAME));
 
             paramEditor.createParameter(authorizationConfig.defaultWriteRepository(), parameter);
-            paramEditor.addEntry(authorizationConfig.defaultWriteRepository(), ParamAuthorizationCheckpoint.ROLE_AUTHZ_PARAMETER, new SimpleParameterEntry("*", "*", "*", "true"));
+            ParameterEntryMap map = new ParameterEntryMap()
+                    .put("role", Star.star())
+                    .put("action", Star.star())
+                    .put("parameter", Star.star())
+                    .put("authorized", true);
+
+            paramEditor.addEntry(authorizationConfig.defaultWriteRepository(), ParamAuthorizationCheckpoint.ROLE_AUTHZ_PARAMETER, map);
         }
     }
 }

@@ -19,6 +19,7 @@ import java.util.Arrays;
 import org.smartparam.editor.identity.RepositoryName;
 import org.smartparam.engine.core.ParamEngine;
 import org.smartparam.engine.core.context.ParamContext;
+import org.smartparam.engine.core.output.ParamValueImpl;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -45,7 +46,7 @@ public class ParamAuthorizationCheckpointTest {
         ParamAuthorizationCheckpoint checkpoint = new ParamAuthorizationCheckpoint(paramEngine, config);
 
         // when
-        when(paramEngine.get(anyString(), any(ParamContext.class))).thenReturn(null);
+        when(paramEngine.get(anyString(), any(ParamContext.class))).thenReturn(ParamValueImpl.empty());
         when(paramEngine.get(eq(ParamAuthorizationCheckpoint.ROLE_AUTHZ_PARAMETER), any(ParamContext.class))).thenReturn(paramValue(true));
 
         // then

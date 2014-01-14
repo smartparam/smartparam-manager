@@ -13,25 +13,26 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.smartparam.manager.audit.diff;
+package org.smartparam.manager.json.vendor.jackson;
 
+import com.fasterxml.jackson.core.JsonGenerator;
+import com.fasterxml.jackson.databind.SerializerProvider;
+import com.fasterxml.jackson.databind.ser.std.StdSerializer;
+import java.io.IOException;
 import org.smartparam.editor.model.map.ParameterEntryMap;
 
 /**
  *
  * @author Adam Dubiel
  */
-public class ParameterEntryDiff extends Diff<ParameterEntryMap> {
+public class ParameterEntryMapSerializer extends StdSerializer<ParameterEntryMap> {
 
-    public static ParameterEntryDiff initialState(ParameterEntryMap initialState) {
-        return new ParameterEntryDiff(null, initialState);
+    public ParameterEntryMapSerializer() {
+        super(ParameterEntryMap.class);
     }
 
-    public static ParameterEntryDiff lastKnownState(ParameterEntryMap lastKnownState) {
-        return new ParameterEntryDiff(lastKnownState, null);
-    }
-
-    public ParameterEntryDiff(ParameterEntryMap previous, ParameterEntryMap current) {
-        super(previous, current);
+    @Override
+    public void serialize(ParameterEntryMap value, JsonGenerator jgen, SerializerProvider provider) throws IOException {
+        jgen.writeObject(value.rawValues());
     }
 }

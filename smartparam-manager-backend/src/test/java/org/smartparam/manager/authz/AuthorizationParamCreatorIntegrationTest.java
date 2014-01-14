@@ -18,8 +18,9 @@ package org.smartparam.manager.authz;
 import org.smartparam.editor.editor.BasicParamEditor;
 import org.smartparam.editor.editor.ParamEditor;
 import org.smartparam.editor.identity.RepositoryName;
+import org.smartparam.editor.model.map.ParameterEntryMap;
+import org.smartparam.editor.model.map.Star;
 import org.smartparam.editor.model.simple.SimpleParameter;
-import org.smartparam.editor.model.simple.SimpleParameterEntry;
 import org.smartparam.editor.viewer.BasicParamViewer;
 import org.smartparam.editor.viewer.ParamViewer;
 import org.smartparam.editor.viewer.ParameterEntriesFilter;
@@ -28,7 +29,6 @@ import org.smartparam.engine.config.ParamEngineConfigBuilder;
 import org.smartparam.engine.config.ParamEngineFactory;
 import org.smartparam.engine.core.ParamEngine;
 import org.smartparam.engine.core.output.ParamValue;
-import org.smartparam.engine.core.parameter.ParameterEntry;
 import org.smartparam.repository.memory.InMemoryParamRepository;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
@@ -90,8 +90,8 @@ public class AuthorizationParamCreatorIntegrationTest {
     public void shouldCreateOnlyMissingAuthzParameters() {
         // given
         paramEditor.createParameter(REPOSITORY_NAME, new SimpleParameter().withName(LOGIN_AUTHZ_PARAMETER));
-        paramEditor.addEntry(REPOSITORY_NAME, LOGIN_AUTHZ_PARAMETER, new SimpleParameterEntry());
-        paramEditor.addEntry(REPOSITORY_NAME, LOGIN_AUTHZ_PARAMETER, new SimpleParameterEntry());
+        paramEditor.addEntry(REPOSITORY_NAME, LOGIN_AUTHZ_PARAMETER, new ParameterEntryMap());
+        paramEditor.addEntry(REPOSITORY_NAME, LOGIN_AUTHZ_PARAMETER, new ParameterEntryMap());
 
         // when
         paramCreator.createNonExisting();
@@ -119,7 +119,7 @@ public class AuthorizationParamCreatorIntegrationTest {
 
         // then
         ParamValue value = paramEngine.get(LOGIN_AUTHZ_PARAMETER, "testLogin", "testAction", "someParameter");
-        assertThat(value).isNull();
+        assertThat(value.isEmpty()).isTrue();
     }
 
     @Test
@@ -128,18 +128,26 @@ public class AuthorizationParamCreatorIntegrationTest {
         paramCreator.createNonExisting();
 
         // then
-        ParameterEntry initialEntry = paramViewer.listParameterEntries(REPOSITORY_NAME, ROLE_AUTHZ_PARAMETER, ParameterEntriesFilter.empty()).firstItem();
-        assertThat(initialEntry.getLevels()).containsExactly("*", "*", "*", "true");
+        ParameterEntryMap initialEntry = paramViewer.listParameterEntries(REPOSITORY_NAME, ROLE_AUTHZ_PARAMETER, ParameterEntriesFilter.empty()).firstItem();
+        assertThat(initialEntry.get("role")).isEqualTo(Star.star());
+        assertThat(initialEntry.get("action")).isEqualTo(Star.star());
+        assertThat(initialEntry.get("parameter")).isEqualTo(Star.star());
+        assertThat(initialEntry.get("authorized")).isEqualTo(true);
     }
 
     @Test
     public void shouldCreateValidRoleAuthorizationParameterThatCanBeCalledFromParamEngine() {
         // given
         paramCreator.createNonExisting();
-        paramEditor.addEntry(REPOSITORY_NAME, ROLE_AUTHZ_PARAMETER, new SimpleParameterEntry("testLogin", "testAction", "*", "false"));
+        ParameterEntryMap map = new ParameterEntryMap()
+                .put("role", "testRole")
+                .put("action", "testAction")
+                .put("parameter", Star.star())
+                .put("authorized", false);
+        paramEditor.addEntry(REPOSITORY_NAME, ROLE_AUTHZ_PARAMETER, map);
 
         // when
-        boolean authorized = paramEngine.get(ROLE_AUTHZ_PARAMETER, "testLogin", "testAction", "someParameter").get();
+        boolean authorized = paramEngine.get(ROLE_AUTHZ_PARAMETER, "testRole", "testAction", "someParameter").get();
 
         // then
         assertThat(authorized).isFalse();

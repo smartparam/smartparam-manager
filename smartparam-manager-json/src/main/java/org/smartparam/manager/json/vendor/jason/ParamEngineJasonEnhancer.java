@@ -20,6 +20,7 @@ import org.jasonjson.core.JasonBuilder;
 import org.smartparam.editor.identity.DescribedCollection;
 import org.smartparam.editor.identity.DescribedEntity;
 import org.smartparam.editor.identity.RepositoryName;
+import org.smartparam.editor.model.map.ParameterEntryMap;
 
 /**
  *
@@ -36,6 +37,7 @@ public final class ParamEngineJasonEnhancer {
                 .registerTypeAdapterFactory(new LevelKeySerializer())
                 .registerTypeAdapterFactory(new ParameterEntryKeySerializer())
                 .registerTypeAdapter(RepositoryName.class, new RepositoryNameSerializer())
+                .registerTypeAdapter(ParameterEntryMap.class, new ParameterEntryMapSerializer())
                 .registerTypeAdapterFactory(new ParameterDiffSerializer())
                 .registerTypeAdapterFactory(new ParameterEntryDiffSerializer());
     }

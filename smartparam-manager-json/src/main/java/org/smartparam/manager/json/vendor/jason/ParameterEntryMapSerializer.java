@@ -13,25 +13,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.smartparam.manager.audit.diff;
+package org.smartparam.manager.json.vendor.jason;
 
+import java.lang.reflect.Type;
+import org.jasonjson.core.JsonElement;
+import org.jasonjson.core.JsonSerializationContext;
+import org.jasonjson.core.JsonSerializer;
 import org.smartparam.editor.model.map.ParameterEntryMap;
 
 /**
  *
  * @author Adam Dubiel
  */
-public class ParameterEntryDiff extends Diff<ParameterEntryMap> {
+public class ParameterEntryMapSerializer implements JsonSerializer<ParameterEntryMap> {
 
-    public static ParameterEntryDiff initialState(ParameterEntryMap initialState) {
-        return new ParameterEntryDiff(null, initialState);
-    }
-
-    public static ParameterEntryDiff lastKnownState(ParameterEntryMap lastKnownState) {
-        return new ParameterEntryDiff(lastKnownState, null);
-    }
-
-    public ParameterEntryDiff(ParameterEntryMap previous, ParameterEntryMap current) {
-        super(previous, current);
+    @Override
+    public JsonElement serialize(ParameterEntryMap src, Type typeOfSrc, JsonSerializationContext context) {
+        return context.serialize(src.rawValues());
     }
 }

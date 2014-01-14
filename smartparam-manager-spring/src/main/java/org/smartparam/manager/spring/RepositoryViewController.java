@@ -21,13 +21,13 @@ import org.smartparam.editor.capabilities.RepositoryCapabilities;
 import org.smartparam.editor.identity.DescribedCollection;
 import org.smartparam.editor.identity.DescribedEntity;
 import org.smartparam.editor.identity.RepositoryName;
+import org.smartparam.editor.model.map.ParameterEntryMap;
 import org.smartparam.editor.viewer.LevelSorting;
 import org.smartparam.editor.viewer.ParamViewer;
 import org.smartparam.editor.viewer.ParameterEntriesFilter;
 import org.smartparam.editor.viewer.ParameterFilter;
 import org.smartparam.editor.viewer.SortDirection;
 import org.smartparam.engine.core.parameter.Parameter;
-import org.smartparam.engine.core.parameter.ParameterEntry;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -74,7 +74,7 @@ public class RepositoryViewController {
 
     @RequestMapping(value = "{from}/parameters/{name}/entries", method = RequestMethod.GET)
     @ResponseBody
-    public DescribedCollection<ParameterEntry> parameterEntries(@PathVariable("from") String from,
+    public DescribedCollection<ParameterEntryMap> parameterEntries(@PathVariable("from") String from,
             @PathVariable("name") String name,
             @RequestParam(required = false, defaultValue = "0", value = "page") int page,
             @RequestParam(required = false, defaultValue = "100", value = "pageSize") int pageSize,

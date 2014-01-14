@@ -63,6 +63,6 @@ public class ParamAuthorizationCheckpoint implements AuthorizationCheckpoint {
     private Boolean authorizeUsing(AuthorizationMethod method, UserProfile profile, Action action, RepositoryName repository, String parameter) {
         String parameterName = METHOD_PARAMETER.get(method);
         ParamValue value = paramEngine.get(parameterName, new AuthorizationParamContext(parameter, action, profile));
-        return value == null ? null : value.getHolder().booleanValue();
+        return value.isEmpty() ? null : value.getHolder().booleanValue();
     }
 }

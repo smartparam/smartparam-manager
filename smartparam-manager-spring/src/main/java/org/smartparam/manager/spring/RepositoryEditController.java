@@ -22,12 +22,11 @@ import org.smartparam.editor.editor.ParamEditor;
 import org.smartparam.editor.identity.RepositoryName;
 import org.smartparam.editor.model.LevelKey;
 import org.smartparam.editor.model.ParameterEntryKey;
+import org.smartparam.editor.model.map.ParameterEntryMap;
 import org.smartparam.editor.model.simple.SimpleLevel;
 import org.smartparam.editor.model.simple.SimpleLevelKey;
 import org.smartparam.editor.model.simple.SimpleParameter;
-import org.smartparam.editor.model.simple.SimpleParameterEntry;
 import org.smartparam.editor.model.simple.SimpleParameterEntryKey;
-import org.smartparam.engine.core.parameter.ParameterEntry;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -96,13 +95,13 @@ public class RepositoryEditController {
 
     @RequestMapping(value = "{in}/parameters/{name}/entries", method = RequestMethod.PUT)
     @ResponseBody
-    public Collection<ParameterEntryKey> addEntries(@PathVariable("in") String in, @PathVariable("name") String parameter, @RequestBody List<SimpleParameterEntry> entries) {
-        return paramEditor.addEntries(new RepositoryName(in), parameter, new ArrayList<ParameterEntry>(entries)).items();
+    public Collection<ParameterEntryKey> addEntries(@PathVariable("in") String in, @PathVariable("name") String parameter, @RequestBody List<ParameterEntryMap> entries) {
+        return paramEditor.addEntries(new RepositoryName(in), parameter, new ArrayList<ParameterEntryMap>(entries)).items();
     }
 
     @RequestMapping(value = "{in}/parameters/{name}/entries/{entryKey}", method = RequestMethod.POST)
     @ResponseBody
-    public void updateEntry(@PathVariable("in") String in, @PathVariable("name") String parameter, @PathVariable("entryKey") String entryKey, @RequestBody SimpleParameterEntry entry) {
+    public void updateEntry(@PathVariable("in") String in, @PathVariable("name") String parameter, @PathVariable("entryKey") String entryKey, @RequestBody ParameterEntryMap entry) {
         paramEditor.updateEntry(new RepositoryName(in), parameter, new SimpleParameterEntryKey(entryKey), entry);
     }
 

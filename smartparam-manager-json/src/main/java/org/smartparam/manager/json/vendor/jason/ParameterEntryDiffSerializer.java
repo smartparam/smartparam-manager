@@ -23,7 +23,7 @@ import org.jasonjson.core.stream.JsonWriter;
 import java.io.IOException;
 import org.jasonjson.core.Jason;
 import org.jasonjson.core.filter.RuntimeFilters;
-import org.smartparam.editor.model.simple.SimpleParameterEntry;
+import org.smartparam.editor.model.map.ParameterEntryMap;
 import org.smartparam.manager.audit.diff.ParameterEntryDiff;
 
 /**
@@ -50,9 +50,9 @@ public class ParameterEntryDiffSerializer implements TypeAdapterFactory {
                 public ParameterEntryDiff read(JsonReader in, RuntimeFilters filters) throws IOException {
                     in.beginObject();
                     in.nextName();
-                    SimpleParameterEntry previous = jason.fromJson(in, SimpleParameterEntry.class);
+                    ParameterEntryMap previous = jason.fromJson(in, ParameterEntryMap.class);
                     in.nextName();
-                    SimpleParameterEntry current = jason.fromJson(in, SimpleParameterEntry.class);
+                    ParameterEntryMap current = jason.fromJson(in, ParameterEntryMap.class);
                     in.endObject();
 
                     return new ParameterEntryDiff(previous, current);

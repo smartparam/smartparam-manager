@@ -25,10 +25,10 @@ import org.smartparam.editor.model.EditableParameter;
 import org.smartparam.editor.model.LevelKey;
 import org.smartparam.editor.model.ParameterEntryKey;
 import org.smartparam.editor.model.ParameterKey;
+import org.smartparam.editor.model.map.ParameterEntryMap;
 import org.smartparam.editor.viewer.ParamViewer;
 import org.smartparam.engine.core.parameter.Level;
 import org.smartparam.engine.core.parameter.Parameter;
-import org.smartparam.engine.core.parameter.ParameterEntry;
 import org.smartparam.manager.audit.EventDescription;
 import org.smartparam.manager.audit.EventsLogger;
 import org.smartparam.manager.authz.UserProfile;
@@ -172,7 +172,7 @@ public class BasicParamManager implements ParamManager {
     }
 
     @Override
-    public ParameterEntryAdditionResult addEntries(final UserProfile responsible, final RepositoryName in, final String parameterName, final List<ParameterEntry> entries) {
+    public ParameterEntryAdditionResult addEntries(final UserProfile responsible, final RepositoryName in, final String parameterName, final List<ParameterEntryMap> entries) {
         return authorizationRunner.runAction(responsible, in, Action.ADD_ENTRY, parameterName, new AuthorizedAction<ParameterEntryAdditionResult>() {
             @Override
             public ParameterEntryAdditionResult perform() {
@@ -187,12 +187,12 @@ public class BasicParamManager implements ParamManager {
     }
 
     @Override
-    public Result updateEntry(final UserProfile responsible, final RepositoryName in, final String parameterName, final ParameterEntryKey entryKey, final ParameterEntry entry) {
+    public Result updateEntry(final UserProfile responsible, final RepositoryName in, final String parameterName, final ParameterEntryKey entryKey, final ParameterEntryMap entry) {
         return authorizationRunner.runAction(responsible, in, Action.UPDATE_ENTRY, parameterName, new AuthorizedAction<Result>() {
             @Override
             public Result perform() {
                 EditableParameter parameterMetadata = (EditableParameter) paramViewer.getParameterMetadata(in, parameterName).data();
-                ParameterEntry previousState = paramViewer.getParameterEntries(in, parameterName, Arrays.asList(entryKey)).firstItem();
+                ParameterEntryMap previousState = paramViewer.getParameterEntries(in, parameterName, Arrays.asList(entryKey)).firstItem();
                 paramEditor.updateEntry(in, parameterName, entryKey, entry);
 
                 eventsLogger.logEntryChange(new EventDescription(responsible, in, parameterMetadata.getKey()), entryKey, previousState, entry);
@@ -208,7 +208,7 @@ public class BasicParamManager implements ParamManager {
             @Override
             public Result perform() {
                 EditableParameter parameterMetadata = (EditableParameter) paramViewer.getParameterMetadata(in, parameterName).data();
-                DescribedCollection<ParameterEntry> previousState = paramViewer.getParameterEntries(in, parameterName, entryKeys);
+                DescribedCollection<ParameterEntryMap> previousState = paramViewer.getParameterEntries(in, parameterName, entryKeys);
                 paramEditor.deleteEntries(in, parameterName, entryKeys);
 
                 eventsLogger.logEntryDeletion(new EventDescription(responsible, in, parameterMetadata.getKey()), entryKeys, previousState.itemsList());

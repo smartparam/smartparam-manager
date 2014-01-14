@@ -15,28 +15,28 @@
  */
 package org.smartparam.manager.json.integration;
 
-import java.util.HashMap;
-import java.util.Map;
+import org.jasonjson.core.Jason;
+import org.smartparam.manager.json.vendor.jason.ParamEngineJasonEnhancer;
 
 /**
  *
  * @author Adam Dubiel
  */
-public class SerializerRegistry {
+public class JasonSerializerFactory {
 
-    private final Map<String, Serializer> serializers = new HashMap<String, Serializer>();
-
-    public SerializerRegistry() {
-        register("jackson", JacksonSerializerFactory.serializer());
-        register("gson", GsonSerializerFactory.serializer());
-        register("jason", JasonSerializerFactory.serializer());
+    public static Serializer serializer() {
+        return new JasonSerializerFactory().jason();
     }
 
-    public final void register(String name, Serializer serializer) {
-        this.serializers.put(name, serializer);
+    private Serializer jason() {
+        final Jason jason = ParamEngineJasonEnhancer.createEnhanced();
+
+        return new Serializer() {
+            @Override
+            public String serialize(Object object) {
+                return jason.toJson(object);
+            }
+        };
     }
 
-    public Serializer get(String name) {
-        return serializers.get(name);
-    }
 }

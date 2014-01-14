@@ -44,6 +44,13 @@
             <scope>provided</scope>
         </dependency>
 
+        <dependency>
+            <groupId>org.jasonjson</groupId>
+            <artifactId>jason</artifactId>
+            <version>0.1.0</version>
+            <scope>provided</scope>
+        </dependency>
+
         <!-- logging -->
         <dependency>
             <groupId>org.slf4j</groupId>

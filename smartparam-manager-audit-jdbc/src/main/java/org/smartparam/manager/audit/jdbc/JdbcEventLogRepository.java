@@ -38,6 +38,13 @@ public class JdbcEventLogRepository implements EventLogRepository, Initializable
 
     private SchemaCreator schemaCreator;
 
+    public JdbcEventLogRepository(TransactionRunner transactionRunner,
+                JdbcEventLogEntryDAO jdbcEventLogEntryDAO, SchemaCreator schemaCreator) {
+        this.transactionRunner = transactionRunner;
+        this.jdbcEventLogEntryDAO = jdbcEventLogEntryDAO;
+        this.schemaCreator = schemaCreator;
+    }
+
     @Override
     public boolean supports(Class<? extends EventLogEntry> entryClass) {
         return true;

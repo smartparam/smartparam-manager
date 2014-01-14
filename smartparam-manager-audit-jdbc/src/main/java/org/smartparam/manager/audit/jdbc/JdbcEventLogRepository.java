@@ -32,14 +32,14 @@ import org.smartparam.manager.audit.EventLogEntry;
  */
 public class JdbcEventLogRepository implements EventLogRepository, InitializableComponent {
 
-    private TransactionRunner transactionRunner;
+    private final TransactionRunner transactionRunner;
 
-    private JdbcEventLogEntryDAO jdbcEventLogEntryDAO;
+    private final JdbcEventLogEntryDAO jdbcEventLogEntryDAO;
 
-    private SchemaCreator schemaCreator;
+    private final SchemaCreator schemaCreator;
 
     public JdbcEventLogRepository(TransactionRunner transactionRunner,
-                JdbcEventLogEntryDAO jdbcEventLogEntryDAO, SchemaCreator schemaCreator) {
+            JdbcEventLogEntryDAO jdbcEventLogEntryDAO, SchemaCreator schemaCreator) {
         this.transactionRunner = transactionRunner;
         this.jdbcEventLogEntryDAO = jdbcEventLogEntryDAO;
         this.schemaCreator = schemaCreator;
@@ -55,6 +55,7 @@ public class JdbcEventLogRepository implements EventLogRepository, Initializable
         schemaCreator.createSchema();
     }
 
+    @Override
     public List<EventLogEntry> list(final EventLogFilters filters) {
         return transactionRunner.run(new TransactionWrapper<List<EventLogEntry>>() {
             @Override

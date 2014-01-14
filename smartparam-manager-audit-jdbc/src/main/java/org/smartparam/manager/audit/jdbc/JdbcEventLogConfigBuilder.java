@@ -16,6 +16,7 @@
 package org.smartparam.manager.audit.jdbc;
 
 import org.polyjdbc.core.dialect.Dialect;
+import org.polyjdbc.core.dialect.DialectRegistry;
 
 /**
  *
@@ -27,6 +28,10 @@ public final class JdbcEventLogConfigBuilder {
 
     private JdbcEventLogConfigBuilder(Dialect dialect) {
         this.config = new JdbcEventLogConfig(dialect);
+    }
+
+    public static JdbcEventLogConfigBuilder jdbcEventLogConfig(String dialectCode) {
+        return new JdbcEventLogConfigBuilder(DialectRegistry.dialect(dialectCode));
     }
 
     public static JdbcEventLogConfigBuilder jdbcEventLogConfig(Dialect dialect) {

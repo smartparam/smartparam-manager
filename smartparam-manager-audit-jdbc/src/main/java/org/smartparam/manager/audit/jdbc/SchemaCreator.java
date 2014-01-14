@@ -65,9 +65,10 @@ public class SchemaCreator {
                 schema.addIndex(config.indexPrefix() + entityName + "_parameter_key").indexing("parameter_key").on(entityName).build();
                 schema.addIndex(config.indexPrefix() + entityName + "_parameter_entry_key").indexing("parameter_entry_key").on(entityName).build();
                 schema.addSequence(config.sequenceName()).build();
+
+                schemaManager.create(schema);
             }
 
-            schemaManager.create(schema);
         } finally {
             TheCloser.close(schemaManager, schemaInspector);
         }

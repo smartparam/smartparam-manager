@@ -79,19 +79,10 @@ public class RepositoryViewController {
             @RequestParam(required = false, defaultValue = "0", value = "page") int page,
             @RequestParam(required = false, defaultValue = "100", value = "pageSize") int pageSize,
             @RequestParam(required = false, defaultValue = "", value = "filters") String[] filters,
-            @RequestParam(required = false, defaultValue = "", value = "orderBy") int[] orderBy,
+            @RequestParam(required = false, defaultValue = "", value = "orderBy") String[] orderBy,
             @RequestParam(required = false, defaultValue = "", value = "order") SortDirection[] order) {
 
-        List<LevelSorting> sorting = new ArrayList<LevelSorting>();
-        for (int index = 0; index < orderBy.length; ++index) {
-            sorting.add(
-                    index < order.length
-                    ? new LevelSorting(orderBy[index], order[index])
-                    : new LevelSorting(orderBy[index])
-            );
-        }
-
-        ParameterEntriesFilter entiresFilter = new ParameterEntriesFilter(page, pageSize, filters, sorting);
-        return paramViewer.listParameterEntries(new RepositoryName(from), name, entiresFilter);
+        // FIXME make filtering!
+        return paramViewer.listParameterEntries(new RepositoryName(from), name, null);
     }
 }

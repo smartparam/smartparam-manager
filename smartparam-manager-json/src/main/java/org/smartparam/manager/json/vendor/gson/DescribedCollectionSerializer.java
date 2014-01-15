@@ -20,7 +20,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
 import java.lang.reflect.Type;
-import org.smartparam.editor.identity.DescribedCollection;
+import org.smartparam.editor.core.identity.DescribedCollection;
 
 /**
  *

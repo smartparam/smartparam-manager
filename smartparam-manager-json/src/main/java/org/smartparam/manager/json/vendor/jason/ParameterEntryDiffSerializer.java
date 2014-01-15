@@ -23,7 +23,7 @@ import org.jasonjson.core.stream.JsonWriter;
 import java.io.IOException;
 import org.jasonjson.core.Jason;
 import org.jasonjson.core.filter.RuntimeFilters;
-import org.smartparam.editor.model.map.ParameterEntryMap;
+import org.smartparam.editor.core.entry.ParameterEntryMap;
 import org.smartparam.manager.audit.diff.ParameterEntryDiff;
 
 /**

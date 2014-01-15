@@ -16,8 +16,8 @@
 package org.smartparam.manager.audit;
 
 import java.util.List;
-import org.smartparam.editor.model.ParameterEntryKey;
-import org.smartparam.editor.model.map.ParameterEntryMap;
+import org.smartparam.editor.core.model.ParameterEntryKey;
+import org.smartparam.editor.core.entry.ParameterEntryMap;
 import org.smartparam.engine.core.parameter.Parameter;
 import org.smartparam.manager.authz.Action;
 

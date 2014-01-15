@@ -16,7 +16,7 @@
 package org.smartparam.manager.json;
 
 import com.jayway.jsonassert.JsonAssert;
-import org.smartparam.editor.model.map.ParameterEntryMap;
+import org.smartparam.editor.core.entry.ParameterEntryMap;
 import org.smartparam.manager.audit.diff.ParameterEntryDiff;
 import org.smartparam.manager.json.integration.SerializerTest;
 import org.testng.annotations.Test;

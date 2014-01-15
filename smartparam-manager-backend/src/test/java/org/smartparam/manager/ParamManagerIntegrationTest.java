@@ -17,10 +17,12 @@ package org.smartparam.manager;
 
 import java.util.Arrays;
 import java.util.List;
-import org.smartparam.editor.identity.RepositoryName;
-import org.smartparam.editor.model.LevelKey;
-import org.smartparam.editor.model.ParameterEntryKey;
-import org.smartparam.editor.model.map.ParameterEntryMap;
+import org.smartparam.editor.core.identity.RepositoryName;
+import org.smartparam.editor.core.model.LevelKey;
+import org.smartparam.editor.core.model.ParameterEntryKey;
+import org.smartparam.editor.core.entry.ParameterEntryMap;
+import org.smartparam.editor.core.store.ParamRepositoryNaming;
+import org.smartparam.editor.core.store.ParamRepositoryNamingBuilder;
 import org.smartparam.editor.model.simple.SimpleLevel;
 import org.smartparam.editor.model.simple.SimpleParameter;
 import org.smartparam.editor.model.simple.SimpleParameterEntry;
@@ -28,7 +30,6 @@ import org.smartparam.engine.config.ParamEngineConfig;
 import org.smartparam.engine.config.ParamEngineConfigBuilder;
 import org.smartparam.engine.config.ParamEngineFactory;
 import org.smartparam.engine.core.ParamEngine;
-import org.smartparam.engine.core.parameter.ParameterEntry;
 import org.smartparam.manager.audit.InMemoryEventLogRepository;
 import org.smartparam.manager.authz.Action;
 import org.smartparam.manager.authz.AuthorizationConfig;
@@ -70,10 +71,13 @@ public class ParamManagerIntegrationTest {
                 .registerModule(new ParamManagerModule()).build();
         paramEngine = ParamEngineFactory.paramEngine(paramEngineConfig);
 
-        ParamManagerConfig paramManagerConfig = ParamManagerConfigBuilder.paramManagerConfig(paramEngine)
+        ParamRepositoryNaming repositoryNaming = ParamRepositoryNamingBuilder.repositoryNaming()
+                .registerAs(InMemoryParamRepository.class, REPOSITORY_NAME.name())
+                .build();
+
+        ParamManagerConfig paramManagerConfig = ParamManagerConfigBuilder.paramManagerConfig(paramEngine, repositoryNaming)
                 .enableAuthorization(new AuthorizationConfig(REPOSITORY_NAME))
                 .enableAuditing(inMemoryEventLogRepository, new FakeJsonAdapter())
-                .withRepositoryKnownAs(InMemoryParamRepository.class, "memoryRepository")
                 .build();
         paramManager = ParamManagerFactory.paramManager(paramManagerConfig);
     }

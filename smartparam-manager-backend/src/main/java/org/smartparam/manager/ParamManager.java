@@ -16,10 +16,12 @@
 package org.smartparam.manager;
 
 import java.util.List;
-import org.smartparam.editor.identity.RepositoryName;
-import org.smartparam.editor.model.LevelKey;
-import org.smartparam.editor.model.ParameterEntryKey;
-import org.smartparam.editor.model.map.ParameterEntryMap;
+import org.smartparam.editor.core.ParamEditor;
+import org.smartparam.editor.core.ParamViewer;
+import org.smartparam.editor.core.identity.RepositoryName;
+import org.smartparam.editor.core.model.LevelKey;
+import org.smartparam.editor.core.model.ParameterEntryKey;
+import org.smartparam.editor.core.entry.ParameterEntryMap;
 import org.smartparam.engine.core.parameter.Level;
 import org.smartparam.engine.core.parameter.Parameter;
 import org.smartparam.manager.authz.UserProfile;
@@ -34,6 +36,10 @@ import org.smartparam.manager.result.Result;
  */
 public interface ParamManager {
 
+    ParamViewer viewer();
+
+    ParamEditor editor();
+
     ParameterAdditionResult createParameter(UserProfile responsible, RepositoryName in, Parameter newState);
 
     Result updateParameter(UserProfile responsible, RepositoryName in, String parameterName, Parameter newState);
@@ -47,6 +53,8 @@ public interface ParamManager {
     Result updateLevel(UserProfile responsible, RepositoryName in, String parameterName, LevelKey levelKey, Level level);
 
     Result deleteLevel(UserProfile responsible, RepositoryName in, String parameterName, LevelKey levelKey);
+
+    ParameterEntryAdditionResult addEntry(UserProfile responsible, RepositoryName in, String parameterName, ParameterEntryMap entry);
 
     ParameterEntryAdditionResult addEntries(UserProfile responsible, RepositoryName in, String parameterName, List<ParameterEntryMap> entries);
 

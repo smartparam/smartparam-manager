@@ -17,7 +17,7 @@ package org.smartparam.manager.authz;
 
 import java.util.EnumMap;
 import java.util.Map;
-import org.smartparam.editor.identity.RepositoryName;
+import org.smartparam.editor.core.identity.RepositoryName;
 import org.smartparam.engine.core.ParamEngine;
 import org.smartparam.engine.core.output.ParamValue;
 

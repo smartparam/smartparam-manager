@@ -17,7 +17,7 @@ package org.smartparam.manager.json;
 
 import org.smartparam.manager.json.integration.SerializerTest;
 import com.jayway.jsonassert.JsonAssert;
-import org.smartparam.editor.identity.RepositoryName;
+import org.smartparam.editor.core.identity.RepositoryName;
 import org.testng.annotations.Test;
 import static org.hamcrest.Matchers.*;
 

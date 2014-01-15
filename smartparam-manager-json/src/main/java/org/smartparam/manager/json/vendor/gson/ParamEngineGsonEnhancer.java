@@ -17,10 +17,10 @@ package org.smartparam.manager.json.vendor.gson;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import org.smartparam.editor.identity.DescribedCollection;
-import org.smartparam.editor.identity.DescribedEntity;
-import org.smartparam.editor.identity.RepositoryName;
-import org.smartparam.editor.model.map.ParameterEntryMap;
+import org.smartparam.editor.core.identity.DescribedCollection;
+import org.smartparam.editor.core.identity.DescribedEntity;
+import org.smartparam.editor.core.identity.RepositoryName;
+import org.smartparam.editor.core.entry.ParameterEntryMap;
 
 /**
  *

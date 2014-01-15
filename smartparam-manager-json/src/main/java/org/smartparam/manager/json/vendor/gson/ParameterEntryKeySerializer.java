@@ -22,7 +22,7 @@ import com.google.gson.reflect.TypeToken;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import java.io.IOException;
-import org.smartparam.editor.model.ParameterEntryKey;
+import org.smartparam.editor.core.model.ParameterEntryKey;
 import org.smartparam.editor.model.simple.SimpleParameterEntryKey;
 
 /**

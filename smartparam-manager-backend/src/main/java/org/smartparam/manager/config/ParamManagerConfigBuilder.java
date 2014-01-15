@@ -15,13 +15,14 @@
  */
 package org.smartparam.manager.config;
 
-import org.smartparam.editor.editor.ParamEditor;
-import org.smartparam.editor.store.ParamRepositoryNaming;
-import org.smartparam.editor.store.ParamRepositoryNamingBuilder;
-import org.smartparam.editor.viewer.ParamViewer;
+import org.smartparam.editor.config.ParamEditorConfig;
+import org.smartparam.editor.config.ParamEditorConfigBuilder;
+import org.smartparam.editor.config.ParamEditorFactory;
+import org.smartparam.editor.core.ParamEditor;
+import org.smartparam.editor.core.store.ParamRepositoryNaming;
+import org.smartparam.editor.core.ParamViewer;
 import org.smartparam.engine.config.pico.ComponentDefinition;
 import org.smartparam.engine.core.ParamEngine;
-import org.smartparam.engine.core.parameter.ParamRepository;
 import org.smartparam.manager.adapter.JsonAdapter;
 import org.smartparam.manager.audit.BasicEventsLogger;
 import org.smartparam.manager.audit.EventLogEntryFactory;
@@ -44,18 +45,28 @@ public final class ParamManagerConfigBuilder {
 
     private final ParamManagerConfig config;
 
-    private final ParamRepositoryNamingBuilder repositoryNamingBuilder = ParamRepositoryNamingBuilder.repositoryNaming();
-
-    private ParamManagerConfigBuilder(ParamEngine paramEngine) {
-        this.config = new ParamManagerConfig(paramEngine);
+    private ParamManagerConfigBuilder(ParamEngine paramEngine, ParamEditor paramEditor, ParamViewer paramViewer) {
+        this.config = new ParamManagerConfig(paramEngine, paramEditor.runtimeConfig().repositoryNaming());
+        this.config.addComponent(component(ParamEditor.class, paramEditor));
+        this.config.addComponent(component(ParamViewer.class, paramViewer));
     }
 
-    public static ParamManagerConfigBuilder paramManagerConfig(ParamEngine paramEngine) {
-        return new ParamManagerConfigBuilder(paramEngine);
+    public static ParamManagerConfigBuilder paramManagerConfig(ParamEngine paramEngine, ParamEditor paramEditor, ParamViewer paramViewer) {
+        return new ParamManagerConfigBuilder(paramEngine, paramEditor, paramViewer);
+    }
+
+    public static ParamManagerConfigBuilder paramManagerConfig(ParamEngine paramEngine, ParamEditorConfig editorConfig) {
+        ParamEditorFactory factory = new ParamEditorFactory(editorConfig);
+        return paramManagerConfig(paramEngine, factory.editor(), factory.viewer());
+    }
+
+    public static ParamManagerConfigBuilder paramManagerConfig(ParamEngine paramEngine, ParamRepositoryNaming naming) {
+        ParamEditorConfig editorConfig = ParamEditorConfigBuilder.paramEditorConfig(paramEngine)
+                .withRepositoryNaming(naming).build();
+        return paramManagerConfig(paramEngine, editorConfig);
     }
 
     public ParamManagerConfig build() {
-        config.addComponent(component(ParamRepositoryNaming.class, repositoryNamingBuilder.build()));
         return config;
     }
 
@@ -86,11 +97,6 @@ public final class ParamManagerConfigBuilder {
         return this;
     }
 
-    public ParamManagerConfigBuilder withRepositoryKnownAs(Class<? extends ParamRepository> reposioryClass, String... consequentNames) {
-        repositoryNamingBuilder.registerAs(reposioryClass, consequentNames);
-        return this;
-    }
-
     public ParamManagerConfigBuilder withAuthorizationRunner(AuthorizationRunner authorizationRunner) {
         config.addComponent(component(AuthorizationRunner.class, authorizationRunner));
         return this;
@@ -98,16 +104,6 @@ public final class ParamManagerConfigBuilder {
 
     public ParamManagerConfigBuilder withTimeProvider(TimeProvider timeProvider) {
         config.addComponent(component(TimeProvider.class, timeProvider));
-        return this;
-    }
-
-    public ParamManagerConfigBuilder withParamViewer(ParamViewer viewer) {
-        config.addComponent(component(ParamViewer.class, viewer));
-        return this;
-    }
-
-    public ParamManagerConfigBuilder withParamEditor(ParamEditor editor) {
-        config.addComponent(component(ParamEditor.class, editor));
         return this;
     }
 

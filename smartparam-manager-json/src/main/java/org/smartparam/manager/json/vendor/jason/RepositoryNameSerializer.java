@@ -21,7 +21,7 @@ import org.jasonjson.core.JsonPrimitive;
 import org.jasonjson.core.JsonSerializationContext;
 import org.jasonjson.core.JsonSerializer;
 import java.lang.reflect.Type;
-import org.smartparam.editor.identity.RepositoryName;
+import org.smartparam.editor.core.identity.RepositoryName;
 
 /**
  *

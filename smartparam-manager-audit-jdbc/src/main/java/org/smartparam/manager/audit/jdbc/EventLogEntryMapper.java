@@ -18,7 +18,7 @@ package org.smartparam.manager.audit.jdbc;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import org.polyjdbc.core.query.mapper.ObjectMapper;
-import org.smartparam.editor.identity.RepositoryName;
+import org.smartparam.editor.core.identity.RepositoryName;
 import org.smartparam.editor.model.simple.SimpleParameterEntryKey;
 import org.smartparam.editor.model.simple.SimpleParameterKey;
 import org.smartparam.manager.authz.Action;

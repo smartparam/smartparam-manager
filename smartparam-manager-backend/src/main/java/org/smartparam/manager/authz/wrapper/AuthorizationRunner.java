@@ -15,7 +15,7 @@
  */
 package org.smartparam.manager.authz.wrapper;
 
-import org.smartparam.editor.identity.RepositoryName;
+import org.smartparam.editor.core.identity.RepositoryName;
 import org.smartparam.manager.authz.Action;
 import org.smartparam.manager.authz.UserProfile;
 import org.smartparam.manager.result.Result;

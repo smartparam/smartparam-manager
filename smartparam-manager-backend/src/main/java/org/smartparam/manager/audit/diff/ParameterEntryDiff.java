@@ -15,7 +15,7 @@
  */
 package org.smartparam.manager.audit.diff;
 
-import org.smartparam.editor.model.map.ParameterEntryMap;
+import org.smartparam.editor.core.entry.ParameterEntryMap;
 
 /**
  *

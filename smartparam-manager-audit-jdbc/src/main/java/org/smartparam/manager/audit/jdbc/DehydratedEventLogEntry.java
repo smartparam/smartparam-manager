@@ -15,9 +15,9 @@
  */
 package org.smartparam.manager.audit.jdbc;
 
-import org.smartparam.editor.identity.RepositoryName;
-import org.smartparam.editor.model.ParameterEntryKey;
-import org.smartparam.editor.model.ParameterKey;
+import org.smartparam.editor.core.identity.RepositoryName;
+import org.smartparam.editor.core.model.ParameterEntryKey;
+import org.smartparam.editor.core.model.ParameterKey;
 import org.smartparam.manager.authz.Action;
 import org.smartparam.manager.audit.AbstractEventLogEntry;
 

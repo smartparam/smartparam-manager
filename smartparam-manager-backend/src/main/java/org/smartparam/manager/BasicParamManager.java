@@ -18,15 +18,15 @@ package org.smartparam.manager;
 import org.smartparam.manager.authz.Action;
 import java.util.Arrays;
 import java.util.List;
-import org.smartparam.editor.editor.ParamEditor;
-import org.smartparam.editor.identity.DescribedCollection;
-import org.smartparam.editor.identity.RepositoryName;
-import org.smartparam.editor.model.EditableParameter;
-import org.smartparam.editor.model.LevelKey;
-import org.smartparam.editor.model.ParameterEntryKey;
-import org.smartparam.editor.model.ParameterKey;
-import org.smartparam.editor.model.map.ParameterEntryMap;
-import org.smartparam.editor.viewer.ParamViewer;
+import org.smartparam.editor.core.ParamEditor;
+import org.smartparam.editor.core.identity.DescribedCollection;
+import org.smartparam.editor.core.identity.RepositoryName;
+import org.smartparam.editor.core.model.EditableParameter;
+import org.smartparam.editor.core.model.LevelKey;
+import org.smartparam.editor.core.model.ParameterEntryKey;
+import org.smartparam.editor.core.model.ParameterKey;
+import org.smartparam.editor.core.entry.ParameterEntryMap;
+import org.smartparam.editor.core.ParamViewer;
 import org.smartparam.engine.core.parameter.Level;
 import org.smartparam.engine.core.parameter.Parameter;
 import org.smartparam.manager.audit.EventDescription;
@@ -60,6 +60,16 @@ public class BasicParamManager implements ParamManager {
         this.paramViewer = paramViewer;
         this.eventsLogger = eventsLogger;
         this.authorizationRunner = authorizationRunner;
+    }
+
+    @Override
+    public ParamViewer viewer() {
+        return paramViewer;
+    }
+
+    @Override
+    public ParamEditor editor() {
+        return paramEditor;
     }
 
     @Override
@@ -169,6 +179,11 @@ public class BasicParamManager implements ParamManager {
                 return RawResult.ok();
             }
         });
+    }
+
+    @Override
+    public ParameterEntryAdditionResult addEntry(UserProfile responsible, RepositoryName in, String parameterName, ParameterEntryMap entry) {
+        return addEntries(responsible, in, parameterName, Arrays.asList(entry));
     }
 
     @Override

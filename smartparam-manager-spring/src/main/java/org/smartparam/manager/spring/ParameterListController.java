@@ -16,10 +16,10 @@
 package org.smartparam.manager.spring;
 
 import java.util.List;
-import org.smartparam.editor.identity.DescribedCollection;
-import org.smartparam.editor.viewer.ParamViewer;
-import org.smartparam.editor.viewer.ParameterFilter;
-import org.smartparam.editor.viewer.SortDirection;
+import org.smartparam.editor.core.identity.DescribedCollection;
+import org.smartparam.editor.core.ParamViewer;
+import org.smartparam.editor.core.filters.ParameterFilter;
+import org.smartparam.editor.core.filters.SortDirection;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;

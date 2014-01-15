@@ -15,12 +15,12 @@
  */
 package org.smartparam.manager.authz;
 
-import org.smartparam.editor.editor.ParamEditor;
-import org.smartparam.editor.model.map.ParameterEntryMap;
-import org.smartparam.editor.model.map.Star;
+import org.smartparam.editor.core.ParamEditor;
+import org.smartparam.editor.core.entry.ParameterEntryMap;
+import org.smartparam.editor.core.entry.Star;
 import org.smartparam.editor.model.simple.SimpleLevel;
 import org.smartparam.editor.model.simple.SimpleParameter;
-import org.smartparam.editor.viewer.ParamViewer;
+import org.smartparam.editor.core.ParamViewer;
 import org.smartparam.engine.config.initialization.InitializableComponent;
 import org.smartparam.engine.types.bool.BooleanType;
 import org.smartparam.engine.types.string.StringType;

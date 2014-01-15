@@ -16,6 +16,7 @@
 package org.smartparam.manager.config;
 
 import java.util.ArrayList;
+import org.smartparam.editor.core.store.ParamRepositoryNaming;
 import org.smartparam.engine.core.ParamEngine;
 import org.smartparam.engine.core.ParamEngineRuntimeConfig;
 import org.smartparam.engine.core.parameter.ParamRepository;
@@ -45,7 +46,7 @@ public class ParamManagerFactoryTest {
     @Test
     public void shouldCreateParamManagerWithDefaultSettigns() {
         // given
-        ParamManagerConfig config = paramManagerConfig(paramEngine).build();
+        ParamManagerConfig config = paramManagerConfig(paramEngine, ParamRepositoryNaming.empty()).build();
 
         // when
         ParamManager manager = ParamManagerFactory.paramManager(config);

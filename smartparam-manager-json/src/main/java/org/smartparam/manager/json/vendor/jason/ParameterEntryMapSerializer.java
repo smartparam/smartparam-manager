@@ -19,7 +19,7 @@ import java.lang.reflect.Type;
 import org.jasonjson.core.JsonElement;
 import org.jasonjson.core.JsonSerializationContext;
 import org.jasonjson.core.JsonSerializer;
-import org.smartparam.editor.model.map.ParameterEntryMap;
+import org.smartparam.editor.core.entry.ParameterEntryMap;
 
 /**
  *

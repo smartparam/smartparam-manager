@@ -15,7 +15,7 @@
  */
 package org.smartparam.manager.audit.diff;
 
-import org.smartparam.editor.core.model.ParameterEntryKey;
+import org.smartparam.engine.core.parameter.ParameterEntryKey;
 import org.smartparam.manager.authz.Action;
 import org.smartparam.manager.audit.AbstractEventLogEntry;
 import org.smartparam.manager.audit.EventDescription;

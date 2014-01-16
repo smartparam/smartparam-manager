@@ -18,7 +18,7 @@ package org.smartparam.manager.json;
 import org.smartparam.manager.json.integration.SerializerTest;
 import com.jayway.jsonassert.JsonAssert;
 import org.smartparam.editor.core.identity.DescribedEntity;
-import org.smartparam.editor.core.identity.RepositoryName;
+import org.smartparam.engine.core.repository.RepositoryName;
 import org.testng.annotations.Test;
 
 /**

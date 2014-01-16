@@ -16,7 +16,7 @@
 package org.smartparam.manager.authz;
 
 import java.util.Arrays;
-import org.smartparam.editor.core.identity.RepositoryName;
+import org.smartparam.engine.core.repository.RepositoryName;
 import org.smartparam.engine.core.ParamEngine;
 import org.smartparam.engine.core.context.ParamContext;
 import org.smartparam.engine.core.output.ParamValueImpl;

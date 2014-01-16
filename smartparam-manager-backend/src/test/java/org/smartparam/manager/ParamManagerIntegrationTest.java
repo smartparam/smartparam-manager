@@ -17,9 +17,9 @@ package org.smartparam.manager;
 
 import java.util.Arrays;
 import java.util.List;
-import org.smartparam.editor.core.identity.RepositoryName;
-import org.smartparam.editor.core.model.LevelKey;
-import org.smartparam.editor.core.model.ParameterEntryKey;
+import org.smartparam.engine.core.repository.RepositoryName;
+import org.smartparam.engine.core.parameter.LevelKey;
+import org.smartparam.engine.core.parameter.ParameterEntryKey;
 import org.smartparam.editor.core.entry.ParameterEntryMap;
 import org.smartparam.editor.core.store.ParamRepositoryNaming;
 import org.smartparam.editor.core.store.ParamRepositoryNamingBuilder;

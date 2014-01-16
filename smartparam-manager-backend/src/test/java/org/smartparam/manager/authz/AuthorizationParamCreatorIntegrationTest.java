@@ -19,7 +19,7 @@ import org.smartparam.editor.config.ParamEditorConfig;
 import org.smartparam.editor.config.ParamEditorConfigBuilder;
 import org.smartparam.editor.config.ParamEditorFactory;
 import org.smartparam.editor.core.ParamEditor;
-import org.smartparam.editor.core.identity.RepositoryName;
+import org.smartparam.engine.core.repository.RepositoryName;
 import org.smartparam.editor.core.entry.ParameterEntryMap;
 import org.smartparam.editor.core.entry.Star;
 import org.smartparam.editor.model.simple.SimpleParameter;

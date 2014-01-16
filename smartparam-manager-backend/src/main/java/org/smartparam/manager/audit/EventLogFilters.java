@@ -15,8 +15,8 @@
  */
 package org.smartparam.manager.audit;
 
-import org.smartparam.editor.core.model.ParameterEntryKey;
-import org.smartparam.editor.core.model.ParameterKey;
+import org.smartparam.engine.core.parameter.ParameterEntryKey;
+import org.smartparam.engine.core.parameter.ParameterKey;
 
 /**
  *

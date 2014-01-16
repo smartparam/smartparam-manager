@@ -15,8 +15,8 @@
  */
 package org.smartparam.manager.audit;
 
-import org.smartparam.editor.core.identity.RepositoryName;
-import org.smartparam.editor.core.model.ParameterKey;
+import org.smartparam.engine.core.repository.RepositoryName;
+import org.smartparam.engine.core.parameter.ParameterKey;
 import org.smartparam.manager.authz.UserProfile;
 
 /**

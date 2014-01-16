@@ -15,7 +15,7 @@
  */
 package org.smartparam.manager.result;
 
-import org.smartparam.editor.core.model.ParameterKey;
+import org.smartparam.engine.core.parameter.ParameterKey;
 import org.smartparam.manager.validation.BasicMessages;
 import org.smartparam.manager.validation.Messages;
 

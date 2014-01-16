@@ -19,7 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 import org.mockito.Mock;
 import org.smartparam.editor.core.identity.DescribedCollection;
-import org.smartparam.editor.core.identity.RepositoryName;
+import org.smartparam.engine.core.repository.RepositoryName;
 import org.smartparam.editor.core.ParamViewer;
 import org.smartparam.editor.core.filters.ParameterFilter;
 import org.springframework.test.web.servlet.MockMvc;

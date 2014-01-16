@@ -19,7 +19,7 @@ import org.jasonjson.core.Jason;
 import org.jasonjson.core.JasonBuilder;
 import org.smartparam.editor.core.identity.DescribedCollection;
 import org.smartparam.editor.core.identity.DescribedEntity;
-import org.smartparam.editor.core.identity.RepositoryName;
+import org.smartparam.engine.core.repository.RepositoryName;
 import org.smartparam.editor.core.entry.ParameterEntryMap;
 
 /**

@@ -21,13 +21,12 @@ import java.util.List;
 import org.smartparam.editor.core.ParamEditor;
 import org.smartparam.editor.core.identity.DescribedCollection;
 import org.smartparam.engine.core.repository.RepositoryName;
-import org.smartparam.editor.core.model.EditableParameter;
-import org.smartparam.engine.core.parameter.LevelKey;
-import org.smartparam.engine.core.parameter.ParameterEntryKey;
+import org.smartparam.engine.core.parameter.level.LevelKey;
+import org.smartparam.engine.core.parameter.entry.ParameterEntryKey;
 import org.smartparam.engine.core.parameter.ParameterKey;
 import org.smartparam.editor.core.entry.ParameterEntryMap;
 import org.smartparam.editor.core.ParamViewer;
-import org.smartparam.engine.core.parameter.Level;
+import org.smartparam.engine.core.parameter.level.Level;
 import org.smartparam.engine.core.parameter.Parameter;
 import org.smartparam.manager.audit.EventDescription;
 import org.smartparam.manager.audit.EventsLogger;
@@ -90,7 +89,7 @@ public class BasicParamManager implements ParamManager {
         return authorizationRunner.runAction(responsible, in, Action.UPDATE_PARAMETER, parameterName, new AuthorizedAction<Result>() {
             @Override
             public Result perform() {
-                EditableParameter previousState = (EditableParameter) paramViewer.getParameterMetadata(in, parameterName).data();
+                Parameter previousState = paramViewer.getParameterMetadata(in, parameterName).data();
                 paramEditor.updateParameter(in, parameterName, newState);
                 eventsLogger.logParameterChange(new EventDescription(responsible, in, previousState.getKey()), Action.UPDATE_PARAMETER, previousState, newState);
 
@@ -104,7 +103,7 @@ public class BasicParamManager implements ParamManager {
         return authorizationRunner.runAction(responsible, in, Action.UPDATE_PARAMETER, parameterName, new AuthorizedAction<Result>() {
             @Override
             public Result perform() {
-                EditableParameter previousState = (EditableParameter) paramViewer.getParameterMetadata(in, parameterName).data();
+                Parameter previousState = paramViewer.getParameterMetadata(in, parameterName).data();
                 paramEditor.deleteParameter(in, parameterName);
                 eventsLogger.logParameterDeletion(new EventDescription(responsible, in, previousState.getKey()), previousState);
 
@@ -120,7 +119,7 @@ public class BasicParamManager implements ParamManager {
         return authorizationRunner.runAction(responsible, in, action, parameterName, new AuthorizedAction<LevelAdditionResult>() {
             @Override
             public LevelAdditionResult perform() {
-                EditableParameter previousState = (EditableParameter) paramViewer.getParameterMetadata(in, parameterName).data();
+                Parameter previousState = paramViewer.getParameterMetadata(in, parameterName).data();
                 LevelKey levelKey = paramEditor.addLevel(in, parameterName, level).data();
                 Parameter currentState = paramViewer.getParameterMetadata(in, parameterName).data();
                 eventsLogger.logParameterChange(new EventDescription(responsible, in, previousState.getKey()), action, previousState, currentState);
@@ -137,7 +136,7 @@ public class BasicParamManager implements ParamManager {
         return authorizationRunner.runAction(responsible, in, action, parameterName, new AuthorizedAction<Result>() {
             @Override
             public Result perform() {
-                EditableParameter previousState = (EditableParameter) paramViewer.getParameterMetadata(in, parameterName).data();
+                Parameter previousState = paramViewer.getParameterMetadata(in, parameterName).data();
                 paramEditor.reorderLevels(in, parameterName, levels);
                 Parameter currentState = paramViewer.getParameterMetadata(in, parameterName).data();
                 eventsLogger.logParameterChange(new EventDescription(responsible, in, previousState.getKey()), action, previousState, currentState);
@@ -154,7 +153,7 @@ public class BasicParamManager implements ParamManager {
         return authorizationRunner.runAction(responsible, in, action, parameterName, new AuthorizedAction<Result>() {
             @Override
             public Result perform() {
-                EditableParameter previousState = (EditableParameter) paramViewer.getParameterMetadata(in, parameterName).data();
+                Parameter previousState = paramViewer.getParameterMetadata(in, parameterName).data();
                 paramEditor.updateLevel(in, parameterName, levelKey, level);
                 Parameter currentState = paramViewer.getParameterMetadata(in, parameterName).data();
                 eventsLogger.logParameterChange(new EventDescription(responsible, in, previousState.getKey()), action, previousState, currentState);
@@ -171,7 +170,7 @@ public class BasicParamManager implements ParamManager {
         return authorizationRunner.runAction(responsible, in, action, parameterName, new AuthorizedAction<Result>() {
             @Override
             public Result perform() {
-                EditableParameter previousState = (EditableParameter) paramViewer.getParameterMetadata(in, parameterName).data();
+                Parameter previousState = paramViewer.getParameterMetadata(in, parameterName).data();
                 paramEditor.deleteLevel(in, parameterName, levelKey);
                 Parameter currentState = paramViewer.getParameterMetadata(in, parameterName).data();
                 eventsLogger.logParameterChange(new EventDescription(responsible, in, previousState.getKey()), action, previousState, currentState);
@@ -192,7 +191,7 @@ public class BasicParamManager implements ParamManager {
             @Override
             public ParameterEntryAdditionResult perform() {
                 DescribedCollection<ParameterEntryKey> entryKeys = paramEditor.addEntries(in, parameterName, entries);
-                EditableParameter parameterMetadata = (EditableParameter) paramViewer.getParameterMetadata(in, parameterName).data();
+                Parameter parameterMetadata = paramViewer.getParameterMetadata(in, parameterName).data();
 
                 eventsLogger.logEntryCreation(new EventDescription(responsible, in, parameterMetadata.getKey()), entryKeys.itemsList(), entries);
 
@@ -206,7 +205,7 @@ public class BasicParamManager implements ParamManager {
         return authorizationRunner.runAction(responsible, in, Action.UPDATE_ENTRY, parameterName, new AuthorizedAction<Result>() {
             @Override
             public Result perform() {
-                EditableParameter parameterMetadata = (EditableParameter) paramViewer.getParameterMetadata(in, parameterName).data();
+                Parameter parameterMetadata = paramViewer.getParameterMetadata(in, parameterName).data();
                 ParameterEntryMap previousState = paramViewer.getParameterEntries(in, parameterName, Arrays.asList(entryKey)).firstItem();
                 paramEditor.updateEntry(in, parameterName, entryKey, entry);
 
@@ -222,7 +221,7 @@ public class BasicParamManager implements ParamManager {
         return authorizationRunner.runAction(responsible, in, Action.UPDATE_ENTRY, parameterName, new AuthorizedAction<Result>() {
             @Override
             public Result perform() {
-                EditableParameter parameterMetadata = (EditableParameter) paramViewer.getParameterMetadata(in, parameterName).data();
+                Parameter parameterMetadata = paramViewer.getParameterMetadata(in, parameterName).data();
                 DescribedCollection<ParameterEntryMap> previousState = paramViewer.getParameterEntries(in, parameterName, entryKeys);
                 paramEditor.deleteEntries(in, parameterName, entryKeys);
 

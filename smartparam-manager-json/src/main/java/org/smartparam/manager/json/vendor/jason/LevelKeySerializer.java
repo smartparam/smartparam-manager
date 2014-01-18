@@ -23,7 +23,7 @@ import org.jasonjson.core.stream.JsonWriter;
 import java.io.IOException;
 import org.jasonjson.core.Jason;
 import org.jasonjson.core.filter.RuntimeFilters;
-import org.smartparam.engine.core.parameter.LevelKey;
+import org.smartparam.engine.core.parameter.level.LevelKey;
 import org.smartparam.editor.model.simple.SimpleLevelKey;
 
 /**

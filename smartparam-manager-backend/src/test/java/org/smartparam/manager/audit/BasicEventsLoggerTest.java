@@ -18,7 +18,7 @@ package org.smartparam.manager.audit;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import org.smartparam.engine.core.parameter.ParameterEntryKey;
+import org.smartparam.engine.core.parameter.entry.ParameterEntryKey;
 import org.smartparam.editor.core.entry.ParameterEntryMap;
 import org.smartparam.editor.model.simple.SimpleParameterEntryKey;
 import org.smartparam.engine.core.parameter.Parameter;

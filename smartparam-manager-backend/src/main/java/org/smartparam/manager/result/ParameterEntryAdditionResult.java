@@ -18,7 +18,7 @@ package org.smartparam.manager.result;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import org.smartparam.engine.core.parameter.ParameterEntryKey;
+import org.smartparam.engine.core.parameter.entry.ParameterEntryKey;
 import org.smartparam.manager.validation.BasicMessages;
 import org.smartparam.manager.validation.Messages;
 

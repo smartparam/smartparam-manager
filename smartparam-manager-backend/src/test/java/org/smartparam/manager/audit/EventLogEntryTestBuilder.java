@@ -16,7 +16,7 @@
 package org.smartparam.manager.audit;
 
 import org.smartparam.engine.core.repository.RepositoryName;
-import org.smartparam.engine.core.parameter.ParameterEntryKey;
+import org.smartparam.engine.core.parameter.entry.ParameterEntryKey;
 import org.smartparam.engine.core.parameter.ParameterKey;
 import org.smartparam.editor.model.simple.SimpleParameterEntryKey;
 import org.smartparam.editor.model.simple.SimpleParameterKey;

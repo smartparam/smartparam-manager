@@ -20,7 +20,6 @@ import org.smartparam.editor.core.BasicParamEditor;
 import org.smartparam.editor.core.ParamEditor;
 import org.smartparam.editor.core.BasicParamViewer;
 import org.smartparam.editor.core.ParamViewer;
-import org.smartparam.editor.core.store.ParamRepositoryNaming;
 import org.smartparam.engine.config.pico.ComponentConfig;
 import org.smartparam.engine.config.pico.ComponentDefinition;
 import org.smartparam.engine.core.ParamEngine;
@@ -41,11 +40,8 @@ public class ParamManagerConfig extends ComponentConfig {
 
     private final ParamEngine paramEngine;
 
-    private final ParamRepositoryNaming repositoryNaming;
-
-    ParamManagerConfig(ParamEngine paramEngine, ParamRepositoryNaming repositoryNaming) {
+    ParamManagerConfig(ParamEngine paramEngine) {
         this.paramEngine = paramEngine;
-        this.repositoryNaming = repositoryNaming;
     }
 
     @Override
@@ -60,9 +56,5 @@ public class ParamManagerConfig extends ComponentConfig {
 
     ParamEngine paramEngine() {
         return paramEngine;
-    }
-
-    ParamRepositoryNaming repositoryNaming() {
-        return repositoryNaming;
     }
 }

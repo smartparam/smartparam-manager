@@ -30,7 +30,7 @@ public class RepositoryNameSerializer implements JsonSerializer<RepositoryName> 
 
     @Override
     public JsonElement serialize(RepositoryName name, Type type, JsonSerializationContext context) {
-        return new JsonPrimitive(name.name());
+        return new JsonPrimitive(name.value());
     }
 
 }

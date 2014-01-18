@@ -33,7 +33,7 @@ public class RepositoryNameSerializer extends StdSerializer<RepositoryName> {
 
     @Override
     public void serialize(RepositoryName repositoryName, JsonGenerator jgen, SerializerProvider provider) throws IOException {
-        jgen.writeString(repositoryName.name());
+        jgen.writeString(repositoryName.value());
     }
 
 }

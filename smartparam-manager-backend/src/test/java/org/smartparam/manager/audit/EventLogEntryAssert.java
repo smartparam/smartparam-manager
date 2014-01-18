@@ -39,7 +39,7 @@ public class EventLogEntryAssert extends AbstractAssert<EventLogEntryAssert, Eve
     }
 
     public EventLogEntryAssert hasRepository(String repository) {
-        Assertions.assertThat(actual.repository().name()).isEqualTo(repository);
+        Assertions.assertThat(actual.repository().value()).isEqualTo(repository);
         return this;
     }
 

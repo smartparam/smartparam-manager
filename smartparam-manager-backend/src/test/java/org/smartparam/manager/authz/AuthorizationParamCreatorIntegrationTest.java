@@ -25,8 +25,6 @@ import org.smartparam.editor.core.entry.Star;
 import org.smartparam.editor.model.simple.SimpleParameter;
 import org.smartparam.editor.core.ParamViewer;
 import org.smartparam.editor.core.filters.ParameterEntriesFilter;
-import org.smartparam.editor.core.store.ParamRepositoryNaming;
-import org.smartparam.editor.core.store.ParamRepositoryNamingBuilder;
 import org.smartparam.engine.config.ParamEngineConfig;
 import org.smartparam.engine.config.ParamEngineConfigBuilder;
 import org.smartparam.engine.config.ParamEngineFactory;
@@ -37,7 +35,6 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.smartparam.editor.core.store.ParamRepositoryNamingBuilder.repositoryNaming;
 
 /**
  *
@@ -65,11 +62,9 @@ public class AuthorizationParamCreatorIntegrationTest {
     public void setUpClass() {
         ParamEngineConfig paramEngineConfig = ParamEngineConfigBuilder.paramEngineConfig()
                 .withPackagesToScan("org.smartparam.manager.authz")
-                .withParameterRepositories(inMemoryParamRepository).build();
+                .withParameterRepository(REPOSITORY_NAME, inMemoryParamRepository).build();
         paramEngine = ParamEngineFactory.paramEngine(paramEngineConfig);
-        ParamEditorConfig paramEditorConfig = ParamEditorConfigBuilder.paramEditorConfig(paramEngine)
-                .withRepositoryNaming(repositoryNaming().registerAs(InMemoryParamRepository.class, REPOSITORY_NAME.name()).build())
-                .build();
+        ParamEditorConfig paramEditorConfig = ParamEditorConfigBuilder.paramEditorConfig(paramEngine).build();
         ParamEditorFactory factory = new ParamEditorFactory(paramEditorConfig);
 
         paramViewer = factory.viewer();

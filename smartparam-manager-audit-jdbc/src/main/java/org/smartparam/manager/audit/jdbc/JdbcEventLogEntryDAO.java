@@ -44,7 +44,7 @@ public class JdbcEventLogEntryDAO {
                 .value("entry_type", logEntry.type().typeCode())
                 .value("event_type", logEntry.action().name())
                 .value("responsible", logEntry.responsibleLogin())
-                .value("repository", logEntry.repository().name())
+                .value("repository", logEntry.repository().value())
                 .value("parameter_key", logEntry.parameterKey().value())
                 .value("event_details", logEntry.serializedEventDetails());
 

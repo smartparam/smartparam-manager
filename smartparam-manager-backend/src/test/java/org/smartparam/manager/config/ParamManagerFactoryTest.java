@@ -15,13 +15,12 @@
  */
 package org.smartparam.manager.config;
 
-import java.util.ArrayList;
-import org.smartparam.editor.core.store.ParamRepositoryNaming;
+import org.smartparam.engine.config.ParamEngineConfig;
+import org.smartparam.engine.config.ParamEngineConfigBuilder;
+import org.smartparam.engine.config.ParamEngineFactory;
 import org.smartparam.engine.core.ParamEngine;
-import org.smartparam.engine.core.ParamEngineRuntimeConfig;
 import org.smartparam.engine.core.parameter.ParamRepository;
 import org.smartparam.manager.ParamManager;
-import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.*;
@@ -33,23 +32,18 @@ import static org.smartparam.manager.config.ParamManagerConfigBuilder.paramManag
  */
 public class ParamManagerFactoryTest {
 
-    private ParamEngine paramEngine;
-
-    @BeforeMethod
-    public void setUp() {
-        paramEngine = mock(ParamEngine.class);
-        ParamEngineRuntimeConfig runtimeConfig = mock(ParamEngineRuntimeConfig.class);
-        when(runtimeConfig.getParamRepositories()).thenReturn(new ArrayList<ParamRepository>());
-        when(paramEngine.runtimeConfiguration()).thenReturn(runtimeConfig);
-    }
-
     @Test
     public void shouldCreateParamManagerWithDefaultSettigns() {
         // given
-        ParamManagerConfig config = paramManagerConfig(paramEngine, ParamRepositoryNaming.empty()).build();
+        ParamEngineConfig config = ParamEngineConfigBuilder.paramEngineConfig()
+                .withParameterRepository(mock(ParamRepository.class))
+                .build();
+        ParamEngine paramEngine = ParamEngineFactory.paramEngine(config);
+
+        ParamManagerConfig managerConfig = paramManagerConfig(paramEngine).build();
 
         // when
-        ParamManager manager = ParamManagerFactory.paramManager(config);
+        ParamManager manager = ParamManagerFactory.paramManager(managerConfig);
 
         // then
         assertThat(manager).isNotNull();

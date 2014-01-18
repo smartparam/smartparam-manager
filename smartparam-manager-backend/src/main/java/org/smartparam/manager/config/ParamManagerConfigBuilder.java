@@ -19,7 +19,6 @@ import org.smartparam.editor.config.ParamEditorConfig;
 import org.smartparam.editor.config.ParamEditorConfigBuilder;
 import org.smartparam.editor.config.ParamEditorFactory;
 import org.smartparam.editor.core.ParamEditor;
-import org.smartparam.editor.core.store.ParamRepositoryNaming;
 import org.smartparam.editor.core.ParamViewer;
 import org.smartparam.engine.config.pico.ComponentDefinition;
 import org.smartparam.engine.core.ParamEngine;
@@ -46,7 +45,7 @@ public final class ParamManagerConfigBuilder {
     private final ParamManagerConfig config;
 
     private ParamManagerConfigBuilder(ParamEngine paramEngine, ParamEditor paramEditor, ParamViewer paramViewer) {
-        this.config = new ParamManagerConfig(paramEngine, paramEditor.runtimeConfig().repositoryNaming());
+        this.config = new ParamManagerConfig(paramEngine);
         this.config.addComponent(component(ParamEditor.class, paramEditor));
         this.config.addComponent(component(ParamViewer.class, paramViewer));
     }
@@ -60,9 +59,8 @@ public final class ParamManagerConfigBuilder {
         return paramManagerConfig(paramEngine, factory.editor(), factory.viewer());
     }
 
-    public static ParamManagerConfigBuilder paramManagerConfig(ParamEngine paramEngine, ParamRepositoryNaming naming) {
-        ParamEditorConfig editorConfig = ParamEditorConfigBuilder.paramEditorConfig(paramEngine)
-                .withRepositoryNaming(naming).build();
+    public static ParamManagerConfigBuilder paramManagerConfig(ParamEngine paramEngine) {
+        ParamEditorConfig editorConfig = ParamEditorConfigBuilder.paramEditorConfig(paramEngine).build();
         return paramManagerConfig(paramEngine, editorConfig);
     }
 

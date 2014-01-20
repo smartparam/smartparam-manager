@@ -21,7 +21,7 @@ import org.smartparam.editor.config.ParamEditorFactory;
 import org.smartparam.editor.core.ParamEditor;
 import org.smartparam.engine.core.repository.RepositoryName;
 import org.smartparam.editor.core.entry.ParameterEntryMap;
-import org.smartparam.editor.core.entry.Star;
+import org.smartparam.engine.core.index.Star;
 import org.smartparam.editor.model.simple.SimpleParameter;
 import org.smartparam.editor.core.ParamViewer;
 import org.smartparam.editor.core.filters.ParameterEntriesFilter;

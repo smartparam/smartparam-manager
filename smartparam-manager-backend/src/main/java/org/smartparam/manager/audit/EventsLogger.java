@@ -16,8 +16,8 @@
 package org.smartparam.manager.audit;
 
 import java.util.List;
+import org.smartparam.engine.core.output.entry.MapEntry;
 import org.smartparam.engine.core.parameter.entry.ParameterEntryKey;
-import org.smartparam.editor.core.entry.ParameterEntryMap;
 import org.smartparam.engine.core.parameter.Parameter;
 import org.smartparam.manager.authz.Action;
 
@@ -33,10 +33,10 @@ public interface EventsLogger {
 
     void logParameterDeletion(EventDescription description, Parameter lastState);
 
-    void logEntryCreation(EventDescription description, List<ParameterEntryKey> entryKey, List<ParameterEntryMap> initialState);
+    void logEntryCreation(EventDescription description, List<ParameterEntryKey> entryKey, List<MapEntry> initialState);
 
-    void logEntryChange(EventDescription description, ParameterEntryKey entryKey, ParameterEntryMap previousState, ParameterEntryMap currentState);
+    void logEntryChange(EventDescription description, ParameterEntryKey entryKey, MapEntry previousState, MapEntry currentState);
 
-    void logEntryDeletion(EventDescription description, List<ParameterEntryKey> entryKey, List<ParameterEntryMap> lastState);
+    void logEntryDeletion(EventDescription description, List<ParameterEntryKey> entryKey, List<MapEntry> lastState);
 
 }

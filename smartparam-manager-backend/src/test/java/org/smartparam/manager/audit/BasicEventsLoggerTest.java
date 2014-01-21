@@ -19,8 +19,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import org.smartparam.engine.core.parameter.entry.ParameterEntryKey;
-import org.smartparam.editor.core.entry.ParameterEntryMap;
 import org.smartparam.editor.model.simple.SimpleParameterEntryKey;
+import org.smartparam.engine.core.output.entry.MapEntry;
 import org.smartparam.engine.core.parameter.Parameter;
 import org.smartparam.manager.authz.Action;
 import org.testng.annotations.BeforeMethod;
@@ -100,13 +100,13 @@ public class BasicEventsLoggerTest {
     public void shouldSaveAsManyEventsAsEntriesCreated() {
         // given
         List<ParameterEntryKey> keys = new ArrayList<ParameterEntryKey>(Arrays.asList(new SimpleParameterEntryKey("1"), new SimpleParameterEntryKey("2")));
-        List<ParameterEntryMap> entries = Arrays.asList(new ParameterEntryMap(), new ParameterEntryMap());
+        List<MapEntry> entries = Arrays.asList(new MapEntry(), new MapEntry());
 
         // when
         logger.logEntryCreation(null, keys, entries);
 
         // then
-        verify(factory, times(2)).produceEntryCreationLog(any(EventDescription.class), any(ParameterEntryKey.class), any(ParameterEntryMap.class));
+        verify(factory, times(2)).produceEntryCreationLog(any(EventDescription.class), any(ParameterEntryKey.class), any(MapEntry.class));
         verify(repository).save(anyList());
     }
 
@@ -116,7 +116,7 @@ public class BasicEventsLoggerTest {
         logger.logEntryChange(null, null, null, null);
 
         // then
-        verify(factory).produceEntryChangeLog(any(EventDescription.class), any(ParameterEntryKey.class), any(ParameterEntryMap.class), any(ParameterEntryMap.class));
+        verify(factory).produceEntryChangeLog(any(EventDescription.class), any(ParameterEntryKey.class), any(MapEntry.class), any(MapEntry.class));
         verify(repository).save(any(EventLogEntry.class));
     }
 
@@ -125,13 +125,13 @@ public class BasicEventsLoggerTest {
     public void shouldSaveAsManyEventsAsEntriesDeleted() {
         // given
         List<ParameterEntryKey> keys = new ArrayList<ParameterEntryKey>(Arrays.asList(new SimpleParameterEntryKey("1"), new SimpleParameterEntryKey("2")));
-        List<ParameterEntryMap> entries = Arrays.asList(new ParameterEntryMap(), new ParameterEntryMap());
+        List<MapEntry> entries = Arrays.asList(new MapEntry(), new MapEntry());
 
         // when
         logger.logEntryDeletion(null, keys, entries);
 
         // then
-        verify(factory, times(2)).produceEntryDeletionLog(any(EventDescription.class), any(ParameterEntryKey.class), any(ParameterEntryMap.class));
+        verify(factory, times(2)).produceEntryDeletionLog(any(EventDescription.class), any(ParameterEntryKey.class), any(MapEntry.class));
         verify(repository).save(anyList());
     }
 }

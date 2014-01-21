@@ -22,7 +22,7 @@ import com.google.gson.reflect.TypeToken;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import java.io.IOException;
-import org.smartparam.editor.core.entry.ParameterEntryMap;
+import org.smartparam.engine.core.output.entry.MapEntry;
 import org.smartparam.manager.audit.diff.ParameterEntryDiff;
 
 /**
@@ -49,9 +49,9 @@ public class ParameterEntryDiffSerializer implements TypeAdapterFactory {
                 public ParameterEntryDiff read(JsonReader in) throws IOException {
                     in.beginObject();
                     in.nextName();
-                    ParameterEntryMap previous = gson.fromJson(in, ParameterEntryMap.class);
+                    MapEntry previous = gson.fromJson(in, MapEntry.class);
                     in.nextName();
-                    ParameterEntryMap current = gson.fromJson(in, ParameterEntryMap.class);
+                    MapEntry current = gson.fromJson(in, MapEntry.class);
                     in.endObject();
 
                     return new ParameterEntryDiff(previous, current);

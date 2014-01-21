@@ -15,8 +15,8 @@
  */
 package org.smartparam.manager.audit.diff;
 
+import org.smartparam.engine.core.output.entry.MapEntry;
 import org.smartparam.engine.core.parameter.entry.ParameterEntryKey;
-import org.smartparam.editor.core.entry.ParameterEntryMap;
 import org.smartparam.engine.core.parameter.Parameter;
 import org.smartparam.manager.authz.Action;
 import org.smartparam.manager.adapter.JsonAdapter;
@@ -64,19 +64,19 @@ public class DiffEventLogEntryFactory implements EventLogEntryFactory {
     }
 
     @Override
-    public EventLogEntry produceEntryCreationLog(EventDescription description, ParameterEntryKey entryKey, ParameterEntryMap initialState) {
+    public EventLogEntry produceEntryCreationLog(EventDescription description, ParameterEntryKey entryKey, MapEntry initialState) {
         ParameterEntryDiff entryDiff = ParameterEntryDiff.initialState(initialState);
         return produceEventLog(description, Action.ADD_ENTRY, entryKey, entryDiff);
     }
 
     @Override
-    public EventLogEntry produceEntryChangeLog(EventDescription description, ParameterEntryKey entryKey, ParameterEntryMap previousState, ParameterEntryMap currentState) {
+    public EventLogEntry produceEntryChangeLog(EventDescription description, ParameterEntryKey entryKey, MapEntry previousState, MapEntry currentState) {
         ParameterEntryDiff entryDiff = new ParameterEntryDiff(previousState, currentState);
         return produceEventLog(description, Action.UPDATE_ENTRY, entryKey, entryDiff);
     }
 
     @Override
-    public EventLogEntry produceEntryDeletionLog(EventDescription description, ParameterEntryKey entryKey, ParameterEntryMap lastState) {
+    public EventLogEntry produceEntryDeletionLog(EventDescription description, ParameterEntryKey entryKey, MapEntry lastState) {
         ParameterEntryDiff entryDiff = ParameterEntryDiff.lastKnownState(lastState);
         return produceEventLog(description, Action.DELETE_ENTRY, entryKey, entryDiff);
     }

@@ -19,20 +19,20 @@ import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.ser.std.StdSerializer;
 import java.io.IOException;
-import org.smartparam.editor.core.entry.ParameterEntryMap;
+import org.smartparam.engine.core.output.entry.MapEntry;
 
 /**
  *
  * @author Adam Dubiel
  */
-public class ParameterEntryMapSerializer extends StdSerializer<ParameterEntryMap> {
+public class MapEntrySerializer extends StdSerializer<MapEntry> {
 
-    public ParameterEntryMapSerializer() {
-        super(ParameterEntryMap.class);
+    public MapEntrySerializer() {
+        super(MapEntry.class);
     }
 
     @Override
-    public void serialize(ParameterEntryMap value, JsonGenerator jgen, SerializerProvider provider) throws IOException {
+    public void serialize(MapEntry value, JsonGenerator jgen, SerializerProvider provider) throws IOException {
         jgen.writeObject(value.rawValues());
     }
 }

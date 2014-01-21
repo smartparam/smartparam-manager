@@ -16,8 +16,8 @@
 package org.smartparam.manager.json;
 
 import com.jayway.jsonassert.JsonAssert;
-import org.smartparam.editor.core.entry.ParameterEntryMap;
 import org.smartparam.editor.model.simple.SimpleParameterEntryKey;
+import org.smartparam.engine.core.output.entry.MapEntry;
 import org.smartparam.manager.json.integration.SerializerTest;
 import org.testng.annotations.Test;
 
@@ -25,12 +25,12 @@ import org.testng.annotations.Test;
  *
  * @author Adam Dubiel
  */
-public class ParamEntryMapSerializerTest extends SerializerTest {
+public class MapEntrySerializerTest extends SerializerTest {
 
     @Test
     public void shouldSerializeParamEntryMapAsMap() {
         // given
-        ParameterEntryMap map = new ParameterEntryMap(new SimpleParameterEntryKey("key"))
+        MapEntry map = new MapEntry(new SimpleParameterEntryKey("key"))
                 .put("value", "sth");
 
         // when

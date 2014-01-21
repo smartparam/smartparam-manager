@@ -19,16 +19,16 @@ import java.lang.reflect.Type;
 import org.jasonjson.core.JsonElement;
 import org.jasonjson.core.JsonSerializationContext;
 import org.jasonjson.core.JsonSerializer;
-import org.smartparam.editor.core.entry.ParameterEntryMap;
+import org.smartparam.engine.core.output.entry.MapEntry;
 
 /**
  *
  * @author Adam Dubiel
  */
-public class ParameterEntryMapSerializer implements JsonSerializer<ParameterEntryMap> {
+public class MapEntrySerializer implements JsonSerializer<MapEntry> {
 
     @Override
-    public JsonElement serialize(ParameterEntryMap src, Type typeOfSrc, JsonSerializationContext context) {
+    public JsonElement serialize(MapEntry src, Type typeOfSrc, JsonSerializationContext context) {
         return context.serialize(src.rawValues());
     }
 }

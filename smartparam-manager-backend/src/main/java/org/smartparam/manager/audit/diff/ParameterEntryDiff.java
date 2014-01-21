@@ -15,23 +15,24 @@
  */
 package org.smartparam.manager.audit.diff;
 
-import org.smartparam.editor.core.entry.ParameterEntryMap;
+import org.smartparam.engine.core.output.entry.MapEntry;
+
 
 /**
  *
  * @author Adam Dubiel
  */
-public class ParameterEntryDiff extends Diff<ParameterEntryMap> {
+public class ParameterEntryDiff extends Diff<MapEntry> {
 
-    public static ParameterEntryDiff initialState(ParameterEntryMap initialState) {
+    public static ParameterEntryDiff initialState(MapEntry initialState) {
         return new ParameterEntryDiff(null, initialState);
     }
 
-    public static ParameterEntryDiff lastKnownState(ParameterEntryMap lastKnownState) {
+    public static ParameterEntryDiff lastKnownState(MapEntry lastKnownState) {
         return new ParameterEntryDiff(lastKnownState, null);
     }
 
-    public ParameterEntryDiff(ParameterEntryMap previous, ParameterEntryMap current) {
+    public ParameterEntryDiff(MapEntry previous, MapEntry current) {
         super(previous, current);
     }
 }

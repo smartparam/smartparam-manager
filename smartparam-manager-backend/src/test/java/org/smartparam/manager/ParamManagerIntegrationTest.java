@@ -20,7 +20,6 @@ import java.util.List;
 import org.smartparam.engine.core.repository.RepositoryName;
 import org.smartparam.engine.core.parameter.level.LevelKey;
 import org.smartparam.engine.core.parameter.entry.ParameterEntryKey;
-import org.smartparam.editor.core.entry.ParameterEntryMap;
 import org.smartparam.editor.model.simple.SimpleLevel;
 import org.smartparam.editor.model.simple.SimpleParameter;
 import org.smartparam.editor.model.simple.SimpleParameterEntry;
@@ -28,6 +27,7 @@ import org.smartparam.engine.config.ParamEngineConfig;
 import org.smartparam.engine.config.ParamEngineConfigBuilder;
 import org.smartparam.engine.config.ParamEngineFactory;
 import org.smartparam.engine.core.ParamEngine;
+import org.smartparam.engine.core.output.entry.MapEntry;
 import org.smartparam.manager.audit.InMemoryEventLogRepository;
 import org.smartparam.manager.authz.Action;
 import org.smartparam.manager.authz.AuthorizationConfig;
@@ -210,7 +210,7 @@ public class ParamManagerIntegrationTest {
         // given
         paramManager.createParameter(USER, REPOSITORY_NAME, new SimpleParameter().withName("test")
                 .withInputLevels(1).withLevel(new SimpleLevel().withName("level")));
-        ParameterEntryMap entry = new ParameterEntryMap().put("level", "value");
+        MapEntry entry = new MapEntry().put("level", "value");
 
         // when
         paramManager.addEntries(USER, REPOSITORY_NAME, "test", Arrays.asList(entry));
@@ -225,10 +225,10 @@ public class ParamManagerIntegrationTest {
         // given
         paramManager.createParameter(USER, REPOSITORY_NAME, new SimpleParameter().withName("test")
                 .withInputLevels(1).withLevel(new SimpleLevel().withName("level")));
-        ParameterEntryMap entry = new ParameterEntryMap().put("level", "value");
+        MapEntry entry = new MapEntry().put("level", "value");
         ParameterEntryKey entryKey = paramManager.addEntries(USER, REPOSITORY_NAME, "test", Arrays.asList(entry)).firstEntryKey();
 
-        ParameterEntryMap entryUpdate = new ParameterEntryMap().put("level", "updated-value");
+        MapEntry entryUpdate = new MapEntry().put("level", "updated-value");
 
         // when
         paramManager.updateEntry(USER, REPOSITORY_NAME, "test", entryKey, entryUpdate);
@@ -243,7 +243,7 @@ public class ParamManagerIntegrationTest {
         // given
         paramManager.createParameter(USER, REPOSITORY_NAME, new SimpleParameter().withName("test")
                 .withInputLevels(1).withLevel(new SimpleLevel().withName("level")));
-        ParameterEntryMap entry = new ParameterEntryMap().put("level", "value");
+        MapEntry entry = new MapEntry().put("level", "value");
         ParameterEntryKey entryKey = paramManager.addEntries(USER, REPOSITORY_NAME, "test", Arrays.asList(entry)).firstEntryKey();
 
         // when

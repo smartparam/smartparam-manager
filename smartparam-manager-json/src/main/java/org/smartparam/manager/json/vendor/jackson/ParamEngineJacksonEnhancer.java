@@ -36,7 +36,7 @@ public final class ParamEngineJacksonEnhancer {
         serializationModule.addSerializer(new DescribedEntitySerializer());
         serializationModule.addSerializer(new ParameterDiffSerializer());
         serializationModule.addSerializer(new ParameterEntryDiffSerializer());
-        serializationModule.addSerializer(new ParameterEntryMapSerializer());
+        serializationModule.addSerializer(new MapEntrySerializer());
 
 
         jackson.registerModule(serializationModule);

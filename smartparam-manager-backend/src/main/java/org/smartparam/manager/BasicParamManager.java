@@ -24,8 +24,8 @@ import org.smartparam.engine.core.repository.RepositoryName;
 import org.smartparam.engine.core.parameter.level.LevelKey;
 import org.smartparam.engine.core.parameter.entry.ParameterEntryKey;
 import org.smartparam.engine.core.parameter.ParameterKey;
-import org.smartparam.editor.core.entry.ParameterEntryMap;
 import org.smartparam.editor.core.ParamViewer;
+import org.smartparam.engine.core.output.entry.MapEntry;
 import org.smartparam.engine.core.parameter.level.Level;
 import org.smartparam.engine.core.parameter.Parameter;
 import org.smartparam.manager.audit.EventDescription;
@@ -181,12 +181,12 @@ public class BasicParamManager implements ParamManager {
     }
 
     @Override
-    public ParameterEntryAdditionResult addEntry(UserProfile responsible, RepositoryName in, String parameterName, ParameterEntryMap entry) {
+    public ParameterEntryAdditionResult addEntry(UserProfile responsible, RepositoryName in, String parameterName, MapEntry entry) {
         return addEntries(responsible, in, parameterName, Arrays.asList(entry));
     }
 
     @Override
-    public ParameterEntryAdditionResult addEntries(final UserProfile responsible, final RepositoryName in, final String parameterName, final List<ParameterEntryMap> entries) {
+    public ParameterEntryAdditionResult addEntries(final UserProfile responsible, final RepositoryName in, final String parameterName, final List<MapEntry> entries) {
         return authorizationRunner.runAction(responsible, in, Action.ADD_ENTRY, parameterName, new AuthorizedAction<ParameterEntryAdditionResult>() {
             @Override
             public ParameterEntryAdditionResult perform() {
@@ -201,12 +201,12 @@ public class BasicParamManager implements ParamManager {
     }
 
     @Override
-    public Result updateEntry(final UserProfile responsible, final RepositoryName in, final String parameterName, final ParameterEntryKey entryKey, final ParameterEntryMap entry) {
+    public Result updateEntry(final UserProfile responsible, final RepositoryName in, final String parameterName, final ParameterEntryKey entryKey, final MapEntry entry) {
         return authorizationRunner.runAction(responsible, in, Action.UPDATE_ENTRY, parameterName, new AuthorizedAction<Result>() {
             @Override
             public Result perform() {
                 Parameter parameterMetadata = paramViewer.getParameterMetadata(in, parameterName).data();
-                ParameterEntryMap previousState = paramViewer.getParameterEntries(in, parameterName, Arrays.asList(entryKey)).firstItem();
+                MapEntry previousState = paramViewer.getParameterEntries(in, parameterName, Arrays.asList(entryKey)).firstItem();
                 paramEditor.updateEntry(in, parameterName, entryKey, entry);
 
                 eventsLogger.logEntryChange(new EventDescription(responsible, in, parameterMetadata.getKey()), entryKey, previousState, entry);
@@ -222,7 +222,7 @@ public class BasicParamManager implements ParamManager {
             @Override
             public Result perform() {
                 Parameter parameterMetadata = paramViewer.getParameterMetadata(in, parameterName).data();
-                DescribedCollection<ParameterEntryMap> previousState = paramViewer.getParameterEntries(in, parameterName, entryKeys);
+                DescribedCollection<MapEntry> previousState = paramViewer.getParameterEntries(in, parameterName, entryKeys);
                 paramEditor.deleteEntries(in, parameterName, entryKeys);
 
                 eventsLogger.logEntryDeletion(new EventDescription(responsible, in, parameterMetadata.getKey()), entryKeys, previousState.itemsList());

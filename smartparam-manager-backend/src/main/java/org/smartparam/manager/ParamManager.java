@@ -18,10 +18,10 @@ package org.smartparam.manager;
 import java.util.List;
 import org.smartparam.editor.core.ParamEditor;
 import org.smartparam.editor.core.ParamViewer;
+import org.smartparam.engine.core.output.entry.MapEntry;
 import org.smartparam.engine.core.repository.RepositoryName;
 import org.smartparam.engine.core.parameter.level.LevelKey;
 import org.smartparam.engine.core.parameter.entry.ParameterEntryKey;
-import org.smartparam.editor.core.entry.ParameterEntryMap;
 import org.smartparam.engine.core.parameter.level.Level;
 import org.smartparam.engine.core.parameter.Parameter;
 import org.smartparam.manager.authz.UserProfile;
@@ -54,11 +54,11 @@ public interface ParamManager {
 
     Result deleteLevel(UserProfile responsible, RepositoryName in, String parameterName, LevelKey levelKey);
 
-    ParameterEntryAdditionResult addEntry(UserProfile responsible, RepositoryName in, String parameterName, ParameterEntryMap entry);
+    ParameterEntryAdditionResult addEntry(UserProfile responsible, RepositoryName in, String parameterName, MapEntry entry);
 
-    ParameterEntryAdditionResult addEntries(UserProfile responsible, RepositoryName in, String parameterName, List<ParameterEntryMap> entries);
+    ParameterEntryAdditionResult addEntries(UserProfile responsible, RepositoryName in, String parameterName, List<MapEntry> entries);
 
-    Result updateEntry(UserProfile responsible, RepositoryName in, String parameterName, ParameterEntryKey entryKey, ParameterEntryMap entry);
+    Result updateEntry(UserProfile responsible, RepositoryName in, String parameterName, ParameterEntryKey entryKey, MapEntry entry);
 
     Result deleteEntries(UserProfile responsible, RepositoryName in, String parameterName, List<ParameterEntryKey> entryKeys);
 }

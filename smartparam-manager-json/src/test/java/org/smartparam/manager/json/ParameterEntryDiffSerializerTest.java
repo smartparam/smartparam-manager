@@ -16,7 +16,7 @@
 package org.smartparam.manager.json;
 
 import com.jayway.jsonassert.JsonAssert;
-import org.smartparam.editor.core.entry.ParameterEntryMap;
+import org.smartparam.engine.core.output.entry.MapEntry;
 import org.smartparam.manager.audit.diff.ParameterEntryDiff;
 import org.smartparam.manager.json.integration.SerializerTest;
 import org.testng.annotations.Test;
@@ -30,8 +30,8 @@ public class ParameterEntryDiffSerializerTest extends SerializerTest {
     @Test
     public void shouldSerializeParameterEntryDiff() {
         // given
-        ParameterEntryMap previous = new ParameterEntryMap();
-        ParameterEntryMap current = new ParameterEntryMap();
+        MapEntry previous = new MapEntry();
+        MapEntry current = new MapEntry();
         ParameterEntryDiff diff = new ParameterEntryDiff(previous, current);
 
         // when

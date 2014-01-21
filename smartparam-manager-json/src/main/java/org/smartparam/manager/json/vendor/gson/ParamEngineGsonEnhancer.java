@@ -20,7 +20,7 @@ import com.google.gson.GsonBuilder;
 import org.smartparam.editor.core.identity.DescribedCollection;
 import org.smartparam.editor.core.identity.DescribedEntity;
 import org.smartparam.engine.core.repository.RepositoryName;
-import org.smartparam.editor.core.entry.ParameterEntryMap;
+import org.smartparam.engine.core.output.entry.MapEntry;
 
 /**
  *
@@ -37,7 +37,7 @@ public final class ParamEngineGsonEnhancer {
                 .registerTypeAdapterFactory(new LevelKeySerializer())
                 .registerTypeAdapterFactory(new ParameterEntryKeySerializer())
                 .registerTypeAdapter(RepositoryName.class, new RepositoryNameSerializer())
-                .registerTypeAdapter(ParameterEntryMap.class, new ParameterEntryMapSerializer())
+                .registerTypeAdapter(MapEntry.class, new MapEntrySerializer())
                 .registerTypeAdapterFactory(new ParameterDiffSerializer())
                 .registerTypeAdapterFactory(new ParameterEntryDiffSerializer());
     }

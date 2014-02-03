@@ -33,8 +33,8 @@
 
     <scm>
         <url>https://bitbucket.org/smartparam/smartparam-manager</url>
-        <connection>scm:git:git@bitbucket.org:smartparam/smartparam-manager.git</connection>
-        <developerConnection>scm:git:git@bitbucket.org:smartparam/smartparam-manager.git</developerConnection>
+        <connection>scm:git:git@github.com:smartparam/smartparam-manager.git</connection>
+        <developerConnection>scm:git:git@github.com:smartparam/smartparam-manager.git</developerConnection>
         <tag>smartparam-0.1.0</tag>
     </scm>
 

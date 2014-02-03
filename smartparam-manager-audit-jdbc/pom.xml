@@ -16,7 +16,7 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <polyjdbc.version>0.2.2-SNAPSHOT</polyjdbc.version>
+        <polyjdbc.version>0.2.2</polyjdbc.version>
     </properties>
 
     <dependencies>

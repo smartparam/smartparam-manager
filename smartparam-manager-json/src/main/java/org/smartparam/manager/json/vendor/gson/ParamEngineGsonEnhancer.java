@@ -21,6 +21,7 @@ import org.smartparam.editor.core.identity.DescribedCollection;
 import org.smartparam.editor.core.identity.DescribedEntity;
 import org.smartparam.engine.core.repository.RepositoryName;
 import org.smartparam.engine.core.output.entry.MapEntry;
+import org.smartparam.engine.matchers.type.Range;
 
 /**
  *
@@ -39,7 +40,8 @@ public final class ParamEngineGsonEnhancer {
                 .registerTypeAdapter(RepositoryName.class, new RepositoryNameSerializer())
                 .registerTypeAdapter(MapEntry.class, new MapEntrySerializer())
                 .registerTypeAdapterFactory(new ParameterDiffSerializer())
-                .registerTypeAdapterFactory(new ParameterEntryDiffSerializer());
+                .registerTypeAdapterFactory(new ParameterEntryDiffSerializer())
+                .registerTypeAdapter(Range.class, new RangeSerializer());
     }
 
     public static GsonBuilder createEnhancedBuilder() {

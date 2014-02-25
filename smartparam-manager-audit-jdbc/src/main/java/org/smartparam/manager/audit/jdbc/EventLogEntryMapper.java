@@ -31,6 +31,7 @@ import org.smartparam.manager.audit.EventLogEntryType;
  */
 public class EventLogEntryMapper implements ObjectMapper<EventLogEntry> {
 
+    @Override
     public EventLogEntry createObject(ResultSet resultSet) throws SQLException {
         EventLogEntryType entryType = EventLogEntryType.fromCode(resultSet.getString("entry_type"));
 

@@ -20,6 +20,12 @@
 
     <dependencies>
         <dependency>
+            <groupId>org.smartparam</groupId>
+            <artifactId>smartparam-editor</artifactId>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
             <groupId>org.smartparam.manager</groupId>
             <artifactId>smartparam-manager-backend</artifactId>
             <version>${project.version}</version>

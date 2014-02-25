@@ -71,6 +71,14 @@ public class BasicParamManager implements ParamManager {
         return paramEditor;
     }
 
+    private List<MapEntry> normalize(Parameter metadata, Iterable<MapEntry> entries) {
+        return paramEditor.normalize(metadata, entries);
+    }
+
+    private MapEntry normalize(Parameter metadata, MapEntry entry) {
+        return paramEditor.normalize(metadata, entry);
+    }
+
     @Override
     public ParameterAdditionResult createParameter(final UserProfile responsible, final RepositoryName in, final Parameter newParameter) {
         return authorizationRunner.runAction(responsible, in, Action.CREATE_PARAMETER, newParameter.getName(), new AuthorizedAction<ParameterAdditionResult>() {
@@ -193,7 +201,7 @@ public class BasicParamManager implements ParamManager {
                 DescribedCollection<ParameterEntryKey> entryKeys = paramEditor.addEntries(in, parameterName, entries);
                 Parameter parameterMetadata = paramViewer.getParameterMetadata(in, parameterName).data();
 
-                eventsLogger.logEntryCreation(new EventDescription(responsible, in, parameterMetadata.getKey()), entryKeys.itemsList(), entries);
+                eventsLogger.logEntryCreation(new EventDescription(responsible, in, parameterMetadata.getKey()), entryKeys.itemsList(), normalize(parameterMetadata, entries));
 
                 return ParameterEntryAdditionResult.added(entryKeys.itemsList());
             }
@@ -209,7 +217,7 @@ public class BasicParamManager implements ParamManager {
                 MapEntry previousState = paramViewer.getParameterEntries(in, parameterName, Arrays.asList(entryKey)).firstItem();
                 paramEditor.updateEntry(in, parameterName, entryKey, entry);
 
-                eventsLogger.logEntryChange(new EventDescription(responsible, in, parameterMetadata.getKey()), entryKey, previousState, entry);
+                eventsLogger.logEntryChange(new EventDescription(responsible, in, parameterMetadata.getKey()), entryKey, previousState, normalize(parameterMetadata, entry));
 
                 return RawResult.ok();
             }
@@ -225,7 +233,7 @@ public class BasicParamManager implements ParamManager {
                 DescribedCollection<MapEntry> previousState = paramViewer.getParameterEntries(in, parameterName, entryKeys);
                 paramEditor.deleteEntries(in, parameterName, entryKeys);
 
-                eventsLogger.logEntryDeletion(new EventDescription(responsible, in, parameterMetadata.getKey()), entryKeys, previousState.itemsList());
+                eventsLogger.logEntryDeletion(new EventDescription(responsible, in, parameterMetadata.getKey()), entryKeys, normalize(parameterMetadata, previousState.itemsList()));
 
                 return RawResult.ok();
             }

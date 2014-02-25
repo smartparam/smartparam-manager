@@ -210,14 +210,14 @@ public class ParamManagerIntegrationTest {
         // given
         paramManager.createParameter(USER, REPOSITORY_NAME, new SimpleParameter().withName("test")
                 .withInputLevels(1).withLevel(new SimpleLevel().withName("level")));
-        MapEntry entry = new MapEntry().put("level", "value");
+        MapEntry entry = new MapEntry().put("level", EnumForNormalization.VALUE);
 
         // when
         paramManager.addEntries(USER, REPOSITORY_NAME, "test", Arrays.asList(entry));
 
         // then
         assertThat(inMemoryEventLogRepository.findFirstEvent(Action.ADD_ENTRY)).isNotNull();
-        assertThat(inMemoryParamRepository.load("test")).hasEntries(1);
+        assertThat(inMemoryParamRepository.load("test")).hasEntries(1).onlyEntry().hasLevels("VALUE");
     }
 
     @Test
@@ -228,14 +228,14 @@ public class ParamManagerIntegrationTest {
         MapEntry entry = new MapEntry().put("level", "value");
         ParameterEntryKey entryKey = paramManager.addEntries(USER, REPOSITORY_NAME, "test", Arrays.asList(entry)).firstEntryKey();
 
-        MapEntry entryUpdate = new MapEntry().put("level", "updated-value");
+        MapEntry entryUpdate = new MapEntry().put("level", EnumForNormalization.UPDATED_VALUE);
 
         // when
         paramManager.updateEntry(USER, REPOSITORY_NAME, "test", entryKey, entryUpdate);
 
         // then
         assertThat(inMemoryEventLogRepository.findFirstEvent(Action.UPDATE_ENTRY)).isNotNull();
-        assertThat(inMemoryParamRepository.load("test")).onlyEntry().hasLevels("updated-value");
+        assertThat(inMemoryParamRepository.load("test")).onlyEntry().hasLevels("UPDATED_VALUE");
     }
 
     @Test
@@ -243,7 +243,7 @@ public class ParamManagerIntegrationTest {
         // given
         paramManager.createParameter(USER, REPOSITORY_NAME, new SimpleParameter().withName("test")
                 .withInputLevels(1).withLevel(new SimpleLevel().withName("level")));
-        MapEntry entry = new MapEntry().put("level", "value");
+        MapEntry entry = new MapEntry().put("level", EnumForNormalization.VALUE);
         ParameterEntryKey entryKey = paramManager.addEntries(USER, REPOSITORY_NAME, "test", Arrays.asList(entry)).firstEntryKey();
 
         // when
@@ -252,5 +252,9 @@ public class ParamManagerIntegrationTest {
         // then
         assertThat(inMemoryEventLogRepository.findFirstEvent(Action.DELETE_ENTRY)).isNotNull();
         assertThat(inMemoryParamRepository.load("test")).hasNoEntries();
+    }
+
+    private static enum EnumForNormalization {
+        VALUE, UPDATED_VALUE
     }
 }
